@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the ListView class from the widgets library, for the Dart programming language.">
+  <title>ListView class - widgets library - Dart API</title>
+
+  <!-- required because all the links are pseudo-absolute -->
+  <base href="../">
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+  <!-- style overrides for dartdoc -->
+<style>
+@import 'https://fonts.googleapis.com/css?family=Roboto:500,400italic,300,400,100i';
+@import 'https://fonts.googleapis.com/css?family=Google+Sans:500,400italic,300,400,100i';
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:500,400italic,300,400,100i';
+@import 'https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round';
+</style>
+
+<link href="https://flutter.github.io/assets-for-api-docs/assets/cupertino/cupertino.css" rel="stylesheet" type="text/css">
+
+<link href="../assets/overrides.css" rel="stylesheet" type="text/css">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round" rel="stylesheet">
+<style>
+  /* Rule for sizing the icon. */
+  .md-36 { font-size: 36px; }
+</style>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f)
+})(window,document,'script','dataLayer','GTM-ND4LWWZ');</script>
+<!-- End Google Tag Manager -->
+<!-- Cookie Banner -->
+<link rel="stylesheet" href="https://www.gstatic.com/glue/cookienotificationbar/cookienotificationbar.min.css">
+<!-- End Cookie Banner -->
+
+<script async="" defer="" src="../assets/api_survey.js"></script>
+
+<!-- Styles and scripting for handling custom code snippets -->
+<link href="../assets/snippets.css" rel="stylesheet" type="text/css">
+<script src="../assets/snippets.js"></script>
+
+<link rel="search" type="application/opensearchdescription+xml" title="Flutter API" href="/opensearch.xml"/>
+
+</head>
+
+<body data-base-href="../" data-using-base-href="true" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="index.html">Flutter</a></li>
+    <li><a href="widgets/">widgets.dart</a></li>
+    <li class="self-crumb">ListView class</li>
+  </ol>
+  <div class="self-name">ListView</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="widgets&#47;widgets-library-sidebar.html"
+    data-below-sidebar="widgets&#47;ListView-class-sidebar.html">
+    <div>
+  <div id="external-links" class="btn-group"><a title="View source code" class="source-link" href="https://github.com/flutter/flutter/blob/main/packages/flutter/lib/src/widgets/scroll_view.dart#L1294"><span class="material-symbols-outlined">description</span></a></div>
+<h1><span class="kind-class">ListView</span> class 
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>A scrollable list of widgets arranged linearly.</p>
+<iframe src="https://www.youtube.com/embed/KJpkjHGiI5A?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; 
+autoplay; 
+clipboard-write; 
+encrypted-media; 
+gyroscope; 
+picture-in-picture" allowfullscreen="" style="max-width: 560px;
+max-height: 315px;
+width: 100%;
+height: 100%;
+aspect-ratio: 560 / 315;">
+</iframe>
+<p><a href="widgets/ListView-class.html">ListView</a> is the most commonly used scrolling widget. It displays its
+children one after another in the scroll direction. In the cross axis, the
+children are required to fill the <a href="widgets/ListView-class.html">ListView</a>.</p>
+<p>If non-null, the <a href="widgets/ListView/itemExtent.html">itemExtent</a> forces the children to have the given extent
+in the scroll direction.</p>
+<p>If non-null, the <a href="widgets/ListView/prototypeItem.html">prototypeItem</a> forces the children to have the same extent
+as the given widget in the scroll direction.</p>
+<p>Specifying an <a href="widgets/ListView/itemExtent.html">itemExtent</a> or an <a href="widgets/ListView/prototypeItem.html">prototypeItem</a> is more efficient than
+letting the children determine their own extent because the scrolling
+machinery can make use of the foreknowledge of the children's extent to save
+work, for example when the scroll position changes drastically.</p>
+<p>You can't specify both <a href="widgets/ListView/itemExtent.html">itemExtent</a> and <a href="widgets/ListView/prototypeItem.html">prototypeItem</a>, only one or none of
+them.</p>
+<p>There are four options for constructing a <a href="widgets/ListView-class.html">ListView</a>:</p>
+<ol>
+<li>
+<p>The default constructor takes an explicit <a href="dart-core/List-class.html">List&lt;Widget&gt;</a> of children. This
+constructor is appropriate for list views with a small number of
+children because constructing the <a href="dart-core/List-class.html">List</a> requires doing work for every
+child that could possibly be displayed in the list view instead of just
+those children that are actually visible.</p>
+</li>
+<li>
+<p>The <a href="widgets/ListView/ListView.builder.html">ListView.builder</a> constructor takes an <a href="widgets/IndexedWidgetBuilder.html">IndexedWidgetBuilder</a>, which
+builds the children on demand. This constructor is appropriate for list views
+with a large (or infinite) number of children because the builder is called
+only for those children that are actually visible.</p>
+</li>
+<li>
+<p>The <a href="widgets/ListView/ListView.separated.html">ListView.separated</a> constructor takes two <a href="widgets/IndexedWidgetBuilder.html">IndexedWidgetBuilder</a>s:
+<code>itemBuilder</code> builds child items on demand, and <code>separatorBuilder</code>
+similarly builds separator children which appear in between the child items.
+This constructor is appropriate for list views with a fixed number of children.</p>
+</li>
+<li>
+<p>The <a href="widgets/ListView/ListView.custom.html">ListView.custom</a> constructor takes a <a href="widgets/SliverChildDelegate-class.html">SliverChildDelegate</a>, which provides
+the ability to customize additional aspects of the child model. For example,
+a <a href="widgets/SliverChildDelegate-class.html">SliverChildDelegate</a> can control the algorithm used to estimate the
+size of children that are not actually visible.</p>
+</li>
+</ol>
+<p>To control the initial scroll offset of the scroll view, provide a
+<a href="widgets/ScrollView/controller.html">controller</a> with its <a href="widgets/ScrollController/initialScrollOffset.html">ScrollController.initialScrollOffset</a> property set.</p>
+<p>By default, <a href="widgets/ListView-class.html">ListView</a> will automatically pad the list's scrollable
+extremities to avoid partial obstructions indicated by <a href="widgets/MediaQuery-class.html">MediaQuery</a>'s
+padding. To avoid this behavior, override with a zero <a href="widgets/BoxScrollView/padding.html">padding</a> property.</p>
+<p>
+<a name="widgets.ListView.1"></a>
+<div class="snippet snippet-container anchor-container">
+  <div class="snippet-description">
+This example uses the default constructor for <a href="widgets/ListView-class.html">ListView</a> which takes an
+explicit <a href="dart-core/List-class.html">List&lt;Widget&gt;</a> of children. This <a href="widgets/ListView-class.html">ListView</a>'s children are made up
+of <a href="widgets/Container-class.html">Container</a>s with <a href="widgets/Text-class.html">Text</a>.</p>
+<p><img src="https://flutter.github.io/assets-for-api-docs/assets/widgets/list_view.png" alt="A ListView of 3 amber colored containers with sample text.">
+</div>
+  <a class="anchor-button-overlay anchor-button" title="Copy link to clipboard"
+    onmouseenter="fixHref(this, 'widgets.ListView.1');" onclick="fixHref(this, 'widgets.ListView.1'); copyStringToClipboard(this.href);"
+    href="#">
+    <i class="material-icons anchor-image">link</i>
+  </a>
+  <div class="copyable-container">
+    <button class="copy-button-overlay copy-button" title="Copy to clipboard"
+      onclick="copyTextToClipboard(findSiblingWithId(this, 'sample-code'));">
+      <i class="material-icons copy-image">content_copy</i>
+    </button>
+    <pre class="language-dart" id="sample-code"><code class="language-dart">ListView(
+  padding: const EdgeInsets.all(8),
+  children: &lt;Widget&gt;[
+    Container(
+      height: 50,
+      color: Colors.amber[600],
+      child: const Center(child: Text(&#39;Entry A&#39;)),
+    ),
+    Container(
+      height: 50,
+      color: Colors.amber[500],
+      child: const Center(child: Text(&#39;Entry B&#39;)),
+    ),
+    Container(
+      height: 50,
+      color: Colors.amber[100],
+      child: const Center(child: Text(&#39;Entry C&#39;)),
+    ),
+  ],
+)</code></pre>
+  </div>
+</div>
+</p>
+<p>
+<a name="widgets.ListView.2"></a>
+<div class="snippet snippet-container anchor-container">
+  <div class="snippet-description">
+This example mirrors the previous one, creating the same list using the
+<a href="widgets/ListView/ListView.builder.html">ListView.builder</a> constructor. Using the <a href="widgets/IndexedWidgetBuilder.html">IndexedWidgetBuilder</a>, children
+are built lazily and can be infinite in number.</p>
+<p><img src="https://flutter.github.io/assets-for-api-docs/assets/widgets/list_view_builder.png" alt="A ListView of 3 amber colored containers with sample text.">
+</div>
+  <a class="anchor-button-overlay anchor-button" title="Copy link to clipboard"
+    onmouseenter="fixHref(this, 'widgets.ListView.2');" onclick="fixHref(this, 'widgets.ListView.2'); copyStringToClipboard(this.href);"
+    href="#">
+    <i class="material-icons anchor-image">link</i>
+  </a>
+  <div class="copyable-container">
+    <button class="copy-button-overlay copy-button" title="Copy to clipboard"
+      onclick="copyTextToClipboard(findSiblingWithId(this, 'sample-code'));">
+      <i class="material-icons copy-image">content_copy</i>
+    </button>
+    <pre class="language-dart" id="sample-code"><code class="language-dart">final List&lt;String&gt; entries = &lt;String&gt;[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;];
+final List&lt;int&gt; colorCodes = &lt;int&gt;[600, 500, 100];
+
+Widget build(BuildContext context) {
+  return ListView.builder(
+    padding: const EdgeInsets.all(8),
+    itemCount: entries.length,
+    itemBuilder: (BuildContext context, int index) {
+      return Container(
+        height: 50,
+        color: Colors.amber[colorCodes[index]],
+        child: Center(child: Text(&#39;Entry ${entries[index]}&#39;)),
+      );
+    }
+  );
+}</code></pre>
+  </div>
+</div>
+</p>
+<p>
+<a name="widgets.ListView.3"></a>
+<div class="snippet snippet-container anchor-container">
+  <div class="snippet-description">
+This example continues to build from our the previous ones, creating a
+similar list using <a href="widgets/ListView/ListView.separated.html">ListView.separated</a>. Here, a <a href="material/Divider-class.html">Divider</a> is used as a
+separator.</p>
+<p><img src="https://flutter.github.io/assets-for-api-docs/assets/widgets/list_view_separated.png" alt="A ListView of 3 amber colored containers with sample text and a Divider
+between each of them.">
+</div>
+  <a class="anchor-button-overlay anchor-button" title="Copy link to clipboard"
+    onmouseenter="fixHref(this, 'widgets.ListView.3');" onclick="fixHref(this, 'widgets.ListView.3'); copyStringToClipboard(this.href);"
+    href="#">
+    <i class="material-icons anchor-image">link</i>
+  </a>
+  <div class="copyable-container">
+    <button class="copy-button-overlay copy-button" title="Copy to clipboard"
+      onclick="copyTextToClipboard(findSiblingWithId(this, 'sample-code'));">
+      <i class="material-icons copy-image">content_copy</i>
+    </button>
+    <pre class="language-dart" id="sample-code"><code class="language-dart">final List&lt;String&gt; entries = &lt;String&gt;[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;];
+final List&lt;int&gt; colorCodes = &lt;int&gt;[600, 500, 100];
+
+Widget build(BuildContext context) {
+  return ListView.separated(
+    padding: const EdgeInsets.all(8),
+    itemCount: entries.length,
+    itemBuilder: (BuildContext context, int index) {
+      return Container(
+        height: 50,
+        color: Colors.amber[colorCodes[index]],
+        child: Center(child: Text(&#39;Entry ${entries[index]}&#39;)),
+      );
+    },
+    separatorBuilder: (BuildContext context, int index) {
+      return const SizedBox(
+        height: 1.0,
+        width: double.infinity,
+        child: ColoredBox(color: Color(0xFF000000)),
+      );
+    },
+  );
+}</code></pre>
+  </div>
+</div>
+</p>
+<h2 id="child-elements-lifecycle">Child elements' lifecycle</h2>
+<h3 id="creation">Creation</h3>
+<p>While laying out the list, visible children's elements, states and render
+objects will be created lazily based on existing widgets (such as when using
+the default constructor) or lazily provided ones (such as when using the
+<a href="widgets/ListView/ListView.builder.html">ListView.builder</a> constructor).</p>
+<h3 id="destruction">Destruction</h3>
+<p>When a child is scrolled out of view, the associated element subtree,
+states and render objects are destroyed. A new child at the same position
+in the list will be lazily recreated along with new elements, states and
+render objects when it is scrolled back.</p>
+<h3 id="destruction-mitigation">Destruction mitigation</h3>
+<p>In order to preserve state as child elements are scrolled in and out of
+view, the following options are possible:</p>
+<ul>
+<li>
+<p>Moving the ownership of non-trivial UI-state-driving business logic
+out of the list child subtree. For instance, if a list contains posts
+with their number of upvotes coming from a cached network response, store
+the list of posts and upvote number in a data model outside the list. Let
+the list child UI subtree be easily recreate-able from the
+source-of-truth model object. Use <a href="widgets/StatefulWidget-class.html">StatefulWidget</a>s in the child
+widget subtree to store instantaneous UI state only.</p>
+</li>
+<li>
+<p>Letting <a href="widgets/KeepAlive-class.html">KeepAlive</a> be the root widget of the list child widget subtree
+that needs to be preserved. The <a href="widgets/KeepAlive-class.html">KeepAlive</a> widget marks the child
+subtree's top render object child for keepalive. When the associated top
+render object is scrolled out of view, the list keeps the child's render
+object (and by extension, its associated elements and states) in a cache
+list instead of destroying them. When scrolled back into view, the render
+object is repainted as-is (if it wasn't marked dirty in the interim).</p>
+<p>This only works if <code>addAutomaticKeepAlives</code> and <code>addRepaintBoundaries</code>
+are false since those parameters cause the <a href="widgets/ListView-class.html">ListView</a> to wrap each child
+widget subtree with other widgets.</p>
+</li>
+<li>
+<p>Using <a href="widgets/AutomaticKeepAlive-class.html">AutomaticKeepAlive</a> widgets (inserted by default when
+<code>addAutomaticKeepAlives</code> is true). <a href="widgets/AutomaticKeepAlive-class.html">AutomaticKeepAlive</a> allows descendant
+widgets to control whether the subtree is actually kept alive or not.
+This behavior is in contrast with <a href="widgets/KeepAlive-class.html">KeepAlive</a>, which will unconditionally keep
+the subtree alive.</p>
+<p>As an example, the <a href="widgets/EditableText-class.html">EditableText</a> widget signals its list child element
+subtree to stay alive while its text field has input focus. If it doesn't
+have focus and no other descendants signaled for keepalive via a
+<a href="widgets/KeepAliveNotification-class.html">KeepAliveNotification</a>, the list child element subtree will be destroyed
+when scrolled away.</p>
+<p><a href="widgets/AutomaticKeepAlive-class.html">AutomaticKeepAlive</a> descendants typically signal it to be kept alive
+by using the <a href="widgets/AutomaticKeepAliveClientMixin-mixin.html">AutomaticKeepAliveClientMixin</a>, then implementing the
+<a href="widgets/AutomaticKeepAliveClientMixin/wantKeepAlive.html">AutomaticKeepAliveClientMixin.wantKeepAlive</a> getter and calling
+<a href="widgets/AutomaticKeepAliveClientMixin/updateKeepAlive.html">AutomaticKeepAliveClientMixin.updateKeepAlive</a>.</p>
+</li>
+</ul>
+<h2 id="transitioning-to-customscrollview">Transitioning to <a href="widgets/CustomScrollView-class.html">CustomScrollView</a></h2>
+<p>A <a href="widgets/ListView-class.html">ListView</a> is basically a <a href="widgets/CustomScrollView-class.html">CustomScrollView</a> with a single <a href="widgets/SliverList-class.html">SliverList</a> in
+its <a href="widgets/CustomScrollView/slivers.html">CustomScrollView.slivers</a> property.</p>
+<p>If <a href="widgets/ListView-class.html">ListView</a> is no longer sufficient, for example because the scroll view
+is to have both a list and a grid, or because the list is to be combined
+with a <a href="material/SliverAppBar-class.html">SliverAppBar</a>, etc, it is straight-forward to port code from using
+<a href="widgets/ListView-class.html">ListView</a> to using <a href="widgets/CustomScrollView-class.html">CustomScrollView</a> directly.</p>
+<p>The <a href="widgets/Widget/key.html">key</a>, <a href="widgets/ScrollView/scrollDirection.html">scrollDirection</a>, <a href="widgets/ScrollView/reverse.html">reverse</a>, <a href="widgets/ScrollView/controller.html">controller</a>, <a href="widgets/ScrollView/primary.html">primary</a>, <a href="widgets/ScrollView/physics.html">physics</a>,
+and <a href="widgets/ScrollView/shrinkWrap.html">shrinkWrap</a> properties on <a href="widgets/ListView-class.html">ListView</a> map directly to the identically
+named properties on <a href="widgets/CustomScrollView-class.html">CustomScrollView</a>.</p>
+<p>The <a href="widgets/CustomScrollView/slivers.html">CustomScrollView.slivers</a> property should be a list containing either:</p>
+<ul>
+<li>a <a href="widgets/SliverList-class.html">SliverList</a> if both <a href="widgets/ListView/itemExtent.html">itemExtent</a> and <a href="widgets/ListView/prototypeItem.html">prototypeItem</a> were null;</li>
+<li>a <a href="widgets/SliverFixedExtentList-class.html">SliverFixedExtentList</a> if <a href="widgets/ListView/itemExtent.html">itemExtent</a> was not null; or</li>
+<li>a <a href="widgets/SliverPrototypeExtentList-class.html">SliverPrototypeExtentList</a> if <a href="widgets/ListView/prototypeItem.html">prototypeItem</a> was not null.</li>
+</ul>
+<p>The <a href="widgets/ListView/childrenDelegate.html">childrenDelegate</a> property on <a href="widgets/ListView-class.html">ListView</a> corresponds to the
+<a href="widgets/SliverMultiBoxAdaptorWidget/delegate.html">SliverList.delegate</a> (or <a href="widgets/SliverMultiBoxAdaptorWidget/delegate.html">SliverFixedExtentList.delegate</a>) property. The
+<a href="widgets/ListView-class.html">ListView</a> constructor's <code>children</code> argument corresponds to the
+<a href="widgets/ListView/childrenDelegate.html">childrenDelegate</a> being a <a href="widgets/SliverChildListDelegate-class.html">SliverChildListDelegate</a> with that same
+argument. The <a href="widgets/ListView/ListView.builder.html">ListView.builder</a> constructor's <code>itemBuilder</code> and
+<code>itemCount</code> arguments correspond to the <a href="widgets/ListView/childrenDelegate.html">childrenDelegate</a> being a
+<a href="widgets/SliverChildBuilderDelegate-class.html">SliverChildBuilderDelegate</a> with the equivalent arguments.</p>
+<p>The <a href="widgets/BoxScrollView/padding.html">padding</a> property corresponds to having a <a href="widgets/SliverPadding-class.html">SliverPadding</a> in the
+<a href="widgets/CustomScrollView/slivers.html">CustomScrollView.slivers</a> property instead of the list itself, and having
+the <a href="widgets/SliverList-class.html">SliverList</a> instead be a child of the <a href="widgets/SliverPadding-class.html">SliverPadding</a>.</p>
+<p><a href="widgets/CustomScrollView-class.html">CustomScrollView</a>s don't automatically avoid obstructions from <a href="widgets/MediaQuery-class.html">MediaQuery</a>
+like <a href="widgets/ListView-class.html">ListView</a>s do. To reproduce the behavior, wrap the slivers in
+<a href="widgets/SliverSafeArea-class.html">SliverSafeArea</a>s.</p>
+<p>Once code has been ported to use <a href="widgets/CustomScrollView-class.html">CustomScrollView</a>, other slivers, such as
+<a href="widgets/SliverGrid-class.html">SliverGrid</a> or <a href="material/SliverAppBar-class.html">SliverAppBar</a>, can be put in the <a href="widgets/CustomScrollView/slivers.html">CustomScrollView.slivers</a>
+list.</p>
+<p>
+<a name="widgets.ListView.4"></a>
+<div class="snippet snippet-container anchor-container">
+  <div class="snippet-description">
+Here are two brief snippets showing a <a href="widgets/ListView-class.html">ListView</a> and its equivalent using
+<a href="widgets/CustomScrollView-class.html">CustomScrollView</a>:
+</div>
+  <a class="anchor-button-overlay anchor-button" title="Copy link to clipboard"
+    onmouseenter="fixHref(this, 'widgets.ListView.4');" onclick="fixHref(this, 'widgets.ListView.4'); copyStringToClipboard(this.href);"
+    href="#">
+    <i class="material-icons anchor-image">link</i>
+  </a>
+  <div class="copyable-container">
+    <button class="copy-button-overlay copy-button" title="Copy to clipboard"
+      onclick="copyTextToClipboard(findSiblingWithId(this, 'sample-code'));">
+      <i class="material-icons copy-image">content_copy</i>
+    </button>
+    <pre class="language-dart" id="sample-code"><code class="language-dart">ListView(
+  padding: const EdgeInsets.all(20.0),
+  children: const &lt;Widget&gt;[
+    Text(&quot;I&#39;m dedicating every day to you&quot;),
+    Text(&#39;Domestic life was never quite my style&#39;),
+    Text(&#39;When you smile, you knock me out, I fall apart&#39;),
+    Text(&#39;And I thought I was so smart&#39;),
+  ],
+)</code></pre>
+  </div>
+</div>
+</p>
+<p>
+<a name="widgets.ListView.5"></a>
+<div class="snippet snippet-container anchor-container">
+  
+  <a class="anchor-button-overlay anchor-button" title="Copy link to clipboard"
+    onmouseenter="fixHref(this, 'widgets.ListView.5');" onclick="fixHref(this, 'widgets.ListView.5'); copyStringToClipboard(this.href);"
+    href="#">
+    <i class="material-icons anchor-image">link</i>
+  </a>
+  <div class="copyable-container">
+    <button class="copy-button-overlay copy-button" title="Copy to clipboard"
+      onclick="copyTextToClipboard(findSiblingWithId(this, 'sample-code'));">
+      <i class="material-icons copy-image">content_copy</i>
+    </button>
+    <pre class="language-dart" id="sample-code"><code class="language-dart">CustomScrollView(
+  slivers: &lt;Widget&gt;[
+    SliverPadding(
+      padding: const EdgeInsets.all(20.0),
+      sliver: SliverList(
+        delegate: SliverChildListDelegate(
+          &lt;Widget&gt;[
+            const Text(&quot;I&#39;m dedicating every day to you&quot;),
+            const Text(&#39;Domestic life was never quite my style&#39;),
+            const Text(&#39;When you smile, you knock me out, I fall apart&#39;),
+            const Text(&#39;And I thought I was so smart&#39;),
+          ],
+        ),
+      ),
+    ),
+  ],
+)</code></pre>
+  </div>
+</div>
+</p>
+<h2 id="special-handling-for-an-empty-list">Special handling for an empty list</h2>
+<p>A common design pattern is to have a custom UI for an empty list. The best
+way to achieve this in Flutter is just conditionally replacing the
+<a href="widgets/ListView-class.html">ListView</a> at build time with whatever widgets you need to show for the
+empty list state:</p>
+<p>
+<a name="widgets.ListView.6"></a>
+<div class="snippet snippet-container anchor-container">
+  <div class="snippet-description">
+Example of simple empty list interface:
+</div>
+  <a class="anchor-button-overlay anchor-button" title="Copy link to clipboard"
+    onmouseenter="fixHref(this, 'widgets.ListView.6');" onclick="fixHref(this, 'widgets.ListView.6'); copyStringToClipboard(this.href);"
+    href="#">
+    <i class="material-icons anchor-image">link</i>
+  </a>
+  <div class="copyable-container">
+    <button class="copy-button-overlay copy-button" title="Copy to clipboard"
+      onclick="copyTextToClipboard(findSiblingWithId(this, 'sample-code'));">
+      <i class="material-icons copy-image">content_copy</i>
+    </button>
+    <pre class="language-dart" id="sample-code"><code class="language-dart">Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(title: const Text(&#39;Empty List Test&#39;)),
+    body: itemCount &gt; 0
+      ? ListView.builder(
+          itemCount: itemCount,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text(&#39;Item ${index + 1}&#39;),
+            );
+          },
+        )
+      : const Center(child: Text(&#39;No items&#39;)),
+  );
+}</code></pre>
+  </div>
+</div>
+</p>
+<h2 id="selection-of-list-items">Selection of list items</h2>
+<p><a href="widgets/ListView-class.html">ListView</a> has no built-in notion of a selected item or items. For a small
+example of how a caller might wire up basic item selection, see
+<a href="material/ListTile/selected.html">ListTile.selected</a>.</p>
+<p>
+<a name="widgets.ListView.7"></a>
+<div class="snippet snippet-container anchor-container" id="longSnippet7">
+    <div class="snippet-description">
+This example shows a custom implementation of <a href="material/ListTile-class.html">ListTile</a> selection in a <a href="widgets/ListView-class.html">ListView</a> or <a href="widgets/GridView-class.html">GridView</a>.
+Long press any <a href="material/ListTile-class.html">ListTile</a> to enable selection mode.
+</div>
+    <a class="anchor-button-overlay anchor-button" title="Copy link to clipboard"
+        onmouseenter="fixHref(this, 'widgets.ListView.7');" onclick="fixHref(this, 'widgets.ListView.7'); copyStringToClipboard(this.href);"
+        href="#">
+        <i class="material-icons anchor-image">link</i>
+    </a>
+    <div class="snippet-description">
+        <p>To create a local project with this code sample, run:<br />
+            <span class="snippet-create-command">flutter create --sample=widgets.ListView.7 mysample</span>
+        </p>
+    </div>
+    <iframe class="snippet-dartpad" allow="clipboard-write"
+        src="https://dartpad.dev/embed-flutter.html?split=60&amp;run=true&amp;sample_id=widgets.ListView.7&amp;channel=stable">
+    </iframe>
+</div>
+</p>
+<p><a href="widgets/ScrollView-class.html">ScrollView</a>s are often decorated with <a href="material/Scrollbar-class.html">Scrollbar</a>s and overscroll indicators,
+which are managed by the inherited <a href="widgets/ScrollBehavior-class.html">ScrollBehavior</a>. Placing a
+<a href="widgets/ScrollConfiguration-class.html">ScrollConfiguration</a> above a ScrollView can modify these behaviors for that
+ScrollView, or can be managed app-wide by providing a ScrollBehavior to
+<a href="material/MaterialApp/scrollBehavior.html">MaterialApp.scrollBehavior</a> or <a href="cupertino/CupertinoApp/scrollBehavior.html">CupertinoApp.scrollBehavior</a>.</p>
+<h2 id="persisting-the-scroll-position-during-a-session">Persisting the scroll position during a session</h2>
+<p>Scroll views attempt to persist their scroll position using <a href="widgets/PageStorage-class.html">PageStorage</a>.
+This can be disabled by setting <a href="widgets/ScrollController/keepScrollOffset.html">ScrollController.keepScrollOffset</a> to false
+on the <a href="widgets/ScrollView/controller.html">controller</a>. If it is enabled, using a <a href="widgets/PageStorageKey-class.html">PageStorageKey</a> for the
+<a href="widgets/Widget/key.html">key</a> of this widget is recommended to help disambiguate different scroll
+views from each other.</p>
+<p>See also:</p>
+<ul>
+<li><a href="widgets/SingleChildScrollView-class.html">SingleChildScrollView</a>, which is a scrollable widget that has a single
+child.</li>
+<li><a href="widgets/PageView-class.html">PageView</a>, which is a scrolling list of child widgets that are each the
+size of the viewport.</li>
+<li><a href="widgets/GridView-class.html">GridView</a>, which is a scrollable, 2D array of widgets.</li>
+<li><a href="widgets/CustomScrollView-class.html">CustomScrollView</a>, which is a scrollable widget that creates custom
+scroll effects using slivers.</li>
+<li><a href="widgets/ListBody-class.html">ListBody</a>, which arranges its children in a similar manner, but without
+scrolling.</li>
+<li><a href="widgets/ScrollNotification-class.html">ScrollNotification</a> and <a href="widgets/NotificationListener-class.html">NotificationListener</a>, which can be used to watch
+the scroll position without using a <a href="widgets/ScrollController-class.html">ScrollController</a>.</li>
+<li>The <a href="https://docs.flutter.dev/ui/widgets/layout">catalog of layout widgets</a>.</li>
+<li>Cookbook: <a href="https://docs.flutter.dev/cookbook/lists/basic-list">Use lists</a></li>
+<li>Cookbook: <a href="https://docs.flutter.dev/cookbook/lists/long-lists">Work with long lists</a></li>
+<li>Cookbook: <a href="https://docs.flutter.dev/cookbook/lists/horizontal-list">Create a horizontal list</a></li>
+<li>Cookbook: <a href="https://docs.flutter.dev/cookbook/lists/mixed-list">Create lists with different types of items</a></li>
+<li>Cookbook: <a href="https://docs.flutter.dev/cookbook/gestures/dismissible">Implement swipe to dismiss</a></li>
+</ul>
+</section>
+
+
+    <section>
+      <dl class="dl-horizontal">
+        
+  <dt>Inheritance</dt>
+  <dd>
+    <ul class="gt-separated dark clazz-relationships">
+      <li><a href="dart-core/Object-class.html">Object</a></li>
+        <li><a href="foundation/DiagnosticableTree-class.html">DiagnosticableTree</a></li>
+        <li><a href="widgets/Widget-class.html">Widget</a></li>
+        <li><a href="widgets/StatelessWidget-class.html">StatelessWidget</a></li>
+        <li><a href="widgets/ScrollView-class.html">ScrollView</a></li>
+        <li><a href="widgets/BoxScrollView-class.html">BoxScrollView</a></li>
+      <li>ListView</li>
+    </ul>
+  </dd>
+
+        
+        
+
+
+        
+        
+
+
+      </dl>
+    </section>
+
+    
+  <section class="summary offset-anchor" id="constructors">
+    <h2>Constructors</h2>
+    <dl class="constructor-summary-list">
+        <dt id="ListView.new" class="callable">
+          <span class="name"><a href="widgets/ListView/ListView.html">ListView</a></span><span class="signature">({<span class="parameter" id="-param-key"><span class="type-annotation"><a href="foundation/Key-class.html">Key</a>?</span> <span class="parameter-name">key</span>, </span><span class="parameter" id="-param-scrollDirection"><span class="type-annotation"><a href="painting/Axis.html">Axis</a></span> <span class="parameter-name">scrollDirection</span> = <span class="default-value">Axis.vertical</span>, </span><span class="parameter" id="-param-reverse"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">reverse</span> = <span class="default-value">false</span>, </span><span class="parameter" id="-param-controller"><span class="type-annotation"><a href="widgets/ScrollController-class.html">ScrollController</a>?</span> <span class="parameter-name">controller</span>, </span><span class="parameter" id="-param-primary"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a>?</span> <span class="parameter-name">primary</span>, </span><span class="parameter" id="-param-physics"><span class="type-annotation"><a href="widgets/ScrollPhysics-class.html">ScrollPhysics</a>?</span> <span class="parameter-name">physics</span>, </span><span class="parameter" id="-param-shrinkWrap"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">shrinkWrap</span> = <span class="default-value">false</span>, </span><span class="parameter" id="-param-padding"><span class="type-annotation"><a href="painting/EdgeInsetsGeometry-class.html">EdgeInsetsGeometry</a>?</span> <span class="parameter-name">padding</span>, </span><span class="parameter" id="-param-itemExtent"><span class="type-annotation"><a href="dart-core/double-class.html">double</a>?</span> <span class="parameter-name">itemExtent</span>, </span><span class="parameter" id="-param-itemExtentBuilder"><span class="type-annotation"><a href="rendering/ItemExtentBuilder.html">ItemExtentBuilder</a>?</span> <span class="parameter-name">itemExtentBuilder</span>, </span><span class="parameter" id="-param-prototypeItem"><span class="type-annotation"><a href="widgets/Widget-class.html">Widget</a>?</span> <span class="parameter-name">prototypeItem</span>, </span><span class="parameter" id="-param-addAutomaticKeepAlives"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">addAutomaticKeepAlives</span> = <span class="default-value">true</span>, </span><span class="parameter" id="-param-addRepaintBoundaries"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">addRepaintBoundaries</span> = <span class="default-value">true</span>, </span><span class="parameter" id="-param-addSemanticIndexes"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">addSemanticIndexes</span> = <span class="default-value">true</span>, </span><span class="parameter" id="-param-cacheExtent"><span>@<a href="dart-core/Deprecated/Deprecated.html">Deprecated</a>(&#39;Use scrollCacheExtent instead. &#39; &#39;This feature was deprecated after v3.41.0-0.0.pre.&#39;)</span> <span class="type-annotation"><a href="dart-core/double-class.html">double</a>?</span> <span class="parameter-name">cacheExtent</span>, </span><span class="parameter" id="-param-scrollCacheExtent"><span class="type-annotation"><a href="rendering/ScrollCacheExtent-class.html">ScrollCacheExtent</a>?</span> <span class="parameter-name">scrollCacheExtent</span>, </span><span class="parameter" id="-param-children"><span class="type-annotation"><a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="widgets/Widget-class.html">Widget</a></span>&gt;</span></span> <span class="parameter-name">children</span> = <span class="default-value">const &lt;Widget&gt;[]</span>, </span><span class="parameter" id="-param-semanticChildCount"><span class="type-annotation"><a href="dart-core/int-class.html">int</a>?</span> <span class="parameter-name">semanticChildCount</span>, </span><span class="parameter" id="-param-dragStartBehavior"><span class="type-annotation"><a href="gestures/DragStartBehavior.html">DragStartBehavior</a></span> <span class="parameter-name">dragStartBehavior</span> = <span class="default-value">DragStartBehavior.start</span>, </span><span class="parameter" id="-param-keyboardDismissBehavior"><span class="type-annotation"><a href="widgets/ScrollViewKeyboardDismissBehavior.html">ScrollViewKeyboardDismissBehavior</a>?</span> <span class="parameter-name">keyboardDismissBehavior</span>, </span><span class="parameter" id="-param-restorationId"><span class="type-annotation"><a href="dart-core/String-class.html">String</a>?</span> <span class="parameter-name">restorationId</span>, </span><span class="parameter" id="-param-clipBehavior"><span class="type-annotation"><a href="dart-ui/Clip.html">Clip</a></span> <span class="parameter-name">clipBehavior</span> = <span class="default-value">Clip.hardEdge</span>, </span><span class="parameter" id="-param-hitTestBehavior"><span class="type-annotation"><a href="rendering/HitTestBehavior.html">HitTestBehavior</a></span> <span class="parameter-name">hitTestBehavior</span> = <span class="default-value">HitTestBehavior.opaque</span></span>})</span>
+        </dt>
+        <dd>
+          Creates a scrollable, linear array of widgets from an explicit <a href="dart-core/List-class.html">List</a>.
+        </dd>
+        <dt id="ListView.builder" class="callable">
+          <span class="name"><a href="widgets/ListView/ListView.builder.html">ListView.builder</a></span><span class="signature">({<span class="parameter" id="builder-param-key"><span class="type-annotation"><a href="foundation/Key-class.html">Key</a>?</span> <span class="parameter-name">key</span>, </span><span class="parameter" id="builder-param-scrollDirection"><span class="type-annotation"><a href="painting/Axis.html">Axis</a></span> <span class="parameter-name">scrollDirection</span> = <span class="default-value">Axis.vertical</span>, </span><span class="parameter" id="builder-param-reverse"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">reverse</span> = <span class="default-value">false</span>, </span><span class="parameter" id="builder-param-controller"><span class="type-annotation"><a href="widgets/ScrollController-class.html">ScrollController</a>?</span> <span class="parameter-name">controller</span>, </span><span class="parameter" id="builder-param-primary"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a>?</span> <span class="parameter-name">primary</span>, </span><span class="parameter" id="builder-param-physics"><span class="type-annotation"><a href="widgets/ScrollPhysics-class.html">ScrollPhysics</a>?</span> <span class="parameter-name">physics</span>, </span><span class="parameter" id="builder-param-shrinkWrap"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">shrinkWrap</span> = <span class="default-value">false</span>, </span><span class="parameter" id="builder-param-padding"><span class="type-annotation"><a href="painting/EdgeInsetsGeometry-class.html">EdgeInsetsGeometry</a>?</span> <span class="parameter-name">padding</span>, </span><span class="parameter" id="builder-param-itemExtent"><span class="type-annotation"><a href="dart-core/double-class.html">double</a>?</span> <span class="parameter-name">itemExtent</span>, </span><span class="parameter" id="builder-param-itemExtentBuilder"><span class="type-annotation"><a href="rendering/ItemExtentBuilder.html">ItemExtentBuilder</a>?</span> <span class="parameter-name">itemExtentBuilder</span>, </span><span class="parameter" id="builder-param-prototypeItem"><span class="type-annotation"><a href="widgets/Widget-class.html">Widget</a>?</span> <span class="parameter-name">prototypeItem</span>, </span><span class="parameter" id="builder-param-itemBuilder"><span>required</span> <span class="type-annotation"><a href="widgets/NullableIndexedWidgetBuilder.html">NullableIndexedWidgetBuilder</a></span> <span class="parameter-name">itemBuilder</span>, </span><span class="parameter" id="builder-param-findChildIndexCallback"><span class="type-annotation"><a href="widgets/ChildIndexGetter.html">ChildIndexGetter</a>?</span> <span class="parameter-name">findChildIndexCallback</span>, </span><span class="parameter" id="builder-param-itemCount"><span class="type-annotation"><a href="dart-core/int-class.html">int</a>?</span> <span class="parameter-name">itemCount</span>, </span><span class="parameter" id="builder-param-addAutomaticKeepAlives"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">addAutomaticKeepAlives</span> = <span class="default-value">true</span>, </span><span class="parameter" id="builder-param-addRepaintBoundaries"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">addRepaintBoundaries</span> = <span class="default-value">true</span>, </span><span class="parameter" id="builder-param-addSemanticIndexes"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">addSemanticIndexes</span> = <span class="default-value">true</span>, </span><span class="parameter" id="builder-param-cacheExtent"><span>@<a href="dart-core/Deprecated/Deprecated.html">Deprecated</a>(&#39;Use scrollCacheExtent instead. &#39; &#39;This feature was deprecated after v3.41.0-0.0.pre.&#39;)</span> <span class="type-annotation"><a href="dart-core/double-class.html">double</a>?</span> <span class="parameter-name">cacheExtent</span>, </span><span class="parameter" id="builder-param-scrollCacheExtent"><span class="type-annotation"><a href="rendering/ScrollCacheExtent-class.html">ScrollCacheExtent</a>?</span> <span class="parameter-name">scrollCacheExtent</span>, </span><span class="parameter" id="builder-param-semanticChildCount"><span class="type-annotation"><a href="dart-core/int-class.html">int</a>?</span> <span class="parameter-name">semanticChildCount</span>, </span><span class="parameter" id="builder-param-dragStartBehavior"><span class="type-annotation"><a href="gestures/DragStartBehavior.html">DragStartBehavior</a></span> <span class="parameter-name">dragStartBehavior</span> = <span class="default-value">DragStartBehavior.start</span>, </span><span class="parameter" id="builder-param-keyboardDismissBehavior"><span class="type-annotation"><a href="widgets/ScrollViewKeyboardDismissBehavior.html">ScrollViewKeyboardDismissBehavior</a>?</span> <span class="parameter-name">keyboardDismissBehavior</span>, </span><span class="parameter" id="builder-param-restorationId"><span class="type-annotation"><a href="dart-core/String-class.html">String</a>?</span> <span class="parameter-name">restorationId</span>, </span><span class="parameter" id="builder-param-clipBehavior"><span class="type-annotation"><a href="dart-ui/Clip.html">Clip</a></span> <span class="parameter-name">clipBehavior</span> = <span class="default-value">Clip.hardEdge</span>, </span><span class="parameter" id="builder-param-hitTestBehavior"><span class="type-annotation"><a href="rendering/HitTestBehavior.html">HitTestBehavior</a></span> <span class="parameter-name">hitTestBehavior</span> = <span class="default-value">HitTestBehavior.opaque</span></span>})</span>
+        </dt>
+        <dd>
+          Creates a scrollable, linear array of widgets that are created on demand.
+        </dd>
+        <dt id="ListView.custom" class="callable">
+          <span class="name"><a href="widgets/ListView/ListView.custom.html">ListView.custom</a></span><span class="signature">({<span class="parameter" id="custom-param-key"><span class="type-annotation"><a href="foundation/Key-class.html">Key</a>?</span> <span class="parameter-name">key</span>, </span><span class="parameter" id="custom-param-scrollDirection"><span class="type-annotation"><a href="painting/Axis.html">Axis</a></span> <span class="parameter-name">scrollDirection</span> = <span class="default-value">Axis.vertical</span>, </span><span class="parameter" id="custom-param-reverse"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">reverse</span> = <span class="default-value">false</span>, </span><span class="parameter" id="custom-param-controller"><span class="type-annotation"><a href="widgets/ScrollController-class.html">ScrollController</a>?</span> <span class="parameter-name">controller</span>, </span><span class="parameter" id="custom-param-primary"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a>?</span> <span class="parameter-name">primary</span>, </span><span class="parameter" id="custom-param-physics"><span class="type-annotation"><a href="widgets/ScrollPhysics-class.html">ScrollPhysics</a>?</span> <span class="parameter-name">physics</span>, </span><span class="parameter" id="custom-param-shrinkWrap"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">shrinkWrap</span> = <span class="default-value">false</span>, </span><span class="parameter" id="custom-param-padding"><span class="type-annotation"><a href="painting/EdgeInsetsGeometry-class.html">EdgeInsetsGeometry</a>?</span> <span class="parameter-name">padding</span>, </span><span class="parameter" id="custom-param-itemExtent"><span class="type-annotation"><a href="dart-core/double-class.html">double</a>?</span> <span class="parameter-name">itemExtent</span>, </span><span class="parameter" id="custom-param-prototypeItem"><span class="type-annotation"><a href="widgets/Widget-class.html">Widget</a>?</span> <span class="parameter-name">prototypeItem</span>, </span><span class="parameter" id="custom-param-itemExtentBuilder"><span class="type-annotation"><a href="rendering/ItemExtentBuilder.html">ItemExtentBuilder</a>?</span> <span class="parameter-name">itemExtentBuilder</span>, </span><span class="parameter" id="custom-param-childrenDelegate"><span>required</span> <span class="type-annotation"><a href="widgets/SliverChildDelegate-class.html">SliverChildDelegate</a></span> <span class="parameter-name">childrenDelegate</span>, </span><span class="parameter" id="custom-param-cacheExtent"><span>@<a href="dart-core/Deprecated/Deprecated.html">Deprecated</a>(&#39;Use scrollCacheExtent instead. &#39; &#39;This feature was deprecated after v3.41.0-0.0.pre.&#39;)</span> <span class="type-annotation"><a href="dart-core/double-class.html">double</a>?</span> <span class="parameter-name">cacheExtent</span>, </span><span class="parameter" id="custom-param-scrollCacheExtent"><span class="type-annotation"><a href="rendering/ScrollCacheExtent-class.html">ScrollCacheExtent</a>?</span> <span class="parameter-name">scrollCacheExtent</span>, </span><span class="parameter" id="custom-param-semanticChildCount"><span class="type-annotation"><a href="dart-core/int-class.html">int</a>?</span> <span class="parameter-name">semanticChildCount</span>, </span><span class="parameter" id="custom-param-dragStartBehavior"><span class="type-annotation"><a href="gestures/DragStartBehavior.html">DragStartBehavior</a></span> <span class="parameter-name">dragStartBehavior</span> = <span class="default-value">DragStartBehavior.start</span>, </span><span class="parameter" id="custom-param-keyboardDismissBehavior"><span class="type-annotation"><a href="widgets/ScrollViewKeyboardDismissBehavior.html">ScrollViewKeyboardDismissBehavior</a>?</span> <span class="parameter-name">keyboardDismissBehavior</span>, </span><span class="parameter" id="custom-param-restorationId"><span class="type-annotation"><a href="dart-core/String-class.html">String</a>?</span> <span class="parameter-name">restorationId</span>, </span><span class="parameter" id="custom-param-clipBehavior"><span class="type-annotation"><a href="dart-ui/Clip.html">Clip</a></span> <span class="parameter-name">clipBehavior</span> = <span class="default-value">Clip.hardEdge</span>, </span><span class="parameter" id="custom-param-hitTestBehavior"><span class="type-annotation"><a href="rendering/HitTestBehavior.html">HitTestBehavior</a></span> <span class="parameter-name">hitTestBehavior</span> = <span class="default-value">HitTestBehavior.opaque</span></span>})</span>
+        </dt>
+        <dd>
+          Creates a scrollable, linear array of widgets with a custom child model.
+            <div class="constructor-modifier features">const</div>
+        </dd>
+        <dt id="ListView.separated" class="callable">
+          <span class="name"><a href="widgets/ListView/ListView.separated.html">ListView.separated</a></span><span class="signature">({<span class="parameter" id="separated-param-key"><span class="type-annotation"><a href="foundation/Key-class.html">Key</a>?</span> <span class="parameter-name">key</span>, </span><span class="parameter" id="separated-param-scrollDirection"><span class="type-annotation"><a href="painting/Axis.html">Axis</a></span> <span class="parameter-name">scrollDirection</span> = <span class="default-value">Axis.vertical</span>, </span><span class="parameter" id="separated-param-reverse"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">reverse</span> = <span class="default-value">false</span>, </span><span class="parameter" id="separated-param-controller"><span class="type-annotation"><a href="widgets/ScrollController-class.html">ScrollController</a>?</span> <span class="parameter-name">controller</span>, </span><span class="parameter" id="separated-param-primary"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a>?</span> <span class="parameter-name">primary</span>, </span><span class="parameter" id="separated-param-physics"><span class="type-annotation"><a href="widgets/ScrollPhysics-class.html">ScrollPhysics</a>?</span> <span class="parameter-name">physics</span>, </span><span class="parameter" id="separated-param-shrinkWrap"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">shrinkWrap</span> = <span class="default-value">false</span>, </span><span class="parameter" id="separated-param-padding"><span class="type-annotation"><a href="painting/EdgeInsetsGeometry-class.html">EdgeInsetsGeometry</a>?</span> <span class="parameter-name">padding</span>, </span><span class="parameter" id="separated-param-itemBuilder"><span>required</span> <span class="type-annotation"><a href="widgets/NullableIndexedWidgetBuilder.html">NullableIndexedWidgetBuilder</a></span> <span class="parameter-name">itemBuilder</span>, </span><span class="parameter" id="separated-param-findChildIndexCallback"><span>@<a href="dart-core/Deprecated/Deprecated.html">Deprecated</a>(&#39;Use findItemIndexCallback instead. &#39; &#39;findChildIndexCallback returns child indices (which include separators), &#39; &#39;while findItemIndexCallback returns item indices (which do not). &#39; &#39;If you were multiplying results by 2 to account for separators, &#39; &#39;you can remove that workaround when migrating to findItemIndexCallback. &#39; &#39;This feature was deprecated after v3.37.0-1.0.pre.&#39;)</span> <span class="type-annotation"><a href="widgets/ChildIndexGetter.html">ChildIndexGetter</a>?</span> <span class="parameter-name">findChildIndexCallback</span>, </span><span class="parameter" id="separated-param-findItemIndexCallback"><span class="type-annotation"><a href="widgets/ChildIndexGetter.html">ChildIndexGetter</a>?</span> <span class="parameter-name">findItemIndexCallback</span>, </span><span class="parameter" id="separated-param-separatorBuilder"><span>required</span> <span class="type-annotation"><a href="widgets/IndexedWidgetBuilder.html">IndexedWidgetBuilder</a></span> <span class="parameter-name">separatorBuilder</span>, </span><span class="parameter" id="separated-param-itemCount"><span>required</span> <span class="type-annotation"><a href="dart-core/int-class.html">int</a></span> <span class="parameter-name">itemCount</span>, </span><span class="parameter" id="separated-param-addAutomaticKeepAlives"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">addAutomaticKeepAlives</span> = <span class="default-value">true</span>, </span><span class="parameter" id="separated-param-addRepaintBoundaries"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">addRepaintBoundaries</span> = <span class="default-value">true</span>, </span><span class="parameter" id="separated-param-addSemanticIndexes"><span class="type-annotation"><a href="dart-core/bool-class.html">bool</a></span> <span class="parameter-name">addSemanticIndexes</span> = <span class="default-value">true</span>, </span><span class="parameter" id="separated-param-cacheExtent"><span>@<a href="dart-core/Deprecated/Deprecated.html">Deprecated</a>(&#39;Use scrollCacheExtent instead. &#39; &#39;This feature was deprecated after v3.41.0-0.0.pre.&#39;)</span> <span class="type-annotation"><a href="dart-core/double-class.html">double</a>?</span> <span class="parameter-name">cacheExtent</span>, </span><span class="parameter" id="separated-param-scrollCacheExtent"><span class="type-annotation"><a href="rendering/ScrollCacheExtent-class.html">ScrollCacheExtent</a>?</span> <span class="parameter-name">scrollCacheExtent</span>, </span><span class="parameter" id="separated-param-dragStartBehavior"><span class="type-annotation"><a href="gestures/DragStartBehavior.html">DragStartBehavior</a></span> <span class="parameter-name">dragStartBehavior</span> = <span class="default-value">DragStartBehavior.start</span>, </span><span class="parameter" id="separated-param-keyboardDismissBehavior"><span class="type-annotation"><a href="widgets/ScrollViewKeyboardDismissBehavior.html">ScrollViewKeyboardDismissBehavior</a>?</span> <span class="parameter-name">keyboardDismissBehavior</span>, </span><span class="parameter" id="separated-param-restorationId"><span class="type-annotation"><a href="dart-core/String-class.html">String</a>?</span> <span class="parameter-name">restorationId</span>, </span><span class="parameter" id="separated-param-clipBehavior"><span class="type-annotation"><a href="dart-ui/Clip.html">Clip</a></span> <span class="parameter-name">clipBehavior</span> = <span class="default-value">Clip.hardEdge</span>, </span><span class="parameter" id="separated-param-hitTestBehavior"><span class="type-annotation"><a href="rendering/HitTestBehavior.html">HitTestBehavior</a></span> <span class="parameter-name">hitTestBehavior</span> = <span class="default-value">HitTestBehavior.opaque</span></span>})</span>
+        </dt>
+        <dd>
+          Creates a fixed-length scrollable linear array of list "items" separated
+by list item "separators".
+        </dd>
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-properties">
+    <h2>Properties</h2>
+    <dl class="properties">
+        <dt id="anchor" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/anchor.html">anchor</a></span>
+  <span class="signature">&#8594; <a href="dart-core/double-class.html">double</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  The relative position of the zero scroll offset.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="cacheExtent" class="property inherited">
+  <span class="name"><a class="deprecated" href="widgets/ScrollView/cacheExtent.html">cacheExtent</a></span>
+  <span class="signature">&#8594; <a href="dart-core/double-class.html">double</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  Deprecated. Use <a href="widgets/ScrollView/scrollCacheExtent.html">scrollCacheExtent</a> instead.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="center" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/center.html">center</a></span>
+  <span class="signature">&#8594; <a href="foundation/Key-class.html">Key</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  The first child in the <a href="rendering/GrowthDirection.html">GrowthDirection.forward</a> growth direction.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="childrenDelegate" class="property">
+  <span class="name"><a href="widgets/ListView/childrenDelegate.html">childrenDelegate</a></span>
+  <span class="signature">&#8594; <a href="widgets/SliverChildDelegate-class.html">SliverChildDelegate</a></span>
+  
+
+</dt>
+<dd>
+  A delegate that provides the children for the <a href="widgets/ListView-class.html">ListView</a>.
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
+        <dt id="clipBehavior" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/clipBehavior.html">clipBehavior</a></span>
+  <span class="signature">&#8594; <a href="dart-ui/Clip.html">Clip</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  The content will be clipped (or not) according to this option.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="controller" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/controller.html">controller</a></span>
+  <span class="signature">&#8594; <a href="widgets/ScrollController-class.html">ScrollController</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  An object that can be used to control the position to which this scroll
+view is scrolled.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="dragStartBehavior" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/dragStartBehavior.html">dragStartBehavior</a></span>
+  <span class="signature">&#8594; <a href="gestures/DragStartBehavior.html">DragStartBehavior</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  Determines the way that drag start behavior is handled.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="hashCode" class="property inherited">
+  <span class="name"><a href="widgets/Widget/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="dart-core/int-class.html">int</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  The hash code for this object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="hitTestBehavior" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/hitTestBehavior.html">hitTestBehavior</a></span>
+  <span class="signature">&#8594; <a href="rendering/HitTestBehavior.html">HitTestBehavior</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  Defines the behavior of gesture detector used in this <a href="widgets/Scrollable-class.html">Scrollable</a>.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="itemExtent" class="property">
+  <span class="name"><a href="widgets/ListView/itemExtent.html">itemExtent</a></span>
+  <span class="signature">&#8594; <a href="dart-core/double-class.html">double</a>?</span>
+  
+
+</dt>
+<dd>
+  If non-null, forces the children to have the given extent in the scroll
+direction.
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
+        <dt id="itemExtentBuilder" class="property">
+  <span class="name"><a href="widgets/ListView/itemExtentBuilder.html">itemExtentBuilder</a></span>
+  <span class="signature">&#8594; <a href="rendering/ItemExtentBuilder.html">ItemExtentBuilder</a>?</span>
+  
+
+</dt>
+<dd>
+  If non-null, forces the children to have the corresponding extent returned
+by the builder.
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
+        <dt id="key" class="property inherited">
+  <span class="name"><a href="widgets/Widget/key.html">key</a></span>
+  <span class="signature">&#8594; <a href="foundation/Key-class.html">Key</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  Controls how one widget replaces another widget in the tree.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="keyboardDismissBehavior" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/keyboardDismissBehavior.html">keyboardDismissBehavior</a></span>
+  <span class="signature">&#8594; <a href="widgets/ScrollViewKeyboardDismissBehavior.html">ScrollViewKeyboardDismissBehavior</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  The <a href="widgets/ScrollViewKeyboardDismissBehavior.html">ScrollViewKeyboardDismissBehavior</a> defines how this <a href="widgets/ScrollView-class.html">ScrollView</a> will
+dismiss the keyboard automatically.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="padding" class="property inherited">
+  <span class="name"><a href="widgets/BoxScrollView/padding.html">padding</a></span>
+  <span class="signature">&#8594; <a href="painting/EdgeInsetsGeometry-class.html">EdgeInsetsGeometry</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  The amount of space by which to inset the children.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="paintOrder" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/paintOrder.html">paintOrder</a></span>
+  <span class="signature">&#8594; <a href="rendering/SliverPaintOrder.html">SliverPaintOrder</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  The order in which to paint the slivers;
+equivalently, the order in which to arrange them in the z-direction.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="physics" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/physics.html">physics</a></span>
+  <span class="signature">&#8594; <a href="widgets/ScrollPhysics-class.html">ScrollPhysics</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  How the scroll view should respond to user input.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="primary" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/primary.html">primary</a></span>
+  <span class="signature">&#8594; <a href="dart-core/bool-class.html">bool</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  Whether this is the primary scroll view associated with the parent
+<a href="widgets/PrimaryScrollController-class.html">PrimaryScrollController</a>.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="prototypeItem" class="property">
+  <span class="name"><a href="widgets/ListView/prototypeItem.html">prototypeItem</a></span>
+  <span class="signature">&#8594; <a href="widgets/Widget-class.html">Widget</a>?</span>
+  
+
+</dt>
+<dd>
+  If non-null, forces the children to have the same extent as the given
+widget in the scroll direction.
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
+        <dt id="restorationId" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/restorationId.html">restorationId</a></span>
+  <span class="signature">&#8594; <a href="dart-core/String-class.html">String</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  Restoration ID to save and restore the scroll offset of the scrollable.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="reverse" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/reverse.html">reverse</a></span>
+  <span class="signature">&#8594; <a href="dart-core/bool-class.html">bool</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  Whether the scroll view scrolls in the reading direction.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="dart-core/Type-class.html">Type</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object.
+  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="scrollBehavior" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/scrollBehavior.html">scrollBehavior</a></span>
+  <span class="signature">&#8594; <a href="widgets/ScrollBehavior-class.html">ScrollBehavior</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  A <a href="widgets/ScrollBehavior-class.html">ScrollBehavior</a> that will be applied to this widget individually.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="scrollCacheExtent" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/scrollCacheExtent.html">scrollCacheExtent</a></span>
+  <span class="signature">&#8594; <a href="rendering/ScrollCacheExtent-class.html">ScrollCacheExtent</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  The viewport has an area before and after the visible area to cache items
+that are about to become visible when the user scrolls.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="scrollDirection" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/scrollDirection.html">scrollDirection</a></span>
+  <span class="signature">&#8594; <a href="painting/Axis.html">Axis</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  The <a href="painting/Axis.html">Axis</a> along which the scroll view's offset increases.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="semanticChildCount" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/semanticChildCount.html">semanticChildCount</a></span>
+  <span class="signature">&#8594; <a href="dart-core/int-class.html">int</a>?</span>
+  
+
+</dt>
+<dd class="inherited">
+  The number of children that will contribute semantic information.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="shrinkWrap" class="property inherited">
+  <span class="name"><a href="widgets/ScrollView/shrinkWrap.html">shrinkWrap</a></span>
+  <span class="signature">&#8594; <a href="dart-core/bool-class.html">bool</a></span>
+  
+
+</dt>
+<dd class="inherited">
+  Whether the extent of the scroll view in the <a href="widgets/ScrollView/scrollDirection.html">scrollDirection</a> should be
+determined by the contents being viewed.
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="build" class="callable inherited">
+  <span class="name"><a href="widgets/ScrollView/build.html">build</a></span><span class="signature">(<wbr><span class="parameter" id="build-param-context"><span class="type-annotation"><a href="widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span>)
+    <span class="returntype parameter">&#8594; <a href="widgets/Widget-class.html">Widget</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Describes the part of the user interface represented by this widget.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="buildChildLayout" class="callable">
+  <span class="name"><a href="widgets/ListView/buildChildLayout.html">buildChildLayout</a></span><span class="signature">(<wbr><span class="parameter" id="buildChildLayout-param-context"><span class="type-annotation"><a href="widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span>)
+    <span class="returntype parameter">&#8594; <a href="widgets/Widget-class.html">Widget</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Subclasses should override this method to build the layout model.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="buildSlivers" class="callable inherited">
+  <span class="name"><a href="widgets/BoxScrollView/buildSlivers.html">buildSlivers</a></span><span class="signature">(<wbr><span class="parameter" id="buildSlivers-param-context"><span class="type-annotation"><a href="widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span>)
+    <span class="returntype parameter">&#8594; <a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="widgets/Widget-class.html">Widget</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Build the list of widgets to place inside the viewport.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="buildViewport" class="callable inherited">
+  <span class="name"><a href="widgets/ScrollView/buildViewport.html">buildViewport</a></span><span class="signature">(<wbr><span class="parameter" id="buildViewport-param-context"><span class="type-annotation"><a href="widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span>, </span><span class="parameter" id="buildViewport-param-offset"><span class="type-annotation"><a href="rendering/ViewportOffset-class.html">ViewportOffset</a></span> <span class="parameter-name">offset</span>, </span><span class="parameter" id="buildViewport-param-axisDirection"><span class="type-annotation"><a href="painting/AxisDirection.html">AxisDirection</a></span> <span class="parameter-name">axisDirection</span>, </span><span class="parameter" id="buildViewport-param-slivers"><span class="type-annotation"><a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="widgets/Widget-class.html">Widget</a></span>&gt;</span></span> <span class="parameter-name">slivers</span></span>)
+    <span class="returntype parameter">&#8594; <a href="widgets/Widget-class.html">Widget</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Build the viewport.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="createElement" class="callable inherited">
+  <span class="name"><a href="widgets/StatelessWidget/createElement.html">createElement</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="widgets/StatelessElement-class.html">StatelessElement</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Creates a <a href="widgets/StatelessElement-class.html">StatelessElement</a> to manage this widget's location in the tree.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="debugDescribeChildren" class="callable inherited">
+  <span class="name"><a href="foundation/DiagnosticableTree/debugDescribeChildren.html">debugDescribeChildren</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="foundation/DiagnosticsNode-class.html">DiagnosticsNode</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Returns a list of <a href="foundation/DiagnosticsNode-class.html">DiagnosticsNode</a> objects describing this node's
+children.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="debugFillProperties" class="callable">
+  <span class="name"><a href="widgets/ListView/debugFillProperties.html">debugFillProperties</a></span><span class="signature">(<wbr><span class="parameter" id="debugFillProperties-param-properties"><span class="type-annotation"><a href="foundation/DiagnosticPropertiesBuilder-class.html">DiagnosticPropertiesBuilder</a></span> <span class="parameter-name">properties</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Add additional properties associated with the node.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="getDirection" class="callable inherited">
+  <span class="name"><a href="widgets/ScrollView/getDirection.html">getDirection</a></span><span class="signature">(<wbr><span class="parameter" id="getDirection-param-context"><span class="type-annotation"><a href="widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span>)
+    <span class="returntype parameter">&#8594; <a href="painting/AxisDirection.html">AxisDirection</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Returns the <a href="painting/AxisDirection.html">AxisDirection</a> in which the scroll view scrolls.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a nonexistent method or property is accessed.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="toDiagnosticsNode" class="callable inherited">
+  <span class="name"><a href="foundation/DiagnosticableTree/toDiagnosticsNode.html">toDiagnosticsNode</a></span><span class="signature">(<wbr>{<span class="parameter" id="toDiagnosticsNode-param-name"><span class="type-annotation"><a href="dart-core/String-class.html">String</a>?</span> <span class="parameter-name">name</span>, </span><span class="parameter" id="toDiagnosticsNode-param-style"><span class="type-annotation"><a href="foundation/DiagnosticsTreeStyle.html">DiagnosticsTreeStyle</a>?</span> <span class="parameter-name">style</span></span>})
+    <span class="returntype parameter">&#8594; <a href="foundation/DiagnosticsNode-class.html">DiagnosticsNode</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Returns a debug representation of the object that is used by debugging
+tools and by <a href="foundation/DiagnosticsNode/toStringDeep.html">DiagnosticsNode.toStringDeep</a>.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="foundation/Diagnosticable/toString.html">toString</a></span><span class="signature">(<wbr>{<span class="parameter" id="toString-param-minLevel"><span class="type-annotation"><a href="foundation/DiagnosticLevel.html">DiagnosticLevel</a></span> <span class="parameter-name">minLevel</span> = <span class="default-value">DiagnosticLevel.info</span></span>})
+    <span class="returntype parameter">&#8594; <a href="dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="toStringDeep" class="callable inherited">
+  <span class="name"><a href="foundation/DiagnosticableTree/toStringDeep.html">toStringDeep</a></span><span class="signature">(<wbr>{<span class="parameter" id="toStringDeep-param-prefixLineOne"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">prefixLineOne</span> = <span class="default-value">&#39;&#39;</span>, </span><span class="parameter" id="toStringDeep-param-prefixOtherLines"><span class="type-annotation"><a href="dart-core/String-class.html">String</a>?</span> <span class="parameter-name">prefixOtherLines</span>, </span><span class="parameter" id="toStringDeep-param-minLevel"><span class="type-annotation"><a href="foundation/DiagnosticLevel.html">DiagnosticLevel</a></span> <span class="parameter-name">minLevel</span> = <span class="default-value">DiagnosticLevel.debug</span>, </span><span class="parameter" id="toStringDeep-param-wrapWidth"><span class="type-annotation"><a href="dart-core/int-class.html">int</a></span> <span class="parameter-name">wrapWidth</span> = <span class="default-value">65</span></span>})
+    <span class="returntype parameter">&#8594; <a href="dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Returns a string representation of this node and its descendants.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="toStringShallow" class="callable inherited">
+  <span class="name"><a href="foundation/DiagnosticableTree/toStringShallow.html">toStringShallow</a></span><span class="signature">(<wbr>{<span class="parameter" id="toStringShallow-param-joiner"><span class="type-annotation"><a href="dart-core/String-class.html">String</a></span> <span class="parameter-name">joiner</span> = <span class="default-value">&#39;, &#39;</span>, </span><span class="parameter" id="toStringShallow-param-minLevel"><span class="type-annotation"><a href="foundation/DiagnosticLevel.html">DiagnosticLevel</a></span> <span class="parameter-name">minLevel</span> = <span class="default-value">DiagnosticLevel.debug</span></span>})
+    <span class="returntype parameter">&#8594; <a href="dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Returns a one-line detailed description of the object.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="toStringShort" class="callable inherited">
+  <span class="name"><a href="widgets/Widget/toStringShort.html">toStringShort</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A short, textual description of this widget.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+  <span class="name"><a href="widgets/Widget/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  The equality operator.
+  <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+    
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="index.html">Flutter</a></li>
+    <li><a href="widgets/">widgets</a></li>
+    <li class="self-crumb">ListView class</li>
+</ol>
+
+    <h5>widgets library</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    Flutter
+      0.0.0
+  </span>
+  <script src="footer.js"></script>
+</footer>
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/docs.dart.js"></script>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-ND4LWWZ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Cookie Banner -->
+<div class="glue-footer"></div>
+<button aria-hidden="true" class="glue-footer__link glue-cookie-notification-bar-control">Cookies management controls</button>
+<script src="https://www.gstatic.com/glue/cookienotificationbar/cookienotificationbar.min.js" data-glue-cookie-notification-bar-category="2B"></script>
+<!-- End Cookie Banner -->
+
+</body>
+</html>
+

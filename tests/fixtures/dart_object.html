@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the Object class from the dart:core library, for the Dart programming language.">
+  <title>Object class - dart:core library - Dart API</title>
+  <link rel="canonical" href="https://api.dart.dev/dart-core/Object-class.html">
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VVQ8908SJ5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VVQ8908SJ5');
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400&family=Google+Sans:wght@500&display=swap" as="style">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400&family=Google+Sans:wght@500&display=swap">
+<link rel="stylesheet" href="https://www.gstatic.com/glue/cookienotificationbar/cookienotificationbar.min.css">
+
+</head>
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">Dart</a></li>
+    <li><a href="../dart-core/">dart:core</a></li>
+    <li class="self-crumb">Object class</li>
+  </ol>
+  <div class="self-name">Object</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="dart-core&#47;dart-core-library-sidebar.html"
+    data-below-sidebar="dart-core&#47;Object-class-sidebar.html">
+    <div>
+  <div id="external-links" class="btn-group"><a title="View source code" class="source-link" href="https://github.com/dart-lang/sdk/blob/04bcd1036cdc799ac6564988f159ee454d42c822/sdk/lib/core/core.dart#L22"><span class="material-symbols-outlined">description</span></a></div>
+<h1><span class="kind-class">Object</span> class 
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>The base class for all Dart objects except <code>null</code>.</p>
+<p>Because <code>Object</code> is a root of the non-nullable Dart class hierarchy,
+every other non-<code>Null</code> Dart class is a subclass of <code>Object</code>.</p>
+<p>When you define a class, you should consider overriding <a href="../dart-core/Object/toString.html">toString</a>
+to return a string describing an instance of that class.
+You might also need to define <a href="../dart-core/Object/hashCode.html">hashCode</a> and <a href="../dart-core/Object/operator_equals.html">operator ==</a>, as described in the
+<a href="https://dart.dev/libraries/dart-core#implementing-map-keys">Implementing map keys</a>
+section of the <a href="https://dart.dev/libraries/dart-core">introduction to <code>dart:core</code></a>.</p>
+</section>
+
+
+    <section>
+      <dl class="dl-horizontal">
+        
+
+        
+        
+
+          <dt>Implementers</dt>
+          <dd><ul class="comma-separated clazz-relationships">
+              <li><a href="../dart-ffi/Abi-class.html">Abi</a></li>
+              <li><a href="../dart-ffi/AbiSpecificInteger-class.html">AbiSpecificInteger</a></li>
+              <li><a href="../dart-ffi/AbiSpecificIntegerMapping-class.html">AbiSpecificIntegerMapping</a></li>
+              <li><a href="../dart-html/AbstractWorker-class.html">AbstractWorker</a></li>
+              <li><a href="../dart-html/AccessibleNodeList-class.html">AccessibleNodeList</a></li>
+              <li><a href="../dart-web_gl/ActiveInfo-class.html">ActiveInfo</a></li>
+              <li><a href="../dart-ffi/Allocator-class.html">Allocator</a></li>
+              <li><a href="../dart-svg/Angle-class.html">Angle</a></li>
+              <li><a href="../dart-web_gl/AngleInstancedArrays-class.html">AngleInstancedArrays</a></li>
+              <li><a href="../dart-svg/AnimatedAngle-class.html">AnimatedAngle</a></li>
+              <li><a href="../dart-svg/AnimatedBoolean-class.html">AnimatedBoolean</a></li>
+              <li><a href="../dart-svg/AnimatedEnumeration-class.html">AnimatedEnumeration</a></li>
+              <li><a href="../dart-svg/AnimatedInteger-class.html">AnimatedInteger</a></li>
+              <li><a href="../dart-svg/AnimatedLength-class.html">AnimatedLength</a></li>
+              <li><a href="../dart-svg/AnimatedLengthList-class.html">AnimatedLengthList</a></li>
+              <li><a href="../dart-svg/AnimatedNumber-class.html">AnimatedNumber</a></li>
+              <li><a href="../dart-svg/AnimatedNumberList-class.html">AnimatedNumberList</a></li>
+              <li><a href="../dart-svg/AnimatedPreserveAspectRatio-class.html">AnimatedPreserveAspectRatio</a></li>
+              <li><a href="../dart-svg/AnimatedRect-class.html">AnimatedRect</a></li>
+              <li><a href="../dart-svg/AnimatedString-class.html">AnimatedString</a></li>
+              <li><a href="../dart-svg/AnimatedTransformList-class.html">AnimatedTransformList</a></li>
+              <li><a href="../dart-html/AnimationEffectReadOnly-class.html">AnimationEffectReadOnly</a></li>
+              <li><a href="../dart-html/AnimationEffectTimingReadOnly-class.html">AnimationEffectTimingReadOnly</a></li>
+              <li><a href="../dart-html/AnimationTimeline-class.html">AnimationTimeline</a></li>
+              <li><a href="../dart-ffi/Array-class.html">Array</a></li>
+              <li><a href="../dart-async/AsyncError-class.html">AsyncError</a></li>
+              <li><a href="../dart-web_audio/AudioBuffer-class.html">AudioBuffer</a></li>
+              <li><a href="../dart-web_audio/AudioListener-class.html">AudioListener</a></li>
+              <li><a href="../dart-web_audio/AudioParam-class.html">AudioParam</a></li>
+              <li><a href="../dart-web_audio/AudioParamMap-class.html">AudioParamMap</a></li>
+              <li><a href="../dart-web_audio/AudioTrack-class.html">AudioTrack</a></li>
+              <li><a href="../dart-web_audio/AudioWorkletProcessor-class.html">AudioWorkletProcessor</a></li>
+              <li><a href="../dart-html/AuthenticatorResponse-class.html">AuthenticatorResponse</a></li>
+              <li><a href="../dart-html/BackgroundFetchFetch-class.html">BackgroundFetchFetch</a></li>
+              <li><a href="../dart-html/BackgroundFetchManager-class.html">BackgroundFetchManager</a></li>
+              <li><a href="../dart-html/BarcodeDetector-class.html">BarcodeDetector</a></li>
+              <li><a class="deprecated" href="../dart-html/BarProp-class.html">BarProp</a></li>
+              <li><a href="../dart-core/BigInt-class.html">BigInt</a></li>
+              <li><a href="../dart-html/Blob-class.html">Blob</a></li>
+              <li><a href="../dart-html/BluetoothRemoteGattDescriptor-class.html">BluetoothRemoteGattDescriptor</a></li>
+              <li><a href="../dart-html/Body-class.html">Body</a></li>
+              <li><a href="../dart-ffi/Bool-class.html">Bool</a></li>
+              <li><a href="../dart-core/bool-class.html">bool</a></li>
+              <li><a href="../dart-html/BudgetState-class.html">BudgetState</a></li>
+              <li><a href="../dart-web_gl/Buffer-class.html">Buffer</a></li>
+              <li><a href="../dart-html/ButtonInputElement-class.html">ButtonInputElement</a></li>
+              <li><a href="../dart-typed_data/ByteBuffer-class.html">ByteBuffer</a></li>
+              <li><a href="../dart-convert/ByteConversionSink-class.html">ByteConversionSink</a></li>
+              <li><a href="../dart-typed_data/ByteData-class.html">ByteData</a></li>
+              <li><a href="../dart-typed_data/BytesBuilder-class.html">BytesBuilder</a></li>
+              <li><a href="../dart-html/CacheStorage-class.html">CacheStorage</a></li>
+              <li><a href="../dart-web_gl/Canvas-class.html">Canvas</a></li>
+              <li><a href="../dart-html/CanvasGradient-class.html">CanvasGradient</a></li>
+              <li><a href="../dart-html/CanvasImageSource-class.html">CanvasImageSource</a></li>
+              <li><a href="../dart-html/CanvasPattern-class.html">CanvasPattern</a></li>
+              <li><a href="../dart-html/CanvasRenderingContext-class.html">CanvasRenderingContext</a></li>
+              <li><a href="../dart-html/CanvasRenderingContext2D-class.html">CanvasRenderingContext2D</a></li>
+              <li><a href="../dart-isolate/Capability-class.html">Capability</a></li>
+              <li><a href="../dart-html/CheckboxInputElement-class.html">CheckboxInputElement</a></li>
+              <li><a href="../dart-html/ChildNode-class.html">ChildNode</a></li>
+              <li><a href="../dart-convert/ChunkedConversionSink-class.html">ChunkedConversionSink</a></li>
+              <li><a href="../dart-mirrors/ClassMirror-class.html">ClassMirror</a></li>
+              <li><a href="../dart-html/Client-class.html">Client</a></li>
+              <li><a href="../dart-html/Clients-class.html">Clients</a></li>
+              <li><a href="../dart-convert/ClosableStringSink-class.html">ClosableStringSink</a></li>
+              <li><a href="../dart-mirrors/ClosureMirror-class.html">ClosureMirror</a></li>
+              <li><a href="../dart-convert/Codec-class.html">Codec</a></li>
+              <li><a href="../dart-web_gl/ColorBufferFloat-class.html">ColorBufferFloat</a></li>
+              <li><a href="../dart-mirrors/CombinatorMirror-class.html">CombinatorMirror</a></li>
+              <li><a href="../dart-core/Comparable-class.html">Comparable</a></li>
+              <li><a href="../dart-async/Completer-class.html">Completer</a></li>
+              <li><a href="../dart-web_gl/CompressedTextureAstc-class.html">CompressedTextureAstc</a></li>
+              <li><a href="../dart-web_gl/CompressedTextureAtc-class.html">CompressedTextureAtc</a></li>
+              <li><a href="../dart-web_gl/CompressedTextureEtc-class.html">CompressedTextureEtc</a></li>
+              <li><a href="../dart-web_gl/CompressedTextureETC1-class.html">CompressedTextureETC1</a></li>
+              <li><a href="../dart-web_gl/CompressedTexturePvrtc-class.html">CompressedTexturePvrtc</a></li>
+              <li><a href="../dart-web_gl/CompressedTextureS3TC-class.html">CompressedTextureS3TC</a></li>
+              <li><a href="../dart-web_gl/CompressedTextureS3TCsRgb-class.html">CompressedTextureS3TCsRgb</a></li>
+              <li><a href="../dart-io/CompressionOptions-class.html">CompressionOptions</a></li>
+              <li><a href="../dart-io/ConnectionTask-class.html">ConnectionTask</a></li>
+              <li><a href="../dart-html/Console-class.html">Console</a></li>
+              <li><a href="../dart-io/ContentType-class.html">ContentType</a></li>
+              <li><a href="../dart-convert/Converter-class.html">Converter</a></li>
+              <li><a href="../dart-io/Cookie-class.html">Cookie</a></li>
+              <li><a href="../dart-html/CookieStore-class.html">CookieStore</a></li>
+              <li><a href="../dart-html/Coordinates-class.html">Coordinates</a></li>
+              <li><a href="../dart-developer/CreationLocation-class.html">CreationLocation</a></li>
+              <li><a href="../dart-html/Credential-class.html">Credential</a></li>
+              <li><a href="../dart-html/CredentialsContainer-class.html">CredentialsContainer</a></li>
+              <li><a href="../dart-html/CredentialUserData-class.html">CredentialUserData</a></li>
+              <li><a href="../dart-html/Crypto-class.html">Crypto</a></li>
+              <li><a href="../dart-html/CryptoKey-class.html">CryptoKey</a></li>
+              <li><a href="../dart-html/Css-class.html">Css</a></li>
+              <li><a href="../dart-html/CssClassSet-class.html">CssClassSet</a></li>
+              <li><a href="../dart-html/CssRect-class.html">CssRect</a></li>
+              <li><a href="../dart-html/CssRule-class.html">CssRule</a></li>
+              <li><a href="../dart-html/CssStyleDeclaration-class.html">CssStyleDeclaration</a></li>
+              <li><a href="../dart-html/CssStyleDeclarationBase-class.html">CssStyleDeclarationBase</a></li>
+              <li><a href="../dart-html/CssStyleValue-class.html">CssStyleValue</a></li>
+              <li><a href="../dart-html/CssTransformComponent-class.html">CssTransformComponent</a></li>
+              <li><a href="../dart-html/CssVariableReferenceValue-class.html">CssVariableReferenceValue</a></li>
+              <li><a href="../dart-indexed_db/Cursor-class.html">Cursor</a></li>
+              <li><a href="../dart-html/CustomElementRegistry-class.html">CustomElementRegistry</a></li>
+              <li><a href="../dart-html/CustomStream-class.html">CustomStream</a></li>
+              <li><a href="../dart-ffi/DartRepresentationOf-class.html">DartRepresentationOf</a></li>
+              <li><a href="../dart-io/Datagram-class.html">Datagram</a></li>
+              <li><a href="../dart-html/DataTransfer-class.html">DataTransfer</a></li>
+              <li><a href="../dart-html/DataTransferItem-class.html">DataTransferItem</a></li>
+              <li><a href="../dart-html/DataTransferItemList-class.html">DataTransferItemList</a></li>
+              <li><a href="../dart-html/DateInputElement-class.html">DateInputElement</a></li>
+              <li><a href="../dart-core/DateTime-class.html">DateTime</a></li>
+              <li><a href="../dart-web_gl/DebugRendererInfo-class.html">DebugRendererInfo</a></li>
+              <li><a href="../dart-web_gl/DebugShaders-class.html">DebugShaders</a></li>
+              <li><a href="../dart-mirrors/DeclarationMirror-class.html">DeclarationMirror</a></li>
+              <li><a href="../dart-ffi/DefaultAsset-class.html">DefaultAsset</a></li>
+              <li><a href="../dart-async/DeferredLoadException-class.html">DeferredLoadException</a></li>
+              <li><a href="../dart-core/Deprecated-class.html">Deprecated</a></li>
+              <li><a href="../dart-html/DeprecatedStorageInfo-class.html">DeprecatedStorageInfo</a></li>
+              <li><a href="../dart-html/DeprecatedStorageQuota-class.html">DeprecatedStorageQuota</a></li>
+              <li><a href="../dart-web_gl/DepthTexture-class.html">DepthTexture</a></li>
+              <li><a href="../dart-html/DetectedBarcode-class.html">DetectedBarcode</a></li>
+              <li><a href="../dart-html/DetectedFace-class.html">DetectedFace</a></li>
+              <li><a href="../dart-html/DetectedText-class.html">DetectedText</a></li>
+              <li><a href="../dart-html/DeviceAcceleration-class.html">DeviceAcceleration</a></li>
+              <li><a href="../dart-html/DeviceRotationRate-class.html">DeviceRotationRate</a></li>
+              <li><a href="../dart-html/Dimension-class.html">Dimension</a></li>
+              <li><a href="../dart-io/Directory-class.html">Directory</a></li>
+              <li><a href="../dart-html/DirectoryReader-class.html">DirectoryReader</a></li>
+              <li><a href="../dart-html/DocumentOrShadowRoot-class.html">DocumentOrShadowRoot</a></li>
+              <li><a href="../dart-html/DomError-class.html">DomError</a></li>
+              <li><a href="../dart-html/DomException-class.html">DomException</a></li>
+              <li><a href="../dart-html/DomImplementation-class.html">DomImplementation</a></li>
+              <li><a href="../dart-html/DomIterator-class.html">DomIterator</a></li>
+              <li><a href="../dart-html/DomMatrixReadOnly-class.html">DomMatrixReadOnly</a></li>
+              <li><a href="../dart-html/DomParser-class.html">DomParser</a></li>
+              <li><a href="../dart-html/DomPointReadOnly-class.html">DomPointReadOnly</a></li>
+              <li><a href="../dart-html/DomQuad-class.html">DomQuad</a></li>
+              <li><a href="../dart-html/DomRectList-class.html">DomRectList</a></li>
+              <li><a href="../dart-html/DomRectReadOnly-class.html">DomRectReadOnly</a></li>
+              <li><a href="../dart-html/DomStringList-class.html">DomStringList</a></li>
+              <li><a href="../dart-html/DomStringMap-class.html">DomStringMap</a></li>
+              <li><a href="../dart-html/DomTokenList-class.html">DomTokenList</a></li>
+              <li><a href="../dart-ffi/Double-class.html">Double</a></li>
+              <li><a href="../dart-collection/DoubleLinkedQueueEntry-class.html">DoubleLinkedQueueEntry</a></li>
+              <li><a href="../dart-web_gl/DrawBuffers-class.html">DrawBuffers</a></li>
+              <li><a href="../dart-core/Duration-class.html">Duration</a></li>
+              <li><a href="../dart-ffi/DynamicLibrary-class.html">DynamicLibrary</a></li>
+              <li><a href="../dart-html/ElementStream-class.html">ElementStream</a></li>
+              <li><a href="../dart-html/ElementUpgrader-class.html">ElementUpgrader</a></li>
+              <li><a href="../dart-html/EmailInputElement-class.html">EmailInputElement</a></li>
+              <li><a href="../dart-typed_data/Endian-class.html">Endian</a></li>
+              <li><a href="../dart-html/Entry-class.html">Entry</a></li>
+              <li><a href="../dart-core/Enum-class.html">Enum</a></li>
+              <li><a href="../dart-core/Error-class.html">Error</a></li>
+              <li><a href="../dart-html/Event-class.html">Event</a></li>
+              <li><a href="../dart-html/Events-class.html">Events</a></li>
+              <li><a href="../dart-async/EventSink-class.html">EventSink</a></li>
+              <li><a href="../dart-html/EventStreamProvider-class.html">EventStreamProvider</a></li>
+              <li><a href="../dart-html/EventTarget-class.html">EventTarget</a></li>
+              <li><a href="../dart-core/Exception-class.html">Exception</a></li>
+              <li><a href="../dart-core/Expando-class.html">Expando</a></li>
+              <li><a href="../dart-web_gl/ExtBlendMinMax-class.html">ExtBlendMinMax</a></li>
+              <li><a href="../dart-web_gl/ExtColorBufferFloat-class.html">ExtColorBufferFloat</a></li>
+              <li><a href="../dart-web_gl/ExtColorBufferHalfFloat-class.html">ExtColorBufferHalfFloat</a></li>
+              <li><a href="../dart-web_gl/ExtDisjointTimerQuery-class.html">ExtDisjointTimerQuery</a></li>
+              <li><a href="../dart-web_gl/ExtDisjointTimerQueryWebGL2-class.html">ExtDisjointTimerQueryWebGL2</a></li>
+              <li><a href="../dart-html/External-class.html">External</a></li>
+              <li><a href="../dart-web_gl/ExtFragDepth-class.html">ExtFragDepth</a></li>
+              <li><a href="../dart-web_gl/ExtShaderTextureLod-class.html">ExtShaderTextureLod</a></li>
+              <li><a href="../dart-web_gl/EXTsRgb-class.html">EXTsRgb</a></li>
+              <li><a href="../dart-web_gl/ExtTextureFilterAnisotropic-class.html">ExtTextureFilterAnisotropic</a></li>
+              <li><a href="../dart-html/FaceDetector-class.html">FaceDetector</a></li>
+              <li><a href="../dart-io/File-class.html">File</a></li>
+              <li><a href="../dart-html/FileList-class.html">FileList</a></li>
+              <li><a href="../dart-io/FileLock-class.html">FileLock</a></li>
+              <li><a href="../dart-io/FileMode-class.html">FileMode</a></li>
+              <li><a href="../dart-io/FileStat-class.html">FileStat</a></li>
+              <li><a href="../dart-html/FileSystem-class.html">FileSystem</a></li>
+              <li><a href="../dart-io/FileSystemEntity-class.html">FileSystemEntity</a></li>
+              <li><a href="../dart-io/FileSystemEntityType-class.html">FileSystemEntityType</a></li>
+              <li><a href="../dart-io/FileSystemEvent-class.html">FileSystemEvent</a></li>
+              <li><a href="../dart-io/FileSystemException-class.html">FileSystemException</a></li>
+              <li><a href="../dart-html/FileUploadInputElement-class.html">FileUploadInputElement</a></li>
+              <li><a href="../dart-svg/FilterPrimitiveStandardAttributes-class.html">FilterPrimitiveStandardAttributes</a></li>
+              <li><a href="../dart-ffi/Finalizable-class.html">Finalizable</a></li>
+              <li><a href="../dart-core/Finalizer-class.html">Finalizer</a></li>
+              <li><a href="../dart-svg/FitToViewBox-class.html">FitToViewBox</a></li>
+              <li><a href="../dart-html/FixedSizeListIterator-class.html">FixedSizeListIterator</a></li>
+              <li><a href="../dart-ffi/Float-class.html">Float</a></li>
+              <li><a href="../dart-typed_data/Float32List-class.html">Float32List</a></li>
+              <li><a href="../dart-typed_data/Float32x4-class.html">Float32x4</a></li>
+              <li><a href="../dart-typed_data/Float32x4List-class.html">Float32x4List</a></li>
+              <li><a href="../dart-typed_data/Float64List-class.html">Float64List</a></li>
+              <li><a href="../dart-typed_data/Float64x2-class.html">Float64x2</a></li>
+              <li><a href="../dart-typed_data/Float64x2List-class.html">Float64x2List</a></li>
+              <li><a href="../dart-developer/Flow-class.html">Flow</a></li>
+              <li><a href="../dart-html/FontFace-class.html">FontFace</a></li>
+              <li><a href="../dart-html/FontFaceSource-class.html">FontFaceSource</a></li>
+              <li><a href="../dart-core/FormatException-class.html">FormatException</a></li>
+              <li><a href="../dart-html/FormData-class.html">FormData</a></li>
+              <li><a href="../dart-web_gl/Framebuffer-class.html">Framebuffer</a></li>
+              <li><a href="../dart-core/Function-class.html">Function</a></li>
+              <li><a href="../dart-mirrors/FunctionTypeMirror-class.html">FunctionTypeMirror</a></li>
+              <li><a href="../dart-async/Future-class.html">Future</a></li>
+              <li><a href="../dart-async/FutureOr-class.html">FutureOr</a></li>
+              <li><a href="../dart-html/Gamepad-class.html">Gamepad</a></li>
+              <li><a href="../dart-html/GamepadButton-class.html">GamepadButton</a></li>
+              <li><a href="../dart-html/GamepadPose-class.html">GamepadPose</a></li>
+              <li><a href="../dart-html/Geolocation-class.html">Geolocation</a></li>
+              <li><a href="../dart-html/Geoposition-class.html">Geoposition</a></li>
+              <li><a href="../dart-web_gl/GetBufferSubDataAsync-class.html">GetBufferSubDataAsync</a></li>
+              <li><a href="../dart-html/GlobalEventHandlers-class.html">GlobalEventHandlers</a></li>
+              <li><a href="../dart-ffi/Handle-class.html">Handle</a></li>
+              <li><a href="../dart-collection/HashMap-class.html">HashMap</a></li>
+              <li><a href="../dart-collection/HashSet-class.html">HashSet</a></li>
+              <li><a class="deprecated" href="../dart-collection/HasNextIterator-class.html">HasNextIterator</a></li>
+              <li><a href="../dart-html/Headers-class.html">Headers</a></li>
+              <li><a href="../dart-io/HeaderValue-class.html">HeaderValue</a></li>
+              <li><a href="../dart-html/HiddenInputElement-class.html">HiddenInputElement</a></li>
+              <li><a href="../dart-html/History-class.html">History</a></li>
+              <li><a href="../dart-html/HistoryBase-class.html">HistoryBase</a></li>
+              <li><a href="../dart-html/HtmlCollection-class.html">HtmlCollection</a></li>
+              <li><a href="../dart-convert/HtmlEscapeMode-class.html">HtmlEscapeMode</a></li>
+              <li><a href="../dart-html/HtmlHyperlinkElementUtils-class.html">HtmlHyperlinkElementUtils</a></li>
+              <li><a href="../dart-io/HttpClient-class.html">HttpClient</a></li>
+              <li><a href="../dart-io/HttpClientBasicCredentials-class.html">HttpClientBasicCredentials</a></li>
+              <li><a href="../dart-io/HttpClientBearerCredentials-class.html">HttpClientBearerCredentials</a></li>
+              <li><a href="../dart-io/HttpClientCredentials-class.html">HttpClientCredentials</a></li>
+              <li><a href="../dart-io/HttpClientDigestCredentials-class.html">HttpClientDigestCredentials</a></li>
+              <li><a href="../dart-io/HttpClientRequest-class.html">HttpClientRequest</a></li>
+              <li><a href="../dart-io/HttpClientResponse-class.html">HttpClientResponse</a></li>
+              <li><a href="../dart-io/HttpConnectionInfo-class.html">HttpConnectionInfo</a></li>
+              <li><a href="../dart-io/HttpConnectionsInfo-class.html">HttpConnectionsInfo</a></li>
+              <li><a href="../dart-io/HttpDate-class.html">HttpDate</a></li>
+              <li><a href="../dart-io/HttpException-class.html">HttpException</a></li>
+              <li><a href="../dart-io/HttpHeaders-class.html">HttpHeaders</a></li>
+              <li><a href="../dart-io/HttpOverrides-class.html">HttpOverrides</a></li>
+              <li><a href="../dart-io/HttpRequest-class.html">HttpRequest</a></li>
+              <li><a href="../dart-io/HttpResponse-class.html">HttpResponse</a></li>
+              <li><a href="../dart-io/HttpServer-class.html">HttpServer</a></li>
+              <li><a href="../dart-io/HttpSession-class.html">HttpSession</a></li>
+              <li><a href="../dart-html/HttpStatus-class.html">HttpStatus</a></li>
+              <li><a href="../dart-indexed_db/IdbFactory-class.html">IdbFactory</a></li>
+              <li><a href="../dart-html/IdleDeadline-class.html">IdleDeadline</a></li>
+              <li><a href="../dart-html/ImageBitmap-class.html">ImageBitmap</a></li>
+              <li><a href="../dart-html/ImageBitmapRenderingContext-class.html">ImageBitmapRenderingContext</a></li>
+              <li><a href="../dart-html/ImageButtonInputElement-class.html">ImageButtonInputElement</a></li>
+              <li><a href="../dart-html/ImageCapture-class.html">ImageCapture</a></li>
+              <li><a href="../dart-html/ImageData-class.html">ImageData</a></li>
+              <li><a href="../dart-html/ImmutableListMixin-class.html">ImmutableListMixin</a></li>
+              <li><a href="../dart-indexed_db/Index-class.html">Index</a></li>
+              <li><a href="../dart-html/InputDeviceCapabilities-class.html">InputDeviceCapabilities</a></li>
+              <li><a href="../dart-html/InputElementBase-class.html">InputElementBase</a></li>
+              <li><a href="../dart-mirrors/InstanceMirror-class.html">InstanceMirror</a></li>
+              <li><a href="../dart-ffi/Int8-class.html">Int8</a></li>
+              <li><a href="../dart-typed_data/Int8List-class.html">Int8List</a></li>
+              <li><a href="../dart-ffi/Int16-class.html">Int16</a></li>
+              <li><a href="../dart-typed_data/Int16List-class.html">Int16List</a></li>
+              <li><a href="../dart-ffi/Int32-class.html">Int32</a></li>
+              <li><a href="../dart-typed_data/Int32List-class.html">Int32List</a></li>
+              <li><a href="../dart-typed_data/Int32x4-class.html">Int32x4</a></li>
+              <li><a href="../dart-typed_data/Int32x4List-class.html">Int32x4List</a></li>
+              <li><a href="../dart-ffi/Int64-class.html">Int64</a></li>
+              <li><a href="../dart-typed_data/Int64List-class.html">Int64List</a></li>
+              <li><a class="deprecated" href="../dart-core/IntegerDivisionByZeroException-class.html">IntegerDivisionByZeroException</a></li>
+              <li><a href="../dart-io/InterfaceAddress-class.html">InterfaceAddress</a></li>
+              <li><a href="../dart-io/InternetAddress-class.html">InternetAddress</a></li>
+              <li><a href="../dart-io/InternetAddressType-class.html">InternetAddressType</a></li>
+              <li><a href="../dart-html/IntersectionObserver-class.html">IntersectionObserver</a></li>
+              <li><a href="../dart-html/IntersectionObserverEntry-class.html">IntersectionObserverEntry</a></li>
+              <li><a href="../dart-core/Invocation-class.html">Invocation</a></li>
+              <li><a href="../dart-io/IOException-class.html">IOException</a></li>
+              <li><a href="../dart-io/IOOverrides-class.html">IOOverrides</a></li>
+              <li><a href="../dart-io/IOSink-class.html">IOSink</a></li>
+              <li><a href="../dart-isolate/Isolate-class.html">Isolate</a></li>
+              <li><a href="../dart-mirrors/IsolateMirror-class.html">IsolateMirror</a></li>
+              <li><a href="../dart-isolate/IsolateSpawnException-class.html">IsolateSpawnException</a></li>
+              <li><a href="../dart-core/Iterable-class.html">Iterable</a></li>
+              <li><a href="../dart-core/Iterator-class.html">Iterator</a></li>
+              <li><a href="../dart-js_interop/JS-class.html">JS</a></li>
+              <li><a href="../dart-js_interop/JSAny-extension-type.html">JSAny</a></li>
+              <li><a href="../dart-js_interop/JSArray-extension-type.html">JSArray</a></li>
+              <li><a href="../dart-js_interop/JSArrayBuffer-extension-type.html">JSArrayBuffer</a></li>
+              <li><a href="../dart-js_interop/JSBigInt-extension-type.html">JSBigInt</a></li>
+              <li><a href="../dart-js_interop/JSBoolean-extension-type.html">JSBoolean</a></li>
+              <li><a href="../dart-js_interop/JSBoxedDartObject-extension-type.html">JSBoxedDartObject</a></li>
+              <li><a href="../dart-js_interop/JSDataView-extension-type.html">JSDataView</a></li>
+              <li><a href="../dart-js_interop/JSExport-class.html">JSExport</a></li>
+              <li><a href="../dart-js_interop/JSExportedDartFunction-extension-type.html">JSExportedDartFunction</a></li>
+              <li><a href="../dart-js_interop/JSFloat32Array-extension-type.html">JSFloat32Array</a></li>
+              <li><a href="../dart-js_interop/JSFloat64Array-extension-type.html">JSFloat64Array</a></li>
+              <li><a href="../dart-js_interop/JSFunction-extension-type.html">JSFunction</a></li>
+              <li><a href="../dart-js_interop/JSInt8Array-extension-type.html">JSInt8Array</a></li>
+              <li><a href="../dart-js_interop/JSInt16Array-extension-type.html">JSInt16Array</a></li>
+              <li><a href="../dart-js_interop/JSInt32Array-extension-type.html">JSInt32Array</a></li>
+              <li><a href="../dart-js_interop/JSNumber-extension-type.html">JSNumber</a></li>
+              <li><a href="../dart-js_interop/JSObject-extension-type.html">JSObject</a></li>
+              <li><a href="../dart-js/JsObject-class.html">JsObject</a></li>
+              <li><a href="../dart-js_interop/JSPromise-extension-type.html">JSPromise</a></li>
+              <li><a href="../dart-js_interop/JSString-extension-type.html">JSString</a></li>
+              <li><a href="../dart-js_interop/JSSymbol-extension-type.html">JSSymbol</a></li>
+              <li><a href="../dart-js_interop/JSTypedArray-extension-type.html">JSTypedArray</a></li>
+              <li><a href="../dart-js_interop/JSUint8Array-extension-type.html">JSUint8Array</a></li>
+              <li><a href="../dart-js_interop/JSUint8ClampedArray-extension-type.html">JSUint8ClampedArray</a></li>
+              <li><a href="../dart-js_interop/JSUint16Array-extension-type.html">JSUint16Array</a></li>
+              <li><a href="../dart-js_interop/JSUint32Array-extension-type.html">JSUint32Array</a></li>
+              <li><a href="../dart-html/KeyboardEventStream-class.html">KeyboardEventStream</a></li>
+              <li><a href="../dart-html/KeyCode-class.html">KeyCode</a></li>
+              <li><a href="../dart-html/KeyEvent-class.html">KeyEvent</a></li>
+              <li><a href="../dart-html/KeyLocation-class.html">KeyLocation</a></li>
+              <li><a href="../dart-indexed_db/KeyRange-class.html">KeyRange</a></li>
+              <li><a href="../dart-svg/Length-class.html">Length</a></li>
+              <li><a href="../dart-svg/LengthList-class.html">LengthList</a></li>
+              <li><a href="../dart-mirrors/LibraryDependencyMirror-class.html">LibraryDependencyMirror</a></li>
+              <li><a href="../dart-mirrors/LibraryMirror-class.html">LibraryMirror</a></li>
+              <li><a href="../dart-io/Link-class.html">Link</a></li>
+              <li><a href="../dart-collection/LinkedHashMap-class.html">LinkedHashMap</a></li>
+              <li><a href="../dart-collection/LinkedHashSet-class.html">LinkedHashSet</a></li>
+              <li><a href="../dart-collection/LinkedListEntry-class.html">LinkedListEntry</a></li>
+              <li><a href="../dart-core/List-class.html">List</a></li>
+              <li><a href="../dart-collection/ListBase-class.html">ListBase</a></li>
+              <li><a href="../dart-html/LocalDateTimeInputElement-class.html">LocalDateTimeInputElement</a></li>
+              <li><a href="../dart-html/Location-class.html">Location</a></li>
+              <li><a href="../dart-html/LocationBase-class.html">LocationBase</a></li>
+              <li><a href="../dart-web_gl/LoseContext-class.html">LoseContext</a></li>
+              <li><a href="../dart-core/Map-class.html">Map</a></li>
+              <li><a href="../dart-collection/MapBase-class.html">MapBase</a></li>
+              <li><a href="../dart-core/MapEntry-class.html">MapEntry</a></li>
+              <li><a href="../dart-collection/MapView-class.html">MapView</a></li>
+              <li><a href="../dart-core/Match-class.html">Match</a></li>
+              <li><a href="../dart-svg/Matrix-class.html">Matrix</a></li>
+              <li><a href="../dart-html/MediaCapabilities-class.html">MediaCapabilities</a></li>
+              <li><a href="../dart-html/MediaCapabilitiesInfo-class.html">MediaCapabilitiesInfo</a></li>
+              <li><a href="../dart-html/MediaDeviceInfo-class.html">MediaDeviceInfo</a></li>
+              <li><a href="../dart-html/MediaError-class.html">MediaError</a></li>
+              <li><a href="../dart-html/MediaKeys-class.html">MediaKeys</a></li>
+              <li><a href="../dart-html/MediaKeysPolicy-class.html">MediaKeysPolicy</a></li>
+              <li><a href="../dart-html/MediaKeyStatusMap-class.html">MediaKeyStatusMap</a></li>
+              <li><a href="../dart-html/MediaKeySystemAccess-class.html">MediaKeySystemAccess</a></li>
+              <li><a href="../dart-html/MediaList-class.html">MediaList</a></li>
+              <li><a href="../dart-html/MediaMetadata-class.html">MediaMetadata</a></li>
+              <li><a href="../dart-html/MediaSession-class.html">MediaSession</a></li>
+              <li><a href="../dart-html/MediaSettingsRange-class.html">MediaSettingsRange</a></li>
+              <li><a href="../dart-html/MemoryInfo-class.html">MemoryInfo</a></li>
+              <li><a href="../dart-html/MessageChannel-class.html">MessageChannel</a></li>
+              <li><a href="../dart-html/Metadata-class.html">Metadata</a></li>
+              <li><a href="../dart-mirrors/MethodMirror-class.html">MethodMirror</a></li>
+              <li><a href="../dart-html/MidiInputMap-class.html">MidiInputMap</a></li>
+              <li><a href="../dart-html/MidiOutputMap-class.html">MidiOutputMap</a></li>
+              <li><a href="../dart-html/MimeType-class.html">MimeType</a></li>
+              <li><a href="../dart-html/MimeTypeArray-class.html">MimeTypeArray</a></li>
+              <li><a href="../dart-mirrors/Mirror-class.html">Mirror</a></li>
+              <li><a href="../dart-mirrors/MirrorSystem-class.html">MirrorSystem</a></li>
+              <li><a href="../dart-html/MonthInputElement-class.html">MonthInputElement</a></li>
+              <li><a href="../dart-async/MultiStreamController-class.html">MultiStreamController</a></li>
+              <li><a href="../dart-math/MutableRectangle-class.html">MutableRectangle</a></li>
+              <li><a href="../dart-html/MutationObserver-class.html">MutationObserver</a></li>
+              <li><a href="../dart-html/MutationRecord-class.html">MutationRecord</a></li>
+              <li><a href="../dart-ffi/Native-class.html">Native</a></li>
+              <li><a href="../dart-ffi/NativeApi-class.html">NativeApi</a></li>
+              <li><a href="../dart-ffi/NativeCallable-class.html">NativeCallable</a></li>
+              <li><a href="../dart-ffi/NativeFinalizer-class.html">NativeFinalizer</a></li>
+              <li><a href="../dart-ffi/NativeFunction-class.html">NativeFunction</a></li>
+              <li><a href="../dart-developer/NativeRuntime-class.html">NativeRuntime</a></li>
+              <li><a href="../dart-ffi/NativeType-class.html">NativeType</a></li>
+              <li><a href="../dart-html/NavigationPreloadManager-class.html">NavigationPreloadManager</a></li>
+              <li><a href="../dart-html/NavigatorAutomationInformation-class.html">NavigatorAutomationInformation</a></li>
+              <li><a href="../dart-html/NavigatorConcurrentHardware-class.html">NavigatorConcurrentHardware</a></li>
+              <li><a href="../dart-html/NavigatorCookies-class.html">NavigatorCookies</a></li>
+              <li><a href="../dart-html/NavigatorID-class.html">NavigatorID</a></li>
+              <li><a href="../dart-html/NavigatorLanguage-class.html">NavigatorLanguage</a></li>
+              <li><a href="../dart-html/NavigatorOnLine-class.html">NavigatorOnLine</a></li>
+              <li><a href="../dart-html/NavigatorUserMediaError-class.html">NavigatorUserMediaError</a></li>
+              <li><a href="../dart-io/NetworkInterface-class.html">NetworkInterface</a></li>
+              <li><a href="../dart-html/NodeFilter-class.html">NodeFilter</a></li>
+              <li><a href="../dart-html/NodeIterator-class.html">NodeIterator</a></li>
+              <li><a href="../dart-html/NodeList-class.html">NodeList</a></li>
+              <li><a href="../dart-html/NodeTreeSanitizer-class.html">NodeTreeSanitizer</a></li>
+              <li><a href="../dart-html/NodeValidator-class.html">NodeValidator</a></li>
+              <li><a href="../dart-html/NodeValidatorBuilder-class.html">NodeValidatorBuilder</a></li>
+              <li><a href="../dart-html/NoncedElement-class.html">NoncedElement</a></li>
+              <li><a href="../dart-html/NonDocumentTypeChildNode-class.html">NonDocumentTypeChildNode</a></li>
+              <li><a href="../dart-html/NonElementParentNode-class.html">NonElementParentNode</a></li>
+              <li><a href="../dart-core/Null-class.html">Null</a></li>
+              <li><a href="../dart-js_interop/NullRejectionException-class.html">NullRejectionException</a></li>
+              <li><a href="../dart-html/NullWindowException-class.html">NullWindowException</a></li>
+              <li><a href="../dart-core/num-class.html">num</a></li>
+              <li><a href="../dart-svg/Number-class.html">Number</a></li>
+              <li><a href="../dart-html/NumberInputElement-class.html">NumberInputElement</a></li>
+              <li><a href="../dart-svg/NumberList-class.html">NumberList</a></li>
+              <li><a href="../dart-mirrors/ObjectMirror-class.html">ObjectMirror</a></li>
+              <li><a href="../dart-indexed_db/ObjectStore-class.html">ObjectStore</a></li>
+              <li><a href="../dart-indexed_db/Observation-class.html">Observation</a></li>
+              <li><a href="../dart-indexed_db/Observer-class.html">Observer</a></li>
+              <li><a href="../dart-indexed_db/ObserverChanges-class.html">ObserverChanges</a></li>
+              <li><a href="../dart-web_gl/OesElementIndexUint-class.html">OesElementIndexUint</a></li>
+              <li><a href="../dart-web_gl/OesStandardDerivatives-class.html">OesStandardDerivatives</a></li>
+              <li><a href="../dart-web_gl/OesTextureFloat-class.html">OesTextureFloat</a></li>
+              <li><a href="../dart-web_gl/OesTextureFloatLinear-class.html">OesTextureFloatLinear</a></li>
+              <li><a href="../dart-web_gl/OesTextureHalfFloat-class.html">OesTextureHalfFloat</a></li>
+              <li><a href="../dart-web_gl/OesTextureHalfFloatLinear-class.html">OesTextureHalfFloatLinear</a></li>
+              <li><a href="../dart-web_gl/OesVertexArrayObject-class.html">OesVertexArrayObject</a></li>
+              <li><a href="../dart-html/OffscreenCanvasRenderingContext2D-class.html">OffscreenCanvasRenderingContext2D</a></li>
+              <li><a href="../dart-ffi/Opaque-class.html">Opaque</a></li>
+              <li><a href="../dart-io/OSError-class.html">OSError</a></li>
+              <li><a href="../dart-core/OutOfMemoryError-class.html">OutOfMemoryError</a></li>
+              <li><a href="../dart-html/OverconstrainedError-class.html">OverconstrainedError</a></li>
+              <li><a href="../dart-ffi/Packed-class.html">Packed</a></li>
+              <li><a href="../dart-html/PaintRenderingContext2D-class.html">PaintRenderingContext2D</a></li>
+              <li><a href="../dart-html/PaintSize-class.html">PaintSize</a></li>
+              <li><a href="../dart-mirrors/ParameterMirror-class.html">ParameterMirror</a></li>
+              <li><a href="../dart-html/ParentNode-class.html">ParentNode</a></li>
+              <li><a href="../dart-html/PasswordInputElement-class.html">PasswordInputElement</a></li>
+              <li><a href="../dart-html/Path2D-class.html">Path2D</a></li>
+              <li><a href="../dart-core/Pattern-class.html">Pattern</a></li>
+              <li><a href="../dart-html/PaymentAddress-class.html">PaymentAddress</a></li>
+              <li><a href="../dart-html/PaymentInstruments-class.html">PaymentInstruments</a></li>
+              <li><a href="../dart-html/PaymentManager-class.html">PaymentManager</a></li>
+              <li><a href="../dart-html/PaymentResponse-class.html">PaymentResponse</a></li>
+              <li><a href="../dart-html/PerformanceEntry-class.html">PerformanceEntry</a></li>
+              <li><a href="../dart-html/PerformanceNavigation-class.html">PerformanceNavigation</a></li>
+              <li><a href="../dart-html/PerformanceObserver-class.html">PerformanceObserver</a></li>
+              <li><a href="../dart-html/PerformanceObserverEntryList-class.html">PerformanceObserverEntryList</a></li>
+              <li><a href="../dart-html/PerformanceServerTiming-class.html">PerformanceServerTiming</a></li>
+              <li><a href="../dart-html/PerformanceTiming-class.html">PerformanceTiming</a></li>
+              <li><a href="../dart-web_audio/PeriodicWave-class.html">PeriodicWave</a></li>
+              <li><a href="../dart-html/Permissions-class.html">Permissions</a></li>
+              <li><a href="../dart-html/PhotoCapabilities-class.html">PhotoCapabilities</a></li>
+              <li><a href="../dart-io/Pipe-class.html">Pipe</a></li>
+              <li><a href="../dart-html/Platform-class.html">Platform</a></li>
+              <li><a href="../dart-io/Platform-class.html">Platform</a></li>
+              <li><a href="../dart-html/Plugin-class.html">Plugin</a></li>
+              <li><a href="../dart-html/PluginArray-class.html">PluginArray</a></li>
+              <li><a href="../dart-math/Point-class.html">Point</a></li>
+              <li><a href="../dart-svg/Point-class.html">Point</a></li>
+              <li><a href="../dart-ffi/Pointer-class.html">Pointer</a></li>
+              <li><a href="../dart-svg/PointList-class.html">PointList</a></li>
+              <li><a href="../dart-html/PositionError-class.html">PositionError</a></li>
+              <li><a href="../dart-core/pragma-class.html">pragma</a></li>
+              <li><a href="../dart-html/Presentation-class.html">Presentation</a></li>
+              <li><a href="../dart-html/PresentationReceiver-class.html">PresentationReceiver</a></li>
+              <li><a href="../dart-svg/PreserveAspectRatio-class.html">PreserveAspectRatio</a></li>
+              <li><a href="../dart-io/Process-class.html">Process</a></li>
+              <li><a href="../dart-io/ProcessException-class.html">ProcessException</a></li>
+              <li><a href="../dart-io/ProcessInfo-class.html">ProcessInfo</a></li>
+              <li><a href="../dart-io/ProcessResult-class.html">ProcessResult</a></li>
+              <li><a href="../dart-io/ProcessSignal-class.html">ProcessSignal</a></li>
+              <li><a href="../dart-io/ProcessStartMode-class.html">ProcessStartMode</a></li>
+              <li><a href="../dart-web_gl/Program-class.html">Program</a></li>
+              <li><a href="../dart-html/PushManager-class.html">PushManager</a></li>
+              <li><a href="../dart-html/PushMessageData-class.html">PushMessageData</a></li>
+              <li><a href="../dart-html/PushSubscription-class.html">PushSubscription</a></li>
+              <li><a href="../dart-html/PushSubscriptionOptions-class.html">PushSubscriptionOptions</a></li>
+              <li><a href="../dart-web_gl/Query-class.html">Query</a></li>
+              <li><a href="../dart-collection/Queue-class.html">Queue</a></li>
+              <li><a href="../dart-html/RadioButtonInputElement-class.html">RadioButtonInputElement</a></li>
+              <li><a href="../dart-math/Random-class.html">Random</a></li>
+              <li><a href="../dart-io/RandomAccessFile-class.html">RandomAccessFile</a></li>
+              <li><a href="../dart-html/Range-class.html">Range</a></li>
+              <li><a href="../dart-html/RangeInputElement-class.html">RangeInputElement</a></li>
+              <li><a href="../dart-html/RangeInputElementBase-class.html">RangeInputElementBase</a></li>
+              <li><a href="../dart-isolate/RawReceivePort-class.html">RawReceivePort</a></li>
+              <li><a href="../dart-io/RawSecureSocket-class.html">RawSecureSocket</a></li>
+              <li><a href="../dart-io/RawServerSocket-class.html">RawServerSocket</a></li>
+              <li><a href="../dart-io/RawSocket-class.html">RawSocket</a></li>
+              <li><a href="../dart-io/RawSocketEvent-class.html">RawSocketEvent</a></li>
+              <li><a href="../dart-io/RawSocketOption-class.html">RawSocketOption</a></li>
+              <li><a href="../dart-io/RawSynchronousSocket-class.html">RawSynchronousSocket</a></li>
+              <li><a href="../dart-io/RawZLibFilter-class.html">RawZLibFilter</a></li>
+              <li><a href="../dart-io/ReadPipe-class.html">ReadPipe</a></li>
+              <li><a href="../dart-html/ReadyState-class.html">ReadyState</a></li>
+              <li><a href="../dart-isolate/ReceivePort-class.html">ReceivePort</a></li>
+              <li><a href="../dart-core/Record-class.html">Record</a></li>
+              <li><a href="../dart-svg/Rect-class.html">Rect</a></li>
+              <li><a href="../dart-math/Rectangle-class.html">Rectangle</a></li>
+              <li><a href="../dart-io/RedirectException-class.html">RedirectException</a></li>
+              <li><a href="../dart-io/RedirectInfo-class.html">RedirectInfo</a></li>
+              <li><a href="../dart-core/RegExp-class.html">RegExp</a></li>
+              <li><a href="../dart-core/RegExpMatch-class.html">RegExpMatch</a></li>
+              <li><a href="../dart-html/RelatedApplication-class.html">RelatedApplication</a></li>
+              <li><a href="../dart-isolate/RemoteError-class.html">RemoteError</a></li>
+              <li><a href="../dart-web_gl/Renderbuffer-class.html">Renderbuffer</a></li>
+              <li><a href="../dart-web_gl/RenderingContext-class.html">RenderingContext</a></li>
+              <li><a href="../dart-web_gl/RenderingContext2-class.html">RenderingContext2</a></li>
+              <li><a href="../dart-html/ReportBody-class.html">ReportBody</a></li>
+              <li><a href="../dart-html/ReportingObserver-class.html">ReportingObserver</a></li>
+              <li><a href="../dart-html/ResetButtonInputElement-class.html">ResetButtonInputElement</a></li>
+              <li><a href="../dart-html/ResizeObserver-class.html">ResizeObserver</a></li>
+              <li><a href="../dart-html/ResizeObserverEntry-class.html">ResizeObserverEntry</a></li>
+              <li><a href="../dart-io/ResourceHandle-class.html">ResourceHandle</a></li>
+              <li><a href="../dart-html/RtcCertificate-class.html">RtcCertificate</a></li>
+              <li><a href="../dart-html/RtcIceCandidate-class.html">RtcIceCandidate</a></li>
+              <li><a href="../dart-html/RtcLegacyStatsReport-class.html">RtcLegacyStatsReport</a></li>
+              <li><a href="../dart-html/RtcRtpContributingSource-class.html">RtcRtpContributingSource</a></li>
+              <li><a href="../dart-html/RtcRtpReceiver-class.html">RtcRtpReceiver</a></li>
+              <li><a href="../dart-html/RtcRtpSender-class.html">RtcRtpSender</a></li>
+              <li><a href="../dart-html/RtcSessionDescription-class.html">RtcSessionDescription</a></li>
+              <li><a href="../dart-html/RtcStatsReport-class.html">RtcStatsReport</a></li>
+              <li><a href="../dart-html/RtcStatsResponse-class.html">RtcStatsResponse</a></li>
+              <li><a href="../dart-core/RuneIterator-class.html">RuneIterator</a></li>
+              <li><a href="../dart-io/SameSite-class.html">SameSite</a></li>
+              <li><a href="../dart-web_gl/Sampler-class.html">Sampler</a></li>
+              <li><a href="../dart-html/Screen-class.html">Screen</a></li>
+              <li><a href="../dart-html/ScrollAlignment-class.html">ScrollAlignment</a></li>
+              <li><a href="../dart-html/ScrollState-class.html">ScrollState</a></li>
+              <li><a href="../dart-html/SearchInputElement-class.html">SearchInputElement</a></li>
+              <li><a href="../dart-io/SecureSocket-class.html">SecureSocket</a></li>
+              <li><a href="../dart-io/SecurityContext-class.html">SecurityContext</a></li>
+              <li><a href="../dart-html/Selection-class.html">Selection</a></li>
+              <li><a href="../dart-isolate/SendPort-class.html">SendPort</a></li>
+              <li><a href="../dart-io/ServerSocket-class.html">ServerSocket</a></li>
+              <li><a href="../dart-developer/Service-class.html">Service</a></li>
+              <li><a href="../dart-developer/ServiceExtensionResponse-class.html">ServiceExtensionResponse</a></li>
+              <li><a href="../dart-developer/ServiceProtocolInfo-class.html">ServiceProtocolInfo</a></li>
+              <li><a href="../dart-core/Set-class.html">Set</a></li>
+              <li><a href="../dart-collection/SetBase-class.html">SetBase</a></li>
+              <li><a href="../dart-web_gl/Shader-class.html">Shader</a></li>
+              <li><a href="../dart-web_gl/ShaderPrecisionFormat-class.html">ShaderPrecisionFormat</a></li>
+              <li><a href="../dart-html/SharedArrayBuffer-class.html">SharedArrayBuffer</a></li>
+              <li><a href="../dart-io/SignalException-class.html">SignalException</a></li>
+              <li><a href="../dart-core/Sink-class.html">Sink</a></li>
+              <li><a href="../dart-ffi/SizedNativeType-class.html">SizedNativeType</a></li>
+              <li><a href="../dart-io/Socket-class.html">Socket</a></li>
+              <li><a href="../dart-io/SocketControlMessage-class.html">SocketControlMessage</a></li>
+              <li><a href="../dart-io/SocketDirection-class.html">SocketDirection</a></li>
+              <li><a href="../dart-io/SocketException-class.html">SocketException</a></li>
+              <li><a href="../dart-io/SocketMessage-class.html">SocketMessage</a></li>
+              <li><a href="../dart-io/SocketOption-class.html">SocketOption</a></li>
+              <li><a href="../dart-mirrors/SourceLocation-class.html">SourceLocation</a></li>
+              <li><a href="../dart-html/SpeechGrammar-class.html">SpeechGrammar</a></li>
+              <li><a href="../dart-html/SpeechGrammarList-class.html">SpeechGrammarList</a></li>
+              <li><a href="../dart-html/SpeechRecognitionAlternative-class.html">SpeechRecognitionAlternative</a></li>
+              <li><a href="../dart-html/SpeechRecognitionResult-class.html">SpeechRecognitionResult</a></li>
+              <li><a href="../dart-html/SpeechSynthesisVoice-class.html">SpeechSynthesisVoice</a></li>
+              <li><a href="../dart-collection/SplayTreeMap-class.html">SplayTreeMap</a></li>
+              <li><a href="../dart-collection/SplayTreeSet-class.html">SplayTreeSet</a></li>
+              <li><a href="../dart-core/StackOverflowError-class.html">StackOverflowError</a></li>
+              <li><a href="../dart-core/StackTrace-class.html">StackTrace</a></li>
+              <li><a href="../dart-html/StaticRange-class.html">StaticRange</a></li>
+              <li><a href="../dart-io/StdinException-class.html">StdinException</a></li>
+              <li><a href="../dart-io/StdioType-class.html">StdioType</a></li>
+              <li><a href="../dart-io/Stdout-class.html">Stdout</a></li>
+              <li><a href="../dart-io/StdoutException-class.html">StdoutException</a></li>
+              <li><a href="../dart-core/Stopwatch-class.html">Stopwatch</a></li>
+              <li><a href="../dart-html/Storage-class.html">Storage</a></li>
+              <li><a href="../dart-html/StorageManager-class.html">StorageManager</a></li>
+              <li><a href="../dart-async/Stream-class.html">Stream</a></li>
+              <li><a href="../dart-async/StreamConsumer-class.html">StreamConsumer</a></li>
+              <li><a href="../dart-async/StreamController-class.html">StreamController</a></li>
+              <li><a href="../dart-async/StreamIterator-class.html">StreamIterator</a></li>
+              <li><a href="../dart-async/StreamSink-class.html">StreamSink</a></li>
+              <li><a href="../dart-async/StreamSubscription-class.html">StreamSubscription</a></li>
+              <li><a href="../dart-async/StreamTransformer-class.html">StreamTransformer</a></li>
+              <li><a href="../dart-async/StreamTransformerBase-class.html">StreamTransformerBase</a></li>
+              <li><a href="../dart-core/String-class.html">String</a></li>
+              <li><a href="../dart-core/StringBuffer-class.html">StringBuffer</a></li>
+              <li><a href="../dart-convert/StringConversionSink-class.html">StringConversionSink</a></li>
+              <li><a href="../dart-svg/StringList-class.html">StringList</a></li>
+              <li><a href="../dart-core/StringSink-class.html">StringSink</a></li>
+              <li><a href="../dart-ffi/Struct-class.html">Struct</a></li>
+              <li><a href="../dart-html/StyleMedia-class.html">StyleMedia</a></li>
+              <li><a href="../dart-html/StylePropertyMapReadonly-class.html">StylePropertyMapReadonly</a></li>
+              <li><a href="../dart-html/StyleSheet-class.html">StyleSheet</a></li>
+              <li><a href="../dart-html/SubmitButtonInputElement-class.html">SubmitButtonInputElement</a></li>
+              <li><a href="../dart-core/Symbol-class.html">Symbol</a></li>
+              <li><a href="../dart-web_gl/Sync-class.html">Sync</a></li>
+              <li><a href="../dart-async/SynchronousStreamController-class.html">SynchronousStreamController</a></li>
+              <li><a href="../dart-html/SyncManager-class.html">SyncManager</a></li>
+              <li><a href="../dart-html/TelephoneInputElement-class.html">TelephoneInputElement</a></li>
+              <li><a href="../dart-svg/Tests-class.html">Tests</a></li>
+              <li><a href="../dart-html/TextDetector-class.html">TextDetector</a></li>
+              <li><a href="../dart-html/TextInputElement-class.html">TextInputElement</a></li>
+              <li><a href="../dart-html/TextInputElementBase-class.html">TextInputElementBase</a></li>
+              <li><a href="../dart-html/TextMetrics-class.html">TextMetrics</a></li>
+              <li><a href="../dart-html/TextTrackCueList-class.html">TextTrackCueList</a></li>
+              <li><a href="../dart-web_gl/Texture-class.html">Texture</a></li>
+              <li><a href="../dart-html/TimeInputElement-class.html">TimeInputElement</a></li>
+              <li><a href="../dart-developer/Timeline-class.html">Timeline</a></li>
+              <li><a href="../dart-developer/TimelineTask-class.html">TimelineTask</a></li>
+              <li><a href="../dart-async/TimeoutException-class.html">TimeoutException</a></li>
+              <li><a href="../dart-async/Timer-class.html">Timer</a></li>
+              <li><a href="../dart-html/TimeRanges-class.html">TimeRanges</a></li>
+              <li><a href="../dart-web_gl/TimerQueryExt-class.html">TimerQueryExt</a></li>
+              <li><a href="../dart-io/TlsException-class.html">TlsException</a></li>
+              <li><a href="../dart-io/TlsProtocolVersion-class.html">TlsProtocolVersion</a></li>
+              <li><a href="../dart-html/Touch-class.html">Touch</a></li>
+              <li><a href="../dart-html/TouchList-class.html">TouchList</a></li>
+              <li><a href="../dart-html/TrackDefault-class.html">TrackDefault</a></li>
+              <li><a href="../dart-html/TrackDefaultList-class.html">TrackDefaultList</a></li>
+              <li><a href="../dart-isolate/TransferableTypedData-class.html">TransferableTypedData</a></li>
+              <li><a href="../dart-svg/Transform-class.html">Transform</a></li>
+              <li><a href="../dart-web_gl/TransformFeedback-class.html">TransformFeedback</a></li>
+              <li><a href="../dart-svg/TransformList-class.html">TransformList</a></li>
+              <li><a href="../dart-html/TreeWalker-class.html">TreeWalker</a></li>
+              <li><a href="../dart-html/TrustedHtml-class.html">TrustedHtml</a></li>
+              <li><a href="../dart-html/TrustedScriptUrl-class.html">TrustedScriptUrl</a></li>
+              <li><a href="../dart-html/TrustedUrl-class.html">TrustedUrl</a></li>
+              <li><a href="../dart-core/Type-class.html">Type</a></li>
+              <li><a href="../dart-typed_data/TypedData-class.html">TypedData</a></li>
+              <li><a href="../dart-typed_data/TypedDataList-class.html">TypedDataList</a></li>
+              <li><a href="../dart-mirrors/TypedefMirror-class.html">TypedefMirror</a></li>
+              <li><a href="../dart-mirrors/TypeMirror-class.html">TypeMirror</a></li>
+              <li><a href="../dart-ffi/Uint8-class.html">Uint8</a></li>
+              <li><a href="../dart-typed_data/Uint8ClampedList-class.html">Uint8ClampedList</a></li>
+              <li><a href="../dart-typed_data/Uint8List-class.html">Uint8List</a></li>
+              <li><a href="../dart-ffi/Uint16-class.html">Uint16</a></li>
+              <li><a href="../dart-typed_data/Uint16List-class.html">Uint16List</a></li>
+              <li><a href="../dart-ffi/Uint32-class.html">Uint32</a></li>
+              <li><a href="../dart-typed_data/Uint32List-class.html">Uint32List</a></li>
+              <li><a href="../dart-ffi/Uint64-class.html">Uint64</a></li>
+              <li><a href="../dart-typed_data/Uint64List-class.html">Uint64List</a></li>
+              <li><a href="../dart-html/UnderlyingSourceBase-class.html">UnderlyingSourceBase</a></li>
+              <li><a href="../dart-web_gl/UniformLocation-class.html">UniformLocation</a></li>
+              <li><a href="../dart-ffi/Union-class.html">Union</a></li>
+              <li><a href="../dart-svg/UnitTypes-class.html">UnitTypes</a></li>
+              <li><a href="../dart-core/Uri-class.html">Uri</a></li>
+              <li><a href="../dart-core/UriData-class.html">UriData</a></li>
+              <li><a href="../dart-html/UriPolicy-class.html">UriPolicy</a></li>
+              <li><a href="../dart-svg/UriReference-class.html">UriReference</a></li>
+              <li><a href="../dart-html/Url-class.html">Url</a></li>
+              <li><a href="../dart-html/UrlInputElement-class.html">UrlInputElement</a></li>
+              <li><a href="../dart-html/UrlSearchParams-class.html">UrlSearchParams</a></li>
+              <li><a href="../dart-html/UrlUtilsReadOnly-class.html">UrlUtilsReadOnly</a></li>
+              <li><a href="../dart-developer/UserTag-class.html">UserTag</a></li>
+              <li><a href="../dart-html/ValidityState-class.html">ValidityState</a></li>
+              <li><a href="../dart-ffi/VarArgs-class.html">VarArgs</a></li>
+              <li><a href="../dart-mirrors/VariableMirror-class.html">VariableMirror</a></li>
+              <li><a href="../dart-web_gl/VertexArrayObject-class.html">VertexArrayObject</a></li>
+              <li><a href="../dart-web_gl/VertexArrayObjectOes-class.html">VertexArrayObjectOes</a></li>
+              <li><a href="../dart-html/VideoPlaybackQuality-class.html">VideoPlaybackQuality</a></li>
+              <li><a href="../dart-html/VideoTrack-class.html">VideoTrack</a></li>
+              <li><a href="../dart-ffi/Void-class.html">Void</a></li>
+              <li><a href="../dart-html/VRCoordinateSystem-class.html">VRCoordinateSystem</a></li>
+              <li><a href="../dart-html/VRDisplayCapabilities-class.html">VRDisplayCapabilities</a></li>
+              <li><a href="../dart-html/VREyeParameters-class.html">VREyeParameters</a></li>
+              <li><a href="../dart-html/VRFrameData-class.html">VRFrameData</a></li>
+              <li><a href="../dart-html/VRPose-class.html">VRPose</a></li>
+              <li><a href="../dart-html/VRStageBounds-class.html">VRStageBounds</a></li>
+              <li><a href="../dart-html/VRStageBoundsPoint-class.html">VRStageBoundsPoint</a></li>
+              <li><a href="../dart-html/VRStageParameters-class.html">VRStageParameters</a></li>
+              <li><a href="../dart-html/VttRegion-class.html">VttRegion</a></li>
+              <li><a href="../dart-core/WeakReference-class.html">WeakReference</a></li>
+              <li><a href="../dart-web_gl/WebGL-class.html">WebGL</a></li>
+              <li><a href="../dart-io/WebSocket-class.html">WebSocket</a></li>
+              <li><a href="../dart-io/WebSocketException-class.html">WebSocketException</a></li>
+              <li><a href="../dart-io/WebSocketStatus-class.html">WebSocketStatus</a></li>
+              <li><a href="../dart-io/WebSocketTransformer-class.html">WebSocketTransformer</a></li>
+              <li><a href="../dart-html/WeekInputElement-class.html">WeekInputElement</a></li>
+              <li><a href="../dart-html/WindowBase-class.html">WindowBase</a></li>
+              <li><a href="../dart-html/WindowBase64-class.html">WindowBase64</a></li>
+              <li><a href="../dart-html/WorkletAnimation-class.html">WorkletAnimation</a></li>
+              <li><a href="../dart-html/WorkletGlobalScope-class.html">WorkletGlobalScope</a></li>
+              <li><a href="../dart-io/WritePipe-class.html">WritePipe</a></li>
+              <li><a href="../dart-io/X509Certificate-class.html">X509Certificate</a></li>
+              <li><a class="deprecated" href="../dart-html/XmlSerializer-class.html">XmlSerializer</a></li>
+              <li><a href="../dart-html/XPathEvaluator-class.html">XPathEvaluator</a></li>
+              <li><a href="../dart-html/XPathExpression-class.html">XPathExpression</a></li>
+              <li><a href="../dart-html/XPathNSResolver-class.html">XPathNSResolver</a></li>
+              <li><a href="../dart-html/XPathResult-class.html">XPathResult</a></li>
+              <li><a class="deprecated" href="../dart-html/XsltProcessor-class.html">XsltProcessor</a></li>
+              <li><a href="../dart-io/ZLibOption-class.html">ZLibOption</a></li>
+              <li><a href="../dart-async/Zone-class.html">Zone</a></li>
+              <li><a href="../dart-async/ZoneDelegate-class.html">ZoneDelegate</a></li>
+              <li><a href="../dart-async/ZoneSpecification-class.html">ZoneSpecification</a></li>
+              <li><a href="../dart-svg/ZoomAndPan-class.html">ZoomAndPan</a></li>
+          </ul></dd>
+
+        
+        
+
+
+      </dl>
+    </section>
+
+    
+  <section class="summary offset-anchor" id="constructors">
+    <h2>Constructors</h2>
+    <dl class="constructor-summary-list">
+        <dt id="Object.new" class="callable">
+          <span class="name"><a href="../dart-core/Object/Object.html">Object</a></span><span class="signature">()</span>
+        </dt>
+        <dd>
+          Creates a new <a href="../dart-core/Object-class.html">Object</a> instance.
+            <div class="constructor-modifier features">const</div>
+        </dd>
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-properties">
+    <h2>Properties</h2>
+    <dl class="properties">
+        <dt id="hashCode" class="property">
+  <span class="name"><a href="../dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="../dart-core/int-class.html">int</a></span>
+  
+
+</dt>
+<dd>
+  The hash code for this object.
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+        <dt id="runtimeType" class="property">
+  <span class="name"><a href="../dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="../dart-core/Type-class.html">Type</a></span>
+  
+
+</dt>
+<dd>
+  A representation of the runtime type of the object.
+  <div class="features"><span class="feature">no setter</span></div>
+
+</dd>
+
+    </dl>
+  </section>
+
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="noSuchMethod" class="callable">
+  <span class="name"><a href="../dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="../dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Invoked when a nonexistent method or property is accessed.
+  
+
+</dd>
+
+        <dt id="toString" class="callable">
+  <span class="name"><a href="../dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="../dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  A string representation of this object.
+  
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable">
+  <span class="name"><a href="../dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  The equality operator.
+  
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+  <section class="summary offset-anchor" id="static-methods">
+    <h2>Static Methods</h2>
+    <dl class="callables">
+        <dt id="hash" class="callable">
+  <span class="name"><a href="../dart-core/Object/hash.html">hash</a></span><span class="signature">(<wbr><span class="parameter" id="hash-param-object1"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object1</span>, </span><span class="parameter" id="hash-param-object2"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object2</span>, [</span><span class="parameter" id="hash-param-object3"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object3</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object4"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object4</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object5"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object5</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object6"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object6</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object7"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object7</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object8"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object8</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object9"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object9</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object10"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object10</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object11"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object11</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object12"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object12</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object13"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object13</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object14"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object14</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object15"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object15</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object16"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object16</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object17"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object17</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object18"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object18</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object19"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object19</span> = <span class="default-value">sentinelValue</span>, </span><span class="parameter" id="hash-param-object20"><span class="type-annotation"><a href="../dart-core/Object-class.html">Object</a>?</span> <span class="parameter-name">object20</span> = <span class="default-value">sentinelValue</span></span>])
+    <span class="returntype parameter">&#8594; <a href="../dart-core/int-class.html">int</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Creates a combined hash code for a number of objects.
+  
+
+</dd>
+
+        <dt id="hashAll" class="callable">
+  <span class="name"><a href="../dart-core/Object/hashAll.html">hashAll</a></span><span class="signature">(<wbr><span class="parameter" id="hashAll-param-objects"><span class="type-annotation"><a href="../dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../dart-core/Object-class.html">Object</a>?</span>&gt;</span></span> <span class="parameter-name">objects</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../dart-core/int-class.html">int</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Creates a combined hash code for a sequence of objects.
+  
+
+</dd>
+
+        <dt id="hashAllUnordered" class="callable">
+  <span class="name"><a href="../dart-core/Object/hashAllUnordered.html">hashAllUnordered</a></span><span class="signature">(<wbr><span class="parameter" id="hashAllUnordered-param-objects"><span class="type-annotation"><a href="../dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../dart-core/Object-class.html">Object</a>?</span>&gt;</span></span> <span class="parameter-name">objects</span></span>)
+    <span class="returntype parameter">&#8594; <a href="../dart-core/int-class.html">int</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Creates a combined hash code for a collection of objects.
+  
+
+</dd>
+
+    </dl>
+  </section>
+    
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">Dart</a></li>
+    <li><a href="../dart-core/">dart:core</a></li>
+    <li class="self-crumb">Object class</li>
+</ol>
+
+    <h5>dart:core library</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    Dart
+      3.13.5
+  </span>
+  <span class="glue-footer">
+  <span class="no-break">
+    | <a href="https://dart.dev/terms" title="Terms of use">Terms</a>
+  </span>
+  <span class="no-break">
+    | <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" title="Privacy policy"
+      class="no-automatic-external">Privacy</a>
+  </span>
+  <span class="no-break">
+    | <a href="https://dart.dev/security" title="Security philosophy and practices">Security</a>
+  </span>
+
+  <div class="copyright" style="font-size: 0.9em; color: darkgrey; margin-top: 0.5em;">
+    Except as otherwise noted, this site is licensed under a
+    <a style="color: darkgrey;" href="https://creativecommons.org/licenses/by/4.0/">
+      Creative Commons Attribution 4.0 International License</a>
+    and code samples are licensed under the
+    <a style="color: darkgrey;" href="https://opensource.org/licenses/BSD-3-Clause" class="no-automatic-external">
+      3-Clause BSD License</a>
+  </div>
+</span>
+
+</footer>
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+<button aria-hidden="true" class="glue-footer__link glue-cookie-notification-bar-control">
+  Cookies management controls
+</button>
+<script src="https://www.gstatic.com/glue/cookienotificationbar/cookienotificationbar.min.js"
+data-glue-cookie-notification-bar-category="2B">
+</script>
+
+</body>
+</html>
+

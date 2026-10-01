@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="https://www.googletagmanager.com/gtm.js?id=GTM-MX6DBN9" async="async"></script><script src="/static/hash-3prhqakl/js/gtm.js" async="async"></script><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="twitter:card" content="summary"/><meta name="twitter:site" content="@dart_lang"/><meta name="twitter:description" content="A powerful HTTP networking package,
+supports Interceptors,
+Aborting and canceling a request,
+Custom adapters, Transformers, etc.
+"/><meta name="twitter:image" content="https://pub.dev/static/hash-3prhqakl/img/pub-dev-icon-cover-image.png"/><meta property="og:type" content="website"/><meta property="og:site_name" content="Dart packages"/><meta property="og:title" content="dio | Dart package"/><meta property="og:description" content="A powerful HTTP networking package,
+supports Interceptors,
+Aborting and canceling a request,
+Custom adapters, Transformers, etc.
+"/><meta property="og:image" content="https://pub.dev/static/hash-3prhqakl/img/pub-dev-icon-cover-image.png"/><meta property="og:url" content="https://pub.dev/packages/dio"/><title>dio | Dart package</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&amp;family=Google+Sans+Display:wght@400&amp;family=Google+Sans+Text:wght@400;500;700&amp;family=Google+Sans+Mono:wght@400;700&amp;display=swap"/><link rel="shortcut icon" href="/favicon.ico?hash=nk4nss8c7444fg0chird9erqef2vkhb8"/><meta rel="apple-touch-icon" href="/static/hash-3prhqakl/img/apple-touch-icon.png"/><meta rel="apple-touch-icon-precomposed" href="/static/hash-3prhqakl/img/apple-touch-icon.png"/><link rel="stylesheet" href="https://www.gstatic.com/glue/v25_0/ccb.min.css"/><link rel="search" type="application/opensearchdescription+xml" title="Dart packages" href="/osd.xml"/><link rel="canonical" href="https://pub.dev/packages/dio"/><meta name="description" content="A powerful HTTP networking package,
+supports Interceptors,
+Aborting and canceling a request,
+Custom adapters, Transformers, etc.
+"/><link rel="alternate" type="application/atom+xml" title="Recently published packages on pub.dev" href="/feed.atom"/><link rel="alternate" type="application/atom+xml" title="Recently published versions of package dio on pub.dev" href="/api/packages/dio/feed.atom"/><link rel="stylesheet" type="text/css" href="/static/hash-3prhqakl/css/style.css"/><script src="/static/hash-3prhqakl/js/script.dart.js" defer="defer"></script><script src="https://www.gstatic.com/brandstudio/kato/cookie_choice_component/cookie_consent_bar.v3.js" defer="defer" data-autoload-cookie-consent-bar="true"></script><meta name="pub-page-data" content="eyJwa2dEYXRhIjp7InBhY2thZ2UiOiJkaW8iLCJ2ZXJzaW9uIjoiNS4xMS4xIiwicHVibGlzaGVySWQiOiJmbHV0dGVyLmNuIiwiaXNEaXNjb250aW51ZWQiOmZhbHNlLCJpc0xhdGVzdCI6dHJ1ZX0sInNlc3Npb25Bd2FyZSI6ZmFsc2V9"/><link rel="preload" href="/static/hash-3prhqakl/highlight/highlight-with-init.js" as="script"/></head><body class="light-theme"><script src="/static/hash-3prhqakl/js/dark-init.js"></script><noscript><iframe class="-gtm-iframe" src="https://www.googletagmanager.com/ns.html?id=GTM-MX6DBN9" height="0" width="0"></iframe></noscript><div class="site-header pub-dark-bg"><button class="hamburger" aria-label="menu toggle"></button><a class="logo" href="/" aria-label="Go to the landing page of pub.dev"><img class="site-logo" src="/static/hash-3prhqakl/img/pub-dev-logo.svg" alt="" width="140" height="30" role="presentation"/></a><div class="site-header-space"></div><div class="site-header-mask"></div><div class="site-header-search"><form action="/packages" method="GET"><input class="site-header-search-input" name="q" placeholder="New search..." autocomplete="on" title="Search"/></form></div><nav class="site-header-nav scroll-container"><div class="nav-login-container"><button id="-account-login" class="nav-main-button link">Sign in</button></div><div class="nav-container nav-help-container hoverable"><button class="nav-main-button">Help</button><div class="nav-hover-popup"><div class="nav-table-columns"><div class="nav-table-column"><h3>pub.dev</h3><a class="nav-link" href="/help/search" rel="noopener" target="_blank">Searching for packages</a><a class="nav-link" href="/help/scoring" rel="noopener" target="_blank">Package scoring and pub points</a></div><div class="nav-table-column"><h3>Flutter</h3><a class="nav-link" href="https://flutter.dev/using-packages/" rel="noopener" target="_blank">Using packages</a><a class="nav-link" href="https://flutter.dev/developing-packages/" rel="noopener" target="_blank">Developing packages and plugins</a><a class="nav-link" href="https://dart.dev/tools/pub/publishing" rel="noopener" target="_blank">Publishing a package</a></div><div class="nav-table-column"><h3>Dart</h3><a class="nav-link" href="https://dart.dev/guides/packages" rel="noopener" target="_blank">Using packages</a><a class="nav-link" href="https://dart.dev/tools/pub/publishing" rel="noopener" target="_blank">Publishing a package</a></div></div></div></div><div class="nav-container nav-help-container-mobile foldable"><h3 class="foldable-button">pub.dev <img class="foldable-icon" src="/static/hash-3prhqakl/img/nav-mobile-foldable-icon.svg" alt="toggle folding of the section" width="13" height="6"/></h3><div class="foldable-content"><a class="nav-link" href="/help/search" rel="noopener" target="_blank">Searching for packages</a><a class="nav-link" href="/help/scoring" rel="noopener" target="_blank">Package scoring and pub points</a></div></div><div class="nav-container nav-help-container-mobile foldable"><h3 class="foldable-button">Flutter <img class="foldable-icon" src="/static/hash-3prhqakl/img/nav-mobile-foldable-icon.svg" alt="toggle folding of the section" width="13" height="6"/></h3><div class="foldable-content"><a class="nav-link" href="https://flutter.dev/using-packages/" rel="noopener" target="_blank">Using packages</a><a class="nav-link" href="https://flutter.dev/developing-packages/" rel="noopener" target="_blank">Developing packages and plugins</a><a class="nav-link" href="https://dart.dev/tools/pub/publishing" rel="noopener" target="_blank">Publishing a package</a></div></div><div class="nav-container nav-help-container-mobile foldable"><h3 class="foldable-button">Dart <img class="foldable-icon" src="/static/hash-3prhqakl/img/nav-mobile-foldable-icon.svg" alt="toggle folding of the section" width="13" height="6"/></h3><div class="foldable-content"><a class="nav-link" href="https://dart.dev/guides/packages" rel="noopener" target="_blank">Using packages</a><a class="nav-link" href="https://dart.dev/tools/pub/publishing" rel="noopener" target="_blank">Publishing a package</a></div></div></nav><button class="-pub-theme-toggle" aria-label="light/dark theme toggle"></button></div><div id="banner-container"></div><main class="container"><div class="detail-wrapper -active -has-info-box"><div class="detail-header -is-loose"><div class="detail-container"><div class="detail-header-outer-block"><div class="detail-header-content-block"><h1 class="title pub-monochrome-icon-hoverable">dio 5.11.1 <span class="pkg-page-title-copy"><img class="pub-monochrome-icon pkg-page-title-copy-icon filter-invert-on-dark" src="/static/hash-3prhqakl/img/content-copy-icon.svg" alt="copy &quot;dio: ^5.11.1&quot; to clipboard" width="18" height="18" title="Copy &quot;dio: ^5.11.1&quot; to clipboard" data-copy-content="dio: ^5.11.1" data-ga-click-event="copy-package-version"/><div class="pkg-page-title-copy-feedback"><span class="code">dio: ^5.11.1</span> copied to clipboard</div></span></h1><div class="metadata">Published <span><a class="-x-ago" href="" title="Sep 4, 2026" role="button" data-timestamp="1788489981721">27 days ago</a></span> • <a class="-pub-publisher" href="/publishers/flutter.cn"><img class="-pub-publisher-shield filter-invert-on-dark" src="/static/hash-3prhqakl/img/material-icon-verified.svg" alt="verified publisher" width="14" height="14" title="Published by a pub.dev verified publisher"/>flutter.cn</a></div><div class="detail-tags-and-like"><div class="detail-tags"><div class="-pub-tag-badge"><span class="tag-badge-main">SDK</span><a class="tag-badge-sub" href="/packages?q=sdk%3Adart" rel="nofollow" title="Packages compatible with Dart SDK">Dart</a><a class="tag-badge-sub" href="/packages?q=sdk%3Aflutter" rel="nofollow" title="Packages compatible with Flutter SDK">Flutter</a></div><div class="-pub-tag-badge"><span class="tag-badge-main">Platform</span><a class="tag-badge-sub" href="/packages?q=platform%3Aandroid" rel="nofollow" title="Packages compatible with Android platform">Android</a><a class="tag-badge-sub" href="/packages?q=platform%3Aios" rel="nofollow" title="Packages compatible with iOS platform">iOS</a><a class="tag-badge-sub" href="/packages?q=platform%3Alinux" rel="nofollow" title="Packages compatible with Linux platform">Linux</a><a class="tag-badge-sub" href="/packages?q=platform%3Amacos" rel="nofollow" title="Packages compatible with macOS platform">macOS</a><a class="tag-badge-sub" href="/packages?q=platform%3Aweb" rel="nofollow" title="Packages compatible with Web platform">web</a><a class="tag-badge-sub" href="/packages?q=platform%3Awindows" rel="nofollow" title="Packages compatible with Windows platform">Windows</a></div></div><div class="like-button-and-label"><button class="like-button-and-label--button -pub-icon-button" data-ga-click-event="toggle-like" aria-pressed="false" data-package="dio" data-value="8358" title="Like this package"><img class="-pub-icon-button-icon--on" src="/static/hash-3prhqakl/img/like-active.svg" alt="liked status: active" width="18" height="18"/><img class="-pub-icon-button-icon--off" src="/static/hash-3prhqakl/img/like-inactive.svg" alt="liked status: inactive" width="18" height="18"/></button><span class="like-button-and-label--count-wrapper"><span class="like-button-and-label--count">8.3k</span></span></div></div></div></div></div></div><div class="detail-container"><div class="detail-lead"><div class="detail-metadata-toggle"><div class="detail-metadata-toggle-icon">→</div><h3 class="detail-lead-title">Metadata</h3></div><p class="detail-lead-text">A powerful HTTP networking package,
+supports Interceptors,
+Aborting and canceling a request,
+Custom adapters, Transformers, etc.
+</p><p class="detail-lead-more"><a class="detail-metadata-toggle">More...</a></p></div></div><div class="detail-body"><div class="detail-tabs"><div class="detail-tabs-wide-header"><div class="detail-container"><ul class="detail-tabs-header"><li class="detail-tab tab-button detail-tab-readme-title -active">Readme</li><li class="detail-tab tab-link detail-tab-changelog-title"><a href="/packages/dio/changelog" role="button">Changelog</a></li><li class="detail-tab tab-link detail-tab-example-title"><a href="/packages/dio/example" role="button">Example</a></li><li class="detail-tab tab-link detail-tab-installing-title"><a href="/packages/dio/install" role="button">Installing</a></li><li class="detail-tab tab-link detail-tab-versions-title"><a href="/packages/dio/versions" role="button">Versions</a></li><li class="detail-tab tab-link detail-tab-analysis-title"><a href="/packages/dio/score" role="button">Scores</a></li></ul></div></div><div class="detail-container detail-body-main"><div class="detail-tabs-content"><section class="tab-content detail-tab-readme-content -active markdown-body"><h1 id="dio" class="hash-header">dio <a href="#dio" class="hash-link">#</a></h1>
+<p><a href="https://pub.dev/packages/dio"><img src="https://external-images.pub.dev/fLV47xCtL4IJwZmIaYv%2BxbDf0HU1TwdffqIW%2B1%2F4EaQ%3D/1790812800000/https%3A%2F%2Fimg.shields.io%2Fpub%2Fv%2Fdio.svg" alt="Pub"></a>
+<a href="https://pub.dev/packages/dio"><img src="https://external-images.pub.dev/BplQTvlrgqD1P3v7SOUUwenjPwrmNULtzHXpQ3aJm%2F4%3D/1790812800000/https%3A%2F%2Fimg.shields.io%2Fpub%2Fv%2Fdio.svg%3Flabel%3Ddev%26include_prereleases" alt="Dev"></a></p>
+<p>Language: English | <a href="https://github.com/cfug/dio/blob/main/dio/README-ZH.md" rel="ugc">简体中文</a></p>
+<p>A powerful HTTP networking package for Dart/Flutter,
+supports Global configuration, Interceptors, FormData,
+Request cancellation, File uploading/downloading,
+Timeout, Custom adapters, Transformers, etc.</p>
+<blockquote>
+<p>Don't forget to add <a href="https://pub.dev/packages?q=topic%3Adio">#dio</a>
+topic to your published dio related packages!
+See more: <a href="https://dart.dev/tools/pub/pubspec#topics">https://dart.dev/tools/pub/pubspec#topics</a></p>
+</blockquote>
+<details>
+  <summary>Table of content</summary>
+
+<ul>
+<li><a href="#dio">dio</a>
+<ul>
+<li><a href="#get-started">Get started</a>
+<ul>
+<li><a href="#install">Install</a></li>
+<li><a href="#super-simple-to-use">Super simple to use</a></li>
+</ul>
+</li>
+<li><a href="#awesome-dio">Awesome dio</a>
+<ul>
+<li><a href="#plugins">Plugins</a></li>
+</ul>
+</li>
+<li><a href="#examples">Examples</a>
+<ul>
+<li><a href="#performing-a-get-request">Performing a <code>GET</code> request</a></li>
+<li><a href="#performing-a-post-request">Performing a <code>POST</code> request</a></li>
+<li><a href="#performing-a-query-request">Performing a <code>QUERY</code> request</a></li>
+<li><a href="#performing-multiple-concurrent-requests">Performing multiple concurrent requests</a></li>
+<li><a href="#downloading-a-file">Downloading a file</a></li>
+<li><a href="#get-response-stream">Get response stream</a></li>
+<li><a href="#get-response-with-bytes">Get response with bytes</a></li>
+<li><a href="#sending-a-formdata">Sending a <code>FormData</code></a></li>
+<li><a href="#uploading-multiple-files-to-server-by-formdata">Uploading multiple files to server by FormData</a></li>
+<li><a href="#listening-the-uploading-progress">Listening the uploading progress</a></li>
+<li><a href="#post-binary-data-with-stream">Post binary data with Stream</a></li>
+</ul>
+</li>
+<li><a href="#dio-apis">Dio APIs</a>
+<ul>
+<li><a href="#creating-an-instance-and-set-default-configs">Creating an instance and set default configs</a></li>
+<li><a href="#request-options">Request Options</a></li>
+<li><a href="#response">Response</a></li>
+<li><a href="#interceptors">Interceptors</a>
+<ul>
+<li><a href="#resolve-and-reject-the-request">Resolve and reject the request</a></li>
+<li><a href="#queuedinterceptor">QueuedInterceptor</a>
+<ul>
+<li><a href="#example">Example</a></li>
+</ul>
+</li>
+<li><a href="#loginterceptor">LogInterceptor</a></li>
+<li><a href="#dart">Dart</a></li>
+<li><a href="#flutter">Flutter</a></li>
+<li><a href="#custom-interceptor">Custom Interceptor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#handling-errors">Handling Errors</a>
+<ul>
+<li><a href="#dioexception">DioException</a></li>
+<li><a href="#dioexceptiontype">DioExceptionType</a></li>
+</ul>
+</li>
+<li><a href="#using-applicationx-www-form-urlencoded-format">Using application/x-www-form-urlencoded format</a></li>
+<li><a href="#sending-formdata">Sending FormData</a>
+<ul>
+<li><a href="#multiple-files-upload">Multiple files upload</a></li>
+<li><a href="#reuse-formdatas-and-multipartfiles">Reuse <code>FormData</code>s and <code>MultipartFile</code>s</a></li>
+</ul>
+</li>
+<li><a href="#transformer">Transformer</a>
+<ul>
+<li><a href="#transformer-example">Transformer example</a></li>
+</ul>
+</li>
+<li><a href="#httpclientadapter">HttpClientAdapter</a>
+<ul>
+<li><a href="#using-proxy">Using proxy</a></li>
+<li><a href="#https-certificate-verification">HTTPS certificate verification</a></li>
+</ul>
+</li>
+<li><a href="#http2-support">HTTP/2 support</a></li>
+<li><a href="#cancellation">Cancellation</a></li>
+<li><a href="#extends-dio-class">Extends Dio class</a></li>
+<li><a href="#cross-origin-resource-sharing-on-web-cors">Cross-Origin Resource Sharing on Web (CORS)</a></li>
+</ul>
+</li>
+</ul>
+
+</details>
+<h2 id="get-started" class="hash-header">Get started <a href="#get-started" class="hash-link">#</a></h2>
+<h3 id="install" class="hash-header">Install <a href="#install" class="hash-link">#</a></h3>
+<p>Add the <code>dio</code> package to your
+<a href="https://pub.dev/packages/dio/install">pubspec dependencies</a>.</p>
+<p><strong>Before you upgrade: Breaking changes might happen in major and minor versions of packages.<br>
+See the <a href="https://pub.dev/documentation/dio/latest/topics/Migration%20Guide-topic.html">Migration Guide</a> for the complete breaking changes list.</strong></p>
+<h3 id="super-simple-to-use" class="hash-header">Super simple to use <a href="#super-simple-to-use" class="hash-link">#</a></h3>
+<pre><code class="language-dart">import 'package:dio/dio.dart';
+
+final dio = Dio();
+
+void getHttp() async {
+  final response = await dio.get('https://dart.dev');
+  print(response);
+}
+</code></pre>
+<h2 id="awesome-dio" class="hash-header">Awesome dio <a href="#awesome-dio" class="hash-link">#</a></h2>
+<p>🎉 A curated list of awesome things related to dio.</p>
+<h3 id="plugins" class="hash-header">Plugins <a href="#plugins" class="hash-link">#</a></h3>
+<p><a href="https://pub.dev/documentation/dio/latest/topics/Plugins-topic.html">Plugins</a></p>
+<p>Welcome to submit third-party plugins and related libraries
+in <a href="https://github.com/cfug/dio/issues/347" rel="ugc">here</a>.</p>
+<h2 id="examples" class="hash-header">Examples <a href="#examples" class="hash-link">#</a></h2>
+<h3 id="performing-a-get-request" class="hash-header">Performing a <code>GET</code> request <a href="#performing-a-get-request" class="hash-link">#</a></h3>
+<pre><code class="language-dart">import 'package:dio/dio.dart';
+
+final dio = Dio();
+
+void request() async {
+  Response response;
+  response = await dio.get('/test?id=12&amp;name=dio');
+  print(response.data.toString());
+  // The below request is the same as above.
+  response = await dio.get(
+    '/test',
+    queryParameters: {'id': 12, 'name': 'dio'},
+  );
+  print(response.data.toString());
+}
+</code></pre>
+<h3 id="performing-a-post-request" class="hash-header">Performing a <code>POST</code> request <a href="#performing-a-post-request" class="hash-link">#</a></h3>
+<pre><code class="language-dart">response = await dio.post('/test', data: {'id': 12, 'name': 'dio'});
+</code></pre>
+<h3 id="performing-a-query-request" class="hash-header">Performing a <code>QUERY</code> request <a href="#performing-a-query-request" class="hash-link">#</a></h3>
+<p>The <code>QUERY</code> method (RFC 10008) is safe and idempotent like <code>GET</code>, but allows a
+request body, which is useful for complex queries that do not fit in the URL.</p>
+<pre><code class="language-dart">response = await dio.query('/search', data: {'filter': {'name': 'dio'}});
+</code></pre>
+<h3 id="performing-multiple-concurrent-requests" class="hash-header">Performing multiple concurrent requests <a href="#performing-multiple-concurrent-requests" class="hash-link">#</a></h3>
+<pre><code class="language-dart">List&lt;Response&gt; responses = await Future.wait([dio.post('/info'), dio.get('/token')]);
+</code></pre>
+<h3 id="downloading-a-file" class="hash-header">Downloading a file <a href="#downloading-a-file" class="hash-link">#</a></h3>
+<pre><code class="language-dart">response = await dio.download(
+  'https://pub.dev/',
+  (await getTemporaryDirectory()).path + 'pub.html',
+);
+</code></pre>
+<p>On Web, the second argument is used as the browser's suggested filename instead
+of a local filesystem path. The browser chooses the actual saved location, the
+response is loaded into memory before the download is triggered, and CORS still
+applies. <code>FileAccessMode.append</code> is not supported, <code>deleteOnError</code> has no local
+file to delete, and custom <code>lengthHeader</code> values are not used for Web progress
+totals.</p>
+<h3 id="get-response-stream" class="hash-header">Get response stream <a href="#get-response-stream" class="hash-link">#</a></h3>
+<pre><code class="language-dart">final rs = await dio.get(
+  url,
+  options: Options(responseType: ResponseType.stream), // Set the response type to `stream`.
+);
+print(rs.data.stream); // Response stream.
+</code></pre>
+<h3 id="get-response-with-bytes" class="hash-header">Get response with bytes <a href="#get-response-with-bytes" class="hash-link">#</a></h3>
+<pre><code class="language-dart">final rs = await Dio().get&lt;List&lt;int&gt;&gt;(
+  url,
+  options: Options(responseType: ResponseType.bytes), // Set the response type to `bytes`.
+);
+print(rs.data); // Type: List&lt;int&gt;.
+</code></pre>
+<h3 id="sending-a-formdata" class="hash-header">Sending a <code>FormData</code> <a href="#sending-a-formdata" class="hash-link">#</a></h3>
+<pre><code class="language-dart">final formData = FormData.fromMap({
+  'name': 'dio',
+  'date': DateTime.now().toIso8601String(),
+});
+final response = await dio.post('/info', data: formData);
+</code></pre>
+<h3 id="uploading-multiple-files-to-server-by-formdata" class="hash-header">Uploading multiple files to server by FormData <a href="#uploading-multiple-files-to-server-by-formdata" class="hash-link">#</a></h3>
+<pre><code class="language-dart">final formData = FormData.fromMap({
+  'name': 'dio',
+  'date': DateTime.now().toIso8601String(),
+  'file': await MultipartFile.fromFile('./text.txt', filename: 'upload.txt'),
+  'files': [
+    await MultipartFile.fromFile('./text1.txt', filename: 'text1.txt'),
+    await MultipartFile.fromFile('./text2.txt', filename: 'text2.txt'),
+  ]
+});
+final response = await dio.post('/info', data: formData);
+</code></pre>
+<h3 id="listening-the-uploading-progress" class="hash-header">Listening the uploading progress <a href="#listening-the-uploading-progress" class="hash-link">#</a></h3>
+<pre><code class="language-dart">final response = await dio.post(
+  'https://www.dtworkroom.com/doris/1/2.0.0/test',
+  data: {'aa': 'bb' * 22},
+  onSendProgress: (int sent, int total) {
+    print('$sent $total');
+  },
+);
+</code></pre>
+<h3 id="post-binary-data-with-stream" class="hash-header">Post binary data with Stream <a href="#post-binary-data-with-stream" class="hash-link">#</a></h3>
+<pre><code class="language-dart">// Binary data
+final postData = &lt;int&gt;[0, 1, 2];
+await dio.post(
+  url,
+  data: Stream.fromIterable(postData.map((e) =&gt; [e])), // Creates a Stream&lt;List&lt;int&gt;&gt;.
+  options: Options(
+    headers: {
+      Headers.contentLengthHeader: postData.length, // Set the content-length.
+    },
+  ),
+);
+</code></pre>
+<p>Note: <code>content-length</code> must be set if you want to subscribe to the sending progress.</p>
+<p>See all examples code <a href="https://github.com/cfug/dio/blob/main/dio/example" rel="ugc">here</a>.</p>
+<h2 id="dio-apis" class="hash-header">Dio APIs <a href="#dio-apis" class="hash-link">#</a></h2>
+<h3 id="creating-an-instance-and-set-default-configs" class="hash-header">Creating an instance and set default configs <a href="#creating-an-instance-and-set-default-configs" class="hash-link">#</a></h3>
+<blockquote>
+<p>It is recommended to use a singleton of <code>Dio</code> in projects, which can manage configurations like headers, base urls,
+and timeouts consistently.
+Here is an <a href="https://github.com/cfug/dio/blob/main/example_flutter_app" rel="ugc">example</a> that use a singleton in Flutter.</p>
+</blockquote>
+<p>You can create instance of Dio with an optional <code>BaseOptions</code> object:</p>
+<pre><code class="language-dart">final dio = Dio(); // With default `Options`.
+
+void configureDio() {
+  // Set default configs
+  dio.options.baseUrl = 'https://api.pub.dev';
+  dio.options.connectTimeout = Duration(seconds: 5);
+  dio.options.receiveTimeout = Duration(seconds: 3);
+
+  // Or create `Dio` with a `BaseOptions` instance.
+  final options = BaseOptions(
+    baseUrl: 'https://api.pub.dev',
+    connectTimeout: Duration(seconds: 5),
+    receiveTimeout: Duration(seconds: 3),
+  );
+  final anotherDio = Dio(options);
+
+  // Or clone the existing `Dio` instance with all fields.
+  final clonedDio = dio.clone();
+}
+</code></pre>
+<p>The core API in Dio instance is:</p>
+<pre><code class="language-dart">Future&lt;Response&lt;T&gt;&gt; request&lt;T&gt;(
+  String path, {
+  Object? data,
+  Map&lt;String, dynamic&gt;? queryParameters,
+  CancelToken? cancelToken,
+  Options? options,
+  ProgressCallback? onSendProgress,
+  ProgressCallback? onReceiveProgress,
+});
+</code></pre>
+<pre><code class="language-dart">final response = await dio.request(
+  '/test',
+  data: {'id': 12, 'name': 'dio'},
+  options: Options(method: 'GET'),
+);
+</code></pre>
+<h3 id="request-options" class="hash-header">Request Options <a href="#request-options" class="hash-link">#</a></h3>
+<p>There are two request options concepts in the Dio library:
+<code>BaseOptions</code> and <code>Options</code>.
+The <code>BaseOptions</code> include a set of base settings for each <code>Dio()</code>,
+and the <code>Options</code> describes the configuration for a single request.
+These options will be merged when making requests.
+The <code>Options</code> declaration is as follows:</p>
+<pre><code class="language-dart">/// The HTTP request method.
+String method;
+
+/// Timeout when sending data.
+///
+/// Throws the [DioException] with
+/// [DioExceptionType.sendTimeout] type when timed out.
+///
+/// `null` or `Duration.zero` means no timeout limit.
+Duration? sendTimeout;
+
+/// Timeout when receiving data.
+///
+/// The timeout represents:
+///  - a timeout before the connection is established
+///    and the first received response bytes.
+///  - the duration during data transfer of each byte event,
+///    rather than the total duration of the receiving.
+///
+/// Throws the [DioException] with
+/// [DioExceptionType.receiveTimeout] type when timed out.
+///
+/// `null` or `Duration.zero` means no timeout limit.
+Duration? receiveTimeout;
+
+/// Timeout when transforming response data.
+///
+/// Throws the [DioException] with
+/// [DioExceptionType.transformTimeout] type when timed out.
+/// On web, timeout handling is best-effort because synchronous JavaScript
+/// work cannot be preempted.
+///
+/// `null` or `Duration.zero` means no timeout limit.
+Duration? transformTimeout;
+
+/// Custom field that you can retrieve it later in [Interceptor],
+/// [Transformer] and the [Response.requestOptions] object.
+Map&lt;String, dynamic&gt;? extra;
+
+/// HTTP request headers.
+///
+/// The keys of the header are case-insensitive,
+/// e.g.: `content-type` and `Content-Type` will be treated as the same key.
+Map&lt;String, dynamic&gt;? headers;
+
+/// Whether the case of header keys should be preserved.
+///
+/// Defaults to false.
+///
+/// This option WILL NOT take effect on these circumstances:
+/// - XHR ([HttpRequest]) does not support handling this explicitly.
+/// - The HTTP/2 standard only supports lowercase header keys.
+bool? preserveHeaderCase;
+
+/// The type of data that [Dio] handles with options.
+///
+/// The default value is [ResponseType.json].
+/// [Dio] will parse response string to JSON object automatically
+/// when the content-type of response is [Headers.jsonContentType].
+///
+/// See also:
+///  - `plain` if you want to receive the data as `String`.
+///  - `bytes` if you want to receive the data as the complete bytes.
+///  - `stream` if you want to receive the data as streamed binary bytes.
+ResponseType? responseType;
+
+/// The request content-type.
+///
+/// The default `content-type` for requests will be implied by the
+/// [ImplyContentTypeInterceptor] according to the type of the request payload.
+/// The interceptor can be removed by
+/// [Interceptors.removeImplyContentTypeInterceptor].
+String? contentType;
+
+/// Defines whether the request is considered to be successful
+/// with the given status code.
+/// The request will be treated as succeed if the callback returns true.
+ValidateStatus? validateStatus;
+
+/// Whether to retrieve the data if status code indicates a failed request.
+///
+/// Defaults to true.
+bool? receiveDataWhenStatusError;
+
+/// See [HttpClientRequest.followRedirects].
+///
+/// Defaults to true.
+bool? followRedirects;
+
+/// The maximum number of redirects when [followRedirects] is `true`.
+/// [RedirectException] will be thrown if redirects exceeded the limit.
+///
+/// Defaults to 5.
+int? maxRedirects;
+
+/// See [HttpClientRequest.persistentConnection].
+///
+/// Defaults to true.
+bool? persistentConnection;
+
+/// The default request encoder is [Utf8Encoder], you can set custom
+/// encoder by this option.
+RequestEncoder? requestEncoder;
+
+/// The default response decoder is [Utf8Decoder], you can set custom
+/// decoder by this option, it will be used in [Transformer].
+ResponseDecoder? responseDecoder;
+
+/// Indicates the format of collection data in request query parameters and
+/// `x-www-url-encoded` body data.
+///
+/// Defaults to [ListFormat.multi].
+ListFormat? listFormat;
+</code></pre>
+<p>There is a complete example <a href="https://github.com/cfug/dio/blob/main/example_dart/lib/options.dart" rel="ugc">here</a>.</p>
+<h3 id="response" class="hash-header">Response <a href="#response" class="hash-link">#</a></h3>
+<p>The response for a request contains the following information.</p>
+<pre><code class="language-dart">/// Response body. may have been transformed, please refer to [ResponseType].
+T? data;
+
+/// The corresponding request info.
+RequestOptions requestOptions;
+
+/// HTTP status code.
+int? statusCode;
+
+/// Returns the reason phrase associated with the status code.
+/// The reason phrase must be set before the body is written
+/// to. Setting the reason phrase after writing to the body.
+String? statusMessage;
+
+/// Whether this response is a redirect.
+/// ** Attention **: Whether this field is available depends on whether the
+/// implementation of the adapter supports it or not.
+bool isRedirect;
+
+/// The series of redirects this connection has been through. The list will be
+/// empty if no redirects were followed. [redirects] will be updated both
+/// in the case of an automatic and a manual redirect.
+///
+/// ** Attention **: Whether this field is available depends on whether the
+/// implementation of the adapter supports it or not.
+List&lt;RedirectRecord&gt; redirects;
+
+/// Custom fields that only for the [Response].
+Map&lt;String, dynamic&gt; extra;
+
+/// Response headers.
+Headers headers;
+</code></pre>
+<p>When request is succeed, you will receive the response as follows:</p>
+<pre><code class="language-dart">final response = await dio.get('https://pub.dev');
+print(response.data);
+print(response.headers);
+print(response.requestOptions);
+print(response.statusCode);
+</code></pre>
+<p>Be aware, the <code>Response.extra</code> is different from <code>RequestOptions.extra</code>,
+they are not related to each other.</p>
+<h3 id="interceptors" class="hash-header">Interceptors <a href="#interceptors" class="hash-link">#</a></h3>
+<p>For each dio instance, we can add one or more interceptors,
+by which we can intercept requests, responses, and errors
+before they are handled by <code>then</code> or <code>catchError</code>.</p>
+<pre><code class="language-dart">dio.interceptors.add(
+  InterceptorsWrapper(
+    onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+      // Do something before request is sent.
+      // If you want to resolve the request with custom data,
+      // you can resolve a `Response` using `handler.resolve(response)`.
+      // If you want to reject the request with a error message,
+      // you can reject with a `DioException` using `handler.reject(dioError)`.
+      return handler.next(options);
+    },
+    onResponse: (Response response, ResponseInterceptorHandler handler) {
+      // Do something with response data.
+      // If you want to reject the request with a error message,
+      // you can reject a `DioException` object using `handler.reject(dioError)`.
+      return handler.next(response);
+    },
+    onError: (DioException error, ErrorInterceptorHandler handler) {
+      // Do something with response error.
+      // If you want to resolve the request with some custom data,
+      // you can resolve a `Response` object using `handler.resolve(response)`.
+      return handler.next(error);
+    },
+  ),
+);
+</code></pre>
+<p>Simple interceptor example:</p>
+<pre><code class="language-dart">import 'package:dio/dio.dart';
+class CustomInterceptors extends Interceptor {
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    print('REQUEST[${options.method}] =&gt; PATH: ${options.path}');
+    super.onRequest(options, handler);
+  }
+
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    print('RESPONSE[${response.statusCode}] =&gt; PATH: ${response.requestOptions.path}');
+    super.onResponse(response, handler);
+  }
+
+  @override
+  Future onError(DioException err, ErrorInterceptorHandler handler) async {
+    print('ERROR[${err.response?.statusCode}] =&gt; PATH: ${err.requestOptions.path}');
+    super.onError(err, handler);
+  }
+}
+</code></pre>
+<h4 id="resolve-and-reject-the-request">Resolve and reject the request</h4>
+<p>In all interceptors, you can interfere with their execution flow.
+If you want to resolve the request/response with some custom data,
+you can call <code>handler.resolve(Response)</code>.
+If you want to reject the request/response with a error message,
+you can call <code>handler.reject(dioError)</code> .</p>
+<pre><code class="language-dart">dio.interceptors.add(
+  InterceptorsWrapper(
+    onRequest: (options, handler) {
+      return handler.resolve(
+        Response(requestOptions: options, data: 'fake data'),
+      );
+    },
+  ),
+);
+final response = await dio.get('/test');
+print(response.data); // 'fake data'
+</code></pre>
+<h4 id="queuedinterceptor">QueuedInterceptor</h4>
+<p><code>Interceptor</code> can be executed concurrently, that is,
+all the requests enter the interceptor at once, rather than executing sequentially.
+However, in some cases we expect that requests enter the interceptor sequentially like #590.
+Therefore, we need to provide a mechanism for sequential access (step by step)
+to interceptors and <code>QueuedInterceptor</code> can solve this problem.</p>
+<h5 id="example">Example</h5>
+<p>Because of security reasons, we need all the requests to set up
+a <code>csrfToken</code> in the header, if <code>csrfToken</code> does not exist,
+we need to request a csrfToken first, and then perform the network request,
+because the request csrfToken progress is asynchronous,
+so we need to execute this async request in request interceptor.</p>
+<p>For the complete code see <a href="https://github.com/cfug/dio/blob/main/example_dart/lib/queued_interceptor_crsftoken.dart" rel="ugc">here</a>.</p>
+<h4 id="loginterceptor">LogInterceptor</h4>
+<p>You can apply the <code>LogInterceptor</code> to log requests and responses automatically.</p>
+<p><strong>Note:</strong> <code>LogInterceptor</code> should always be the last interceptor added,
+otherwise modifications by following interceptors will not be logged.</p>
+<h4 id="dart">Dart</h4>
+<pre><code class="language-dart">dio.interceptors.add(LogInterceptor(responseBody: false)); // Do not output responses body.
+</code></pre>
+<p><strong>Note:</strong> When using the default <code>logPrint</code> function, logs will only be printed
+in DEBUG mode (when the assertion is enabled).</p>
+<p>Alternatively <code>dart:developer</code>'s log can also be used to log messages (available in Flutter too).</p>
+<h4 id="flutter">Flutter</h4>
+<p>When using Flutter, Flutters own <code>debugPrint</code> function should be used.</p>
+<p>This ensures, that debug messages are also available via <code>flutter logs</code>.</p>
+<p><strong>Note:</strong> <code>debugPrint</code> <strong>does not mean print logs under the DEBUG mode</strong>,
+it's a throttled function which helps to print full logs without truncation.
+Do not use it under any production environment unless you're intended to.</p>
+<pre><code class="language-dart">dio.interceptors.add(
+  LogInterceptor(
+    logPrint: (o) =&gt; debugPrint(o.toString()),
+  ),
+);
+</code></pre>
+<h4 id="custom-interceptor">Custom Interceptor</h4>
+<p>You can customize interceptor by extending the <code>Interceptor/QueuedInterceptor</code> class.
+There is an example that implementing a simple cache policy:
+<a href="https://github.com/cfug/dio/blob/main/example_dart/lib/custom_cache_interceptor.dart" rel="ugc">custom cache interceptor</a>.</p>
+<h2 id="handling-errors" class="hash-header">Handling Errors <a href="#handling-errors" class="hash-link">#</a></h2>
+<p>When an error occurs, Dio will wrap the <code>Error/Exception</code> to a <code>DioException</code>:</p>
+<pre><code class="language-dart">try {
+  // 404
+  await dio.get('https://api.pub.dev/not-exist');
+} on DioException catch (e) {
+  // The request was made and the server responded with a status code
+  // that falls out of the range of 2xx and is also not 304.
+  if (e.response != null) {
+    print(e.response.data)
+    print(e.response.headers)
+    print(e.response.requestOptions)
+  } else {
+    // Something happened in setting up or sending the request that triggered an Error
+    print(e.requestOptions)
+    print(e.message)
+  }
+}
+</code></pre>
+<h3 id="dioexception" class="hash-header">DioException <a href="#dioexception" class="hash-link">#</a></h3>
+<pre><code class="language-dart">/// The request info for the request that throws exception.
+RequestOptions requestOptions;
+
+/// Response info, it may be `null` if the request can't reach to the
+/// HTTP server, for example, occurring a DNS error, network is not available.
+Response? response;
+
+/// The type of the current [DioException].
+DioExceptionType type;
+
+/// The original error/exception object;
+/// It's usually not null when `type` is [DioExceptionType.unknown].
+Object? error;
+
+/// The stacktrace of the original error/exception object;
+/// It's usually not null when `type` is [DioExceptionType.unknown].
+StackTrace? stackTrace;
+
+/// The error message that throws a [DioException].
+String? message;
+</code></pre>
+<h3 id="dioexceptiontype" class="hash-header">DioExceptionType <a href="#dioexceptiontype" class="hash-link">#</a></h3>
+<p>See <a href="https://github.com/cfug/dio/blob/main/dio/lib/src/dio_exception.dart" rel="ugc">the source code</a>.</p>
+<h2 id="using-applicationx-www-form-urlencoded-format" class="hash-header">Using application/x-www-form-urlencoded format <a href="#using-applicationx-www-form-urlencoded-format" class="hash-link">#</a></h2>
+<p>By default, Dio serializes request data (except <code>String</code> type) to <code>JSON</code>.
+To send data in the <code>application/x-www-form-urlencoded</code> format instead:</p>
+<pre><code class="language-dart">// Instance level
+dio.options.contentType = Headers.formUrlEncodedContentType;
+// or only works once
+dio.post(
+  '/info',
+  data: {'id': 5},
+  options: Options(contentType: Headers.formUrlEncodedContentType),
+);
+</code></pre>
+<h2 id="sending-formdata" class="hash-header">Sending FormData <a href="#sending-formdata" class="hash-link">#</a></h2>
+<p>You can also send <code>FormData</code> with Dio, which will send data in the <code>multipart/form-data</code>,
+and it supports uploading files.</p>
+<pre><code class="language-dart">final formData = FormData.fromMap({
+  'name': 'dio',
+  'date': DateTime.now().toIso8601String(),
+  'file': await MultipartFile.fromFile('./text.txt', filename: 'upload.txt'),
+});
+final response = await dio.post('/info', data: formData);
+</code></pre>
+<p>You can also specify your desired boundary name which will be used
+to construct boundaries of every <code>FormData</code> with additional prefix and suffix.</p>
+<pre><code class="language-dart">final formDataWithBoundaryName = FormData(
+  boundaryName: 'my-boundary-name',
+);
+</code></pre>
+<blockquote>
+<p><code>FormData</code> is supported with the POST method typically.</p>
+</blockquote>
+<p>There is a complete example <a href="https://github.com/cfug/dio/blob/main/example_dart/lib/formdata.dart" rel="ugc">here</a>.</p>
+<h3 id="multiple-files-upload" class="hash-header">Multiple files upload <a href="#multiple-files-upload" class="hash-link">#</a></h3>
+<p>There are two ways to add multiple files to <code>FormData</code>,
+the only difference is that upload keys are different for array types。</p>
+<pre><code class="language-dart">final formData = FormData.fromMap({
+  'files': [
+    MultipartFile.fromFileSync('path/to/upload1.txt', filename: 'upload1.txt'),
+    MultipartFile.fromFileSync('path/to/upload2.txt', filename: 'upload2.txt'),
+  ],
+});
+</code></pre>
+<p>The upload key eventually becomes <code>files[]</code>.
+This is because many back-end services add a middle bracket to key
+when they get an array of files.
+<strong>If you don't want a list literal</strong>,
+you should create FormData as follows (Don't use <code>FormData.fromMap</code>):</p>
+<pre><code class="language-dart">final formData = FormData();
+formData.files.addAll([
+  MapEntry(
+   'files',
+    MultipartFile.fromFileSync('./example/upload.txt',filename: 'upload.txt'),
+  ),
+  MapEntry(
+    'files',
+    MultipartFile.fromFileSync('./example/upload.txt',filename: 'upload.txt'),
+  ),
+]);
+</code></pre>
+<h3 id="reuse-formdatas-and-multipartfiles" class="hash-header">Reuse <code>FormData</code>s and <code>MultipartFile</code>s <a href="#reuse-formdatas-and-multipartfiles" class="hash-link">#</a></h3>
+<p>You should make a new <code>FormData</code> or <code>MultipartFile</code> every time in repeated requests.
+A typical wrong behavior is setting the <code>FormData</code> as a variable and using it in every request.
+It can be easy for the <em>Cannot finalize</em> exceptions to occur.
+To avoid that, write your requests like the below code:</p>
+<pre><code class="language-dart">Future&lt;void&gt; _repeatedlyRequest() async {
+  Future&lt;FormData&gt; createFormData() async {
+    return FormData.fromMap({
+      'name': 'dio',
+      'date': DateTime.now().toIso8601String(),
+      'file': await MultipartFile.fromFile('./text.txt',filename: 'upload.txt'),
+    });
+  }
+  
+  await dio.post('some-url', data: await createFormData());
+}
+</code></pre>
+<h2 id="transformer" class="hash-header">Transformer <a href="#transformer" class="hash-link">#</a></h2>
+<p><code>Transformer</code> allows changes to the request/response data
+before it is sent/received to/from the server.
+Dio has already implemented a <code>BackgroundTransformer</code> as default,
+which calls <code>jsonDecode</code> in an isolate if the response is larger than 50 KB.
+If you want to customize the transformation of request/response data,
+you can provide a <code>Transformer</code> by your self,
+and replace the <code>BackgroundTransformer</code> by setting the <code>dio.transformer</code>.</p>
+<blockquote>
+<p><code>Transformer.transformRequest</code> only takes effect when request with <code>PUT</code>/<code>POST</code>/<code>PATCH</code>,
+they're methods that can contain the request body.
+<code>Transformer.transformResponse</code> however, can be applied to all types of responses.</p>
+</blockquote>
+<h3 id="transformer-example" class="hash-header">Transformer example <a href="#transformer-example" class="hash-link">#</a></h3>
+<p>There is an example for <a href="https://github.com/cfug/dio/blob/main/example_dart/lib/transformer.dart" rel="ugc">customizing Transformer</a>.</p>
+<h2 id="httpclientadapter" class="hash-header">HttpClientAdapter <a href="#httpclientadapter" class="hash-link">#</a></h2>
+<p><code>HttpClientAdapter</code> is a bridge between <code>Dio</code> and <code>HttpClient</code>.</p>
+<p><code>Dio</code> implements standard and friendly APIs for developer.
+<code>HttpClient</code> is the real object that makes Http requests.</p>
+<p>We can use any <code>HttpClient</code> not just <code>dart:io:HttpClient</code> to make HTTP requests.
+And all we need is providing a <code>HttpClientAdapter</code>.
+The default <code>HttpClientAdapter</code> for Dio is <code>IOHttpClientAdapter</code> on native platforms,
+and <code>BrowserHttpClientAdapter</code> on the Web platform.
+They can be initiated by calling the <code>HttpClientAdapter()</code>.</p>
+<pre><code class="language-dart">dio.httpClientAdapter = HttpClientAdapter();
+</code></pre>
+<p>If you want to use platform adapters explicitly:</p>
+<ul>
+<li>For the Web platform:
+<pre><code class="language-dart">import 'package:dio/browser.dart';
+// ...
+dio.httpClientAdapter = BrowserHttpClientAdapter();
+</code></pre>
+</li>
+<li>For native platforms:
+<pre><code class="language-dart">import 'package:dio/io.dart';
+// ...
+dio.httpClientAdapter = IOHttpClientAdapter();
+</code></pre>
+</li>
+</ul>
+<p><a href="https://github.com/cfug/dio/blob/main/example_dart/lib/adapter.dart" rel="ugc">Here</a> is a simple example to custom adapter.</p>
+<h3 id="using-proxy" class="hash-header">Using proxy <a href="#using-proxy" class="hash-link">#</a></h3>
+<p><code>IOHttpClientAdapter</code> provide a callback to set proxy to <code>dart:io:HttpClient</code>,
+for example:</p>
+<pre><code class="language-dart">import 'package:dio/io.dart';
+
+void initAdapter() {
+  dio.httpClientAdapter = IOHttpClientAdapter(
+    createHttpClient: () {
+      final client = HttpClient();
+      // Config the client.
+      client.findProxy = (uri) {
+        // Forward all request to proxy "localhost:8888".
+        // Be aware, the proxy should went through you running device,
+        // not the host platform.
+        return 'PROXY localhost:8888';
+      };
+      // You can also create a new HttpClient for Dio instead of returning,
+      // but a client must being returned here.
+      return client;
+    },
+  );
+}
+</code></pre>
+<p>There is a complete example <a href="https://github.com/cfug/dio/blob/main/example_dart/lib/proxy.dart" rel="ugc">here</a>.</p>
+<p>Web does not support to set proxy.</p>
+<h3 id="https-certificate-verification" class="hash-header">HTTPS certificate verification <a href="#https-certificate-verification" class="hash-link">#</a></h3>
+<p>HTTPS certificate verification (or public key pinning) refers to the process of ensuring that
+the certificates protecting the TLS connection to the server are the ones you expect them to be.
+The intention is to reduce the chance of a man-in-the-middle attack.
+The theory is covered by <a href="https://owasp.org/www-community/controls/Certificate_and_Public_Key_Pinning" rel="ugc">OWASP</a>.</p>
+<p><em>Server Response Certificate</em></p>
+<p>Unlike other methods, this one works with the certificate of the server itself.</p>
+<pre><code class="language-dart">void initAdapter() {
+  const String fingerprint = 'ee5ce1dfa7a53657c545c62b65802e4272878dabd65c0aadcf85783ebb0b4d5c';
+  dio.httpClientAdapter = IOHttpClientAdapter(
+    createHttpClient: () {
+      // Don't trust any certificate just because their root cert is trusted.
+      final HttpClient client = HttpClient(context: SecurityContext(withTrustedRoots: false));
+      // You can test the intermediate / root cert here. We just ignore it.
+      client.badCertificateCallback = (cert, host, port) =&gt; true;
+      return client;
+    },
+    validateCertificate: (cert, host, port) {
+      // Check that the cert fingerprint matches the one we expect.
+      // We definitely require _some_ certificate.
+      if (cert == null) {
+        return false;
+      }
+      // Validate it any way you want. Here we only check that
+      // the fingerprint matches the OpenSSL SHA256.
+      return fingerprint == sha256.convert(cert.der).toString();
+    },
+  );
+}
+</code></pre>
+<p>You can use openssl to read the SHA256 value of a certificate:</p>
+<pre><code class="language-sh">openssl s_client -servername pinning-test.badssl.com -connect pinning-test.badssl.com:443 &lt; /dev/null 2&gt;/dev/null \
+  | openssl x509 -noout -fingerprint -sha256
+
+# SHA256 Fingerprint=EE:5C:E1:DF:A7:A5:36:57:C5:45:C6:2B:65:80:2E:42:72:87:8D:AB:D6:5C:0A:AD:CF:85:78:3E:BB:0B:4D:5C
+# (remove the formatting, keep only lower case hex characters to match the `sha256` above)
+</code></pre>
+<p><em>Certificate Authority Verification</em></p>
+<p>These methods work well when your server has a self-signed certificate,
+but they don't work for certificates issued by a 3rd party like AWS or Let's Encrypt.</p>
+<p>There are two ways to verify the root of the https certificate chain provided by the server.
+Suppose the certificate format is PEM, the code like:</p>
+<pre><code class="language-dart">void initAdapter() {
+  String PEM = 'XXXXX'; // root certificate content
+  dio.httpClientAdapter = IOHttpClientAdapter(
+    createHttpClient: () {
+      final client = HttpClient();
+      client.badCertificateCallback = (X509Certificate cert, String host, int port) {
+        return cert.pem == PEM; // Verify the certificate.
+      };
+      return client;
+    },
+  );
+}
+</code></pre>
+<p>Another way is creating a <code>SecurityContext</code> when create the <code>HttpClient</code>:</p>
+<pre><code class="language-dart">void initAdapter() {
+  String PEM = 'XXXXX'; // root certificate content
+  dio.httpClientAdapter = IOHttpClientAdapter(
+    onHttpClientCreate: (_) {
+      final SecurityContext sc = SecurityContext();
+      sc.setTrustedCertificates(File(pathToTheCertificate));
+      final HttpClient client = HttpClient(context: sc);
+      return client;
+    },
+  );
+}
+</code></pre>
+<p>In this way, the format of <code>setTrustedCertificates()</code> must be PEM or PKCS12.
+PKCS12 requires password to use, which will expose the password in the code,
+so it's not recommended to use in common cases.</p>
+<h2 id="http2-support" class="hash-header">HTTP/2 support <a href="#http2-support" class="hash-link">#</a></h2>
+<p><a href="https://github.com/cfug/dio/blob/main/plugins/http2_adapter" rel="ugc">dio_http2_adapter</a> is a Dio <code>HttpClientAdapter</code>
+which supports HTTP/2.</p>
+<h2 id="cancellation" class="hash-header">Cancellation <a href="#cancellation" class="hash-link">#</a></h2>
+<p>You can cancel a request using a <code>CancelToken</code>.
+One token can be shared with multiple requests.
+When a token's <code>cancel()</code> is invoked, all requests with this token will be cancelled.</p>
+<pre><code class="language-dart">final cancelToken = CancelToken();
+dio.get(url, cancelToken: cancelToken).catchError((DioException error) {
+  if (CancelToken.isCancel(error)) {
+    print('Request canceled: ${error.message}');
+  } else {
+    // handle error.
+  }
+});
+// Cancel the requests with "cancelled" message.
+token.cancel('cancelled');
+</code></pre>
+<p>There is a complete example <a href="https://github.com/cfug/dio/blob/main/example_dart/lib/cancel_request.dart" rel="ugc">here</a>.</p>
+<h2 id="extends-dio-class" class="hash-header">Extends Dio class <a href="#extends-dio-class" class="hash-link">#</a></h2>
+<p><code>Dio</code> is an abstract class with factory constructor,
+so we don't extend <code>Dio</code> class direct.
+We can extend <code>DioForNative</code> or <code>DioForBrowser</code> instead, for example:</p>
+<pre><code class="language-dart">import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
+// If in browser, import 'package:dio/browser.dart'.
+
+class Http extends DioForNative {
+  Http([BaseOptions options]) : super(options) {
+    // do something
+  }
+}
+</code></pre>
+<p>We can also implement a custom <code>Dio</code> client:</p>
+<pre><code class="language-dart">class MyDio with DioMixin implements Dio {
+  // ...
+}
+</code></pre>
+<h2 id="cross-origin-resource-sharing-on-web-cors" class="hash-header">Cross-Origin Resource Sharing on Web (CORS) <a href="#cross-origin-resource-sharing-on-web-cors" class="hash-link">#</a></h2>
+<p>If a request is not a <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#simple_requests" rel="ugc">simple request</a>,
+the Web browser will send a <a href="https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request" rel="ugc">CORS preflight request</a>
+that checks to see if the CORS protocol is understood
+and a server is aware using specific methods and headers.</p>
+<p>You can modify your requests to match the definition of simple request,
+or add a CORS middleware for your service to handle CORS requests.</p>
+</section></div></div></div><aside class="detail-info-box"><a class="packages-scores" href="/packages/dio/score"><div class="packages-score packages-score-like" data-package="dio"><div class="packages-score-value -has-value"><span class="packages-score-value-number">8.36k</span><span class="packages-score-value-sign"></span></div><div class="packages-score-label">likes</div></div><div class="packages-score packages-score-health"><div class="packages-score-value -has-value"><span class="packages-score-value-number">160</span><span class="packages-score-value-sign"></span></div><div class="packages-score-label">points</div></div><div class="packages-score packages-score-downloads" title="Number of downloads of this package during the past 30 days"><div class="packages-score-value -has-value"><span class="packages-score-value-number">4.55M</span><span class="packages-score-value-sign"></span></div><div class="packages-score-label">downloads</div></div></a><h3 class="title">Documentation</h3><p><a class="link" href="/documentation/dio/latest/">API reference</a><br/></p><h3 class="title">Publisher</h3><p><a href="/publishers/flutter.cn"><img class="-pub-publisher-shield filter-invert-on-dark" src="/static/hash-3prhqakl/img/material-icon-verified.svg" alt="verified publisher" width="14" height="14" title="Published by a pub.dev verified publisher"/>flutter.cn</a></p><h3 class="title">Weekly Downloads</h3><div id="-weekly-downloads-sparkline" class="weekly-downloads-sparkline" data-widget="weekly-sparkline" data-weekly-sparkline-points="gP+6apEPEQDBKhAAorIQAKNSEACc0g4AtngOAHPQDQD7Gg4AWWkOAIH3DQCjGg0AbwENAJFdDQDFTQwAfNgLAEOhCwDuUwsAshMLAIJGCgD5FQsA350KAIEwCQA/EQoAMfsJAI/SCQCFzggAaYIJADVcCQBYOwoAZj8KAADdCQAR9wgAWlQIAP73CADtAAkAYbQHAOpzBwDmmgcALiIFAKGJBAA6PQcAXHUHAD06CAD47QcAyXwJAB3hCADHbQgAJfoHAFtuCAC/KQgAj60HAOmHBwA="></div><h3 class="title pkg-infobox-metadata">Metadata</h3><p>A powerful HTTP networking package,
+supports Interceptors,
+Aborting and canceling a request,
+Custom adapters, Transformers, etc.
+</p><p><a class="link" href="https://github.com/cfug/dio" rel="ugc">Homepage</a><br/><a class="link" href="https://github.com/cfug/dio/blob/main/dio" rel="ugc">Repository (GitHub)</a><br/><a class="link" href="https://github.com/cfug/dio/issues" rel="ugc">View&#47;report issues</a><br/><a class="link" href="https://github.com/cfug/dio/blob/main/CONTRIBUTING.md" rel="ugc">Contributing</a><br/></p><h3 class="title">Topics</h3><p><a class="topics-tag" href="/packages?q=topic%3Adio" rel="nofollow">#dio</a> <a class="topics-tag" href="/packages?q=topic%3Ahttp" rel="nofollow">#http</a> <a class="topics-tag" href="/packages?q=topic%3Anetwork" rel="nofollow">#network</a> <a class="topics-tag" href="/packages?q=topic%3Ainterceptor" rel="nofollow">#interceptor</a> <a class="topics-tag" href="/packages?q=topic%3Amiddleware" rel="nofollow">#middleware</a></p><h3 class="title">License</h3><p><img class="inline-icon-img filter-invert-on-dark" src="/static/hash-3prhqakl/img/material-icon-balance.svg" alt="" width="14" height="14" role="presentation"/>MIT (<a href="/packages/dio/license">license</a>)</p><h3 class="title">Dependencies</h3><p><a href="/packages/async" title="^2.8.2">async</a>, <a href="/packages/collection" title="^1.16.0">collection</a>, <a href="/packages/dio_web_adapter" title="&gt;=1.1.0 &lt;3.0.0">dio_web_adapter</a>, <a href="/packages/http_parser" title="^4.0.0">http_parser</a>, <a href="/packages/meta" title="^1.5.0">meta</a>, <a href="/packages/mime" title="&gt;=1.0.0 &lt;3.0.0">mime</a>, <a href="/packages/path" title="^1.8.0">path</a></p><h3 class="title">More</h3><p><a href="/packages?q=dependency%3Adio" rel="nofollow">Packages that depend on dio</a></p></aside></div><script type="application/ld+json">{"@context":"http\u003a\u002f\u002fschema.org","@type":"SoftwareSourceCode","name":"dio","version":"5.11.1","description":"dio - A powerful HTTP networking package,\u000asupports Interceptors,\u000aAborting and canceling a request,\u000aCustom adapters, Transformers, etc.\u000a","url":"https\u003a\u002f\u002fpub.dev\u002fpackages\u002fdio","dateCreated":"2018-04-21T17\u003a17\u003a44.474455Z","dateModified":"2026-09-04T02\u003a46\u003a21.721502Z","programmingLanguage":"Dart","image":"https\u003a\u002f\u002fpub.dev\u002fstatic\u002fimg\u002fpub-dev-icon-cover-image.png","license":"https\u003a\u002f\u002fpub.dev\u002fpackages\u002fdio\u002flicense"}</script></div><div class="detail-metadata"><h3 class="detail-metadata-title"><span class="detail-metadata-toggle">←</span> Metadata</h3><div class="detail-info-box"><a class="packages-scores" href="/packages/dio/score"><div class="packages-score packages-score-like" data-package="dio"><div class="packages-score-value -has-value"><span class="packages-score-value-number">8.36k</span><span class="packages-score-value-sign"></span></div><div class="packages-score-label">likes</div></div><div class="packages-score packages-score-health"><div class="packages-score-value -has-value"><span class="packages-score-value-number">160</span><span class="packages-score-value-sign"></span></div><div class="packages-score-label">points</div></div><div class="packages-score packages-score-downloads" title="Number of downloads of this package during the past 30 days"><div class="packages-score-value -has-value"><span class="packages-score-value-number">4.55M</span><span class="packages-score-value-sign"></span></div><div class="packages-score-label">downloads</div></div></a><h3 class="title">Documentation</h3><p><a class="link" href="/documentation/dio/latest/">API reference</a><br/></p><h3 class="title">Publisher</h3><p><a href="/publishers/flutter.cn"><img class="-pub-publisher-shield filter-invert-on-dark" src="/static/hash-3prhqakl/img/material-icon-verified.svg" alt="verified publisher" width="14" height="14" title="Published by a pub.dev verified publisher"/>flutter.cn</a></p><h3 class="title">Weekly Downloads</h3><div id="-weekly-downloads-sparkline" class="weekly-downloads-sparkline" data-widget="weekly-sparkline" data-weekly-sparkline-points="gP+6apEPEQDBKhAAorIQAKNSEACc0g4AtngOAHPQDQD7Gg4AWWkOAIH3DQCjGg0AbwENAJFdDQDFTQwAfNgLAEOhCwDuUwsAshMLAIJGCgD5FQsA350KAIEwCQA/EQoAMfsJAI/SCQCFzggAaYIJADVcCQBYOwoAZj8KAADdCQAR9wgAWlQIAP73CADtAAkAYbQHAOpzBwDmmgcALiIFAKGJBAA6PQcAXHUHAD06CAD47QcAyXwJAB3hCADHbQgAJfoHAFtuCAC/KQgAj60HAOmHBwA="></div><h3 class="title pkg-infobox-metadata">Metadata</h3><p>A powerful HTTP networking package,
+supports Interceptors,
+Aborting and canceling a request,
+Custom adapters, Transformers, etc.
+</p><p><a class="link" href="https://github.com/cfug/dio" rel="ugc">Homepage</a><br/><a class="link" href="https://github.com/cfug/dio/blob/main/dio" rel="ugc">Repository (GitHub)</a><br/><a class="link" href="https://github.com/cfug/dio/issues" rel="ugc">View&#47;report issues</a><br/><a class="link" href="https://github.com/cfug/dio/blob/main/CONTRIBUTING.md" rel="ugc">Contributing</a><br/></p><h3 class="title">Topics</h3><p><a class="topics-tag" href="/packages?q=topic%3Adio" rel="nofollow">#dio</a> <a class="topics-tag" href="/packages?q=topic%3Ahttp" rel="nofollow">#http</a> <a class="topics-tag" href="/packages?q=topic%3Anetwork" rel="nofollow">#network</a> <a class="topics-tag" href="/packages?q=topic%3Ainterceptor" rel="nofollow">#interceptor</a> <a class="topics-tag" href="/packages?q=topic%3Amiddleware" rel="nofollow">#middleware</a></p><h3 class="title">License</h3><p><img class="inline-icon-img filter-invert-on-dark" src="/static/hash-3prhqakl/img/material-icon-balance.svg" alt="" width="14" height="14" role="presentation"/>MIT (<a href="/packages/dio/license">license</a>)</p><h3 class="title">Dependencies</h3><p><a href="/packages/async" title="^2.8.2">async</a>, <a href="/packages/collection" title="^1.16.0">collection</a>, <a href="/packages/dio_web_adapter" title="&gt;=1.1.0 &lt;3.0.0">dio_web_adapter</a>, <a href="/packages/http_parser" title="^4.0.0">http_parser</a>, <a href="/packages/meta" title="^1.5.0">meta</a>, <a href="/packages/mime" title="&gt;=1.0.0 &lt;3.0.0">mime</a>, <a href="/packages/path" title="^1.8.0">path</a></p><h3 class="title">More</h3><p><a href="/packages?q=dependency%3Adio" rel="nofollow">Packages that depend on dio</a></p></div><p class="detail-lead-back"><a class="detail-metadata-toggle">Back</a></p></div><div id="-screenshot-carousel" class="carousel"><button id="-carousel-prev" class="pub-fab carousel-prev carousel-nav" title="Previous" data-ga-click-event="screenshot-carousel-prev-click" tabindex="0"><img class="pub-fab-icon" src="/static/hash-3prhqakl/img/keyboard_arrow_left.svg" alt="previous" width="24" height="24" aria-hidden="true"/></button><div id="-image-container" class="image-container"></div><button id="-carousel-next" class="pub-fab carousel-next carousel-nav" title="Next" data-ga-click-event="screenshot-carousel-next-click" tabindex="0"><img class="pub-fab-icon" src="/static/hash-3prhqakl/img/keyboard_arrow_right.svg" alt="next" width="24" height="24" aria-hidden="true"/></button><p id="-screenshot-description" class="screenshot-description"></p></div></main><footer class="site-footer pub-dark-bg"><a class="link" href="https://dart.dev/">Dart language</a><a class="link sep" href="/report?subject=package%3Adio&amp;url=https%3A%2F%2Fpub.dev%2Fpackages%2Fdio">Report package</a><a class="link sep" href="/policy">Policy</a><a class="link sep" href="https://www.google.com/intl/en/policies/terms/">Terms</a><a class="link sep" href="https://developers.google.com/terms/">API Terms</a><a class="link sep" href="/security">Security</a><a class="link sep" href="https://www.google.com/intl/en/policies/privacy/">Privacy</a><a class="link sep" href="/help">Help</a><a class="link icon sep" href="/feed.atom"><img class="inline-icon" src="/static/hash-3prhqakl/img/rss-feed-icon.svg" alt="RSS" width="20" height="20" title="RSS/atom feed"/></a><a class="link icon github_issue" href="https://github.com/dart-lang/pub-dev/issues/new"><img class="inline-icon" src="/static/hash-3prhqakl/img/bug-report-white-96px.png" alt="bug report" width="20" height="20" title="Report an issue with this site"/></a></footer><script src="/static/hash-3prhqakl/highlight/highlight-with-init.js" defer="defer"></script></body></html>
