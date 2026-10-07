@@ -10,12 +10,15 @@ DocCache is pointed at a per-test tmp dir via FLUTTER_DOCS_MCP_CACHE_DIR.
 
 from __future__ import annotations
 
+import sqlite3
+
 import httpx
 import pytest
 
 import flutter_docs_mcp.fetchers as fetchers_mod
 import flutter_docs_mcp.search as search_mod
 import flutter_docs_mcp.server as server_mod
+from flutter_docs_mcp.cache import DocCache
 from flutter_docs_mcp.server import (
     _apply_topic,
     _truncate_markdown,
@@ -523,3 +526,24 @@ def test_health_check():
     assert result["status"] == "ok"
     assert result["server"] == "flutter-docs-mcp"
     assert "version" in result
+
+
+def test_flutter_status_reports_read_only_cache_without_changing_overall(monkeypatch):
+    """P5: an unwritable cache is *announced* — and stays an "ok" check.
+
+    The migration is forced to fail the way it does on a machine where the
+    cache file cannot be written, so this is deterministic for root too.
+    """
+    monkeypatch.setattr(search_mod, "load_index", lambda **kw: FAKE_INDEX)
+    monkeypatch.setattr(server_mod.httpx, "Client", _FakeClient)
+
+    def refusing_migration(cls, conn):
+        raise sqlite3.OperationalError("attempt to write a readonly database")
+
+    monkeypatch.setattr(DocCache, "_ensure_schema", classmethod(refusing_migration))
+    result = flutter_status()
+    cache_check = result["checks"]["cache"]
+    assert cache_check["status"] == "ok", cache_check
+    assert cache_check["read_only"] is True
+    assert "readonly" in cache_check["read_only_reason"]
+    assert result["overall"] == "ok"

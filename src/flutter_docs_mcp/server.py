@@ -639,6 +639,11 @@ def pub_package(package_name: str, version: str | None = None, max_tokens: int =
 def flutter_status() -> dict:
     """Health check: search index state, cache stats, and live API probes.
 
+    The ``cache`` check gains ``read_only: true`` plus ``read_only_reason``
+    when the database cannot be written (P5).  It stays an "ok" check on
+    purpose: a cache that only reads is a degraded optimisation, not a sick
+    server, so ``overall`` does not change.
+
     Probes api.flutter.dev and pub.dev with a light GET (10s timeout) and reports
     per-check status plus an overall verdict ("ok" / "degraded" / "error").
     Never raises — individual failures only mark that check as error.
@@ -672,7 +677,9 @@ def flutter_status() -> dict:
     # -- cache -----------------------------------------------------------------
     # A13 B3: an unusable cache directory must be *announced*, not silent.  The
     # tools keep working without a cache; ``overall`` goes to "degraded" so a
-    # user with a read-only cache dir learns why nothing is cached.
+    # user with an unusable cache dir learns why nothing is cached.  A cache
+    # that exists but cannot be **written** is the other case (P5): it stays
+    # usable for reads, reports ``read_only`` and leaves ``overall`` alone.
     cache = _cache()
     if cache is None:
         checks["cache"] = {
@@ -690,6 +697,12 @@ def flutter_status() -> dict:
                 "entries": int(stats.get("entries", 0)),
                 "expired": int(stats.get("expired", 0)),
             }
+            if cache.read_only:
+                # P5: a read-only cache is a degraded optimisation, not a
+                # broken server — announced, but the check keeps
+                # ``status: "ok"`` so ``overall`` is unchanged.
+                checks["cache"]["read_only"] = True
+                checks["cache"]["read_only_reason"] = cache.read_only_reason
         except Exception as exc:
             checks["cache"] = {
                 "status": "error",
