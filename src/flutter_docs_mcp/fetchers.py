@@ -19,17 +19,28 @@ against local fixtures without any network access:
 - :func:`parse_pub_api_json`    — ``/api/packages/...`` JSON payloads
 
 The module performs no HTTP at import time.
+
+Politeness: every HTTP request (including the single transport retry) goes
+through :mod:`flutter_docs_mcp.politeness` — robots.txt rules, per-host
+throttle, ``Retry-After``/backoff, conditional GET and a per-call request
+budget. The layer never raises and never changes the return shape; a
+robots-disallowed URL comes back as ``{"ok": False, "error": "… blocked by
+robots.txt …"}``. Opt out with ``FLUTTER_DOCS_POLITENESS_DISABLED=1``.
 """
 
 from __future__ import annotations
 
 import json
 import re
-from urllib.parse import urljoin
+import threading
+from urllib.parse import urljoin, urlparse
 
 import httpx
 from bs4 import BeautifulSoup, Tag
 from markdownify import markdownify as _md_convert
+
+from .cache import DocCache
+from .politeness import Politeness, default_robots_db_path
 
 __all__ = [
     "fetch_flutter_class_doc",
@@ -40,6 +51,8 @@ __all__ = [
     "parse_pub_page_html",
     "parse_pub_page_meta",
     "parse_pub_api_json",
+    "get_politeness",
+    "set_politeness",
 ]
 
 USER_AGENT = "flutter-docs-mcp/0.1 (+https://github.com/KEEPEE/flutter-mcp)"
@@ -50,30 +63,208 @@ _DART_API_BASE = "https://api.dart.dev"
 _PUB_API_BASE = "https://pub.dev/api/packages"
 _PUB_PAGE_BASE = "https://pub.dev/packages"
 
+#: The only hosts this module ever contacts. Handed to the politeness layer as
+#: an allowlist so an unexpected redirect or a malformed identifier can never
+#: turn a docs lookup into a request to somebody else's site.
+ALLOWED_HOSTS = frozenset({"api.flutter.dev", "api.dart.dev", "pub.dev"})
+
+#: Hard cap on **requests on the wire** one public ``fetch_*`` call may make to
+#: a single host.  Since A8 F3 a budget unit *is* a request: the robots.txt
+#: fetch, the first try, every ``429``/transport retry and every redirect hop
+#: all pay from it.  Measured live in the A9 smoke: a cold ``pub_package`` costs
+#: 3 units (robots.txt + API JSON + package page) and a cold class doc 2
+#: (robots.txt + page), so the old 4 left a single unit of slack — one
+#: ``302`` on the package page and the README was silently dropped.  6 covers
+#: robots + both pub.dev URLs + a two-hop chain + one retry.
+FETCH_BUDGET_LIMIT = 6
+
+#: TTL for the raw body + validators the fetcher keeps for conditional GET.
+#: Matches the server's docs TTL so a revalidation window always exists.
+REVALIDATION_TTL_SECONDS = 7 * 24 * 3600
+
+_politeness: Politeness | None = None
+_politeness_lock = threading.Lock()
+
+
+def get_politeness() -> Politeness:
+    """Process-wide politeness layer (created on first use).
+
+    The robots cache is a SQLite file next to ``cache.db`` so it survives
+    restarts (1 robots request per host per 7 days, not per call). If that
+    directory is not writable the layer falls back to a per-process in-memory
+    cache — politeness still applies, it just forgets across restarts. A
+    missing cache must never take a tool down. Tests replace the instance
+    through :func:`set_politeness`.
+    """
+    global _politeness
+    if _politeness is None:
+        with _politeness_lock:
+            if _politeness is None:
+                kwargs: dict = dict(
+                    timeouts=(5.0, 10.0, TIMEOUT),
+                    allowed_hosts=ALLOWED_HOSTS,
+                )
+                # Same wall-clock budget as the old ``TIMEOUT``: connect 5 s,
+                # read 10 s, total 15 s (A3 §5.5 — httpx 0.28 has no
+                # ``send(timeout=…)``, the layer applies this per request).
+                try:
+                    _politeness = Politeness(USER_AGENT, cache_path=default_robots_db_path(), **kwargs)
+                except Exception:
+                    _politeness = Politeness(USER_AGENT, cache_path=None, **kwargs)
+    return _politeness
+
+
+def set_politeness(politeness: Politeness | None) -> None:
+    """Replace (or with ``None`` reset) the process-wide layer. Test seam."""
+    global _politeness
+    with _politeness_lock:
+        _politeness = politeness
+
+
+def _doc_cache() -> DocCache | None:
+    """DocCache for revalidation data, or ``None`` if it cannot be opened.
+
+    A cache problem must never turn into a fetch failure.
+    """
+    try:
+        return DocCache()
+    except Exception:
+        return None
+
+
+def _revalidation_for(url: str) -> tuple[dict | None, bytes | None]:
+    """``(validators, cached_body)`` stored for ``url`` by an earlier fetch.
+
+    Both are returned together or not at all: a conditional GET without a body
+    to serve would throw away the ``304`` (A3 §5.4).
+    """
+    cache = _doc_cache()
+    if cache is None:
+        return None, None
+    try:
+        entry = cache.get_entry(url, include_expired=True)
+    except Exception:
+        return None, None
+    if not entry or not entry.get("body"):
+        return None, None
+    validators = {
+        k: v
+        for k, v in (("etag", entry.get("etag")), ("last_modified", entry.get("last_modified")))
+        if v
+    }
+    if not validators:
+        return None, None
+    return validators, str(entry["body"]).encode("utf-8", "replace")
+
+
+def _remember_revalidation(url: str, validators: dict, body: str) -> None:
+    """Persist validators + raw body so the next fetch can send a conditional GET."""
+    if not validators:
+        return
+    cache = _doc_cache()
+    if cache is None:
+        return
+    try:
+        cache.set_validators(
+            url,
+            etag=validators.get("etag"),
+            last_modified=validators.get("last_modified"),
+            body=body,
+            ttl_seconds=REVALIDATION_TTL_SECONDS,
+        )
+    except Exception:
+        pass  # never break a successful fetch over cache bookkeeping
+
 
 # ---------------------------------------------------------------------------
 # HTTP helpers
 # ---------------------------------------------------------------------------
 
-def _http_get(client: httpx.Client, url: str) -> tuple[str | None, str | None, str | None]:
-    """GET ``url`` with one retry on transport errors.
+def _client() -> httpx.Client:
+    """The one place an ``httpx.Client`` is built in this module."""
+    return httpx.Client(
+        timeout=TIMEOUT, follow_redirects=True, headers={"User-Agent": USER_AGENT}
+    )
 
-    Returns ``(text, final_url, error)`` — exactly one of text/error is set.
-    Never raises.
+
+def _call_budget(url: str) -> str:
+    """Name of a request budget freshly reset for one ``fetch_*`` call.
+
+    The scope is per host and reset at the start of every public call, so it
+    caps the fan-out of a single lookup without starving later ones.
     """
-    last_error: str | None = None
-    for _attempt in range(2):
-        try:
-            response = client.get(url)
-        except httpx.HTTPError as exc:
-            last_error = f"{exc.__class__.__name__}: {exc}"
-            continue  # retry once on network-level failures
-        if response.status_code == 404:
-            return None, str(response.url), f"not found (HTTP 404): {url}"
-        if response.status_code >= 400:
-            return None, str(response.url), f"HTTP {response.status_code} from {url}"
-        return response.text, str(response.url), None
-    return None, url, f"network error fetching {url}: {last_error}"
+    host = (urlparse(url).netloc or "").lower()
+    scope = f"fetch:{host}"
+    try:
+        get_politeness().reset_budget(scope)
+    except Exception:
+        pass
+    return scope
+
+
+def _http_get(
+    client: httpx.Client,
+    url: str,
+    *,
+    validators: dict | None = None,
+    cached_body: bytes | None = None,
+    budget_scope: str | None = None,
+    budget_limit: int = FETCH_BUDGET_LIMIT,
+    revalidate: bool = True,
+) -> tuple[str | None, str | None, str | None, dict]:
+    """GET ``url`` through the politeness layer.
+
+    Returns ``(text, final_url, error, meta)`` — exactly one of text/error is
+    set. ``meta`` carries ``status_code`` / ``from_cache`` / ``validators`` /
+    ``blocked_by_robots`` for callers that want them. Never raises: the layer
+    reports transport failures, ``429`` and robots blocks as ``error``.
+
+    Unless ``revalidate`` is false, the validators and raw body of an earlier
+    response for the same URL are read from :class:`DocCache` and offered as
+    ``If-None-Match`` / ``If-Modified-Since``, and a fresh ``200`` writes them
+    back. Both are passed together or not at all — a conditional GET without a
+    body to serve would throw the ``304`` away (A3 §5.4).
+
+    ``status_code`` is truthful — a revalidated response is ``304`` with
+    ``from_cache=True`` and the cached body in ``text``, so callers must test
+    ``error``/``from_cache`` and not ``status_code == 200`` alone (A3 §5.1).
+    """
+    if revalidate and validators is None and cached_body is None:
+        validators, cached_body = _revalidation_for(url)
+
+    response = get_politeness().get(
+        client,
+        url,
+        validators=validators,
+        cached_body=cached_body,
+        budget_scope=budget_scope,
+        budget_limit=budget_limit,
+    )
+    meta = {
+        "status_code": response.status_code,
+        "from_cache": response.from_cache,
+        "blocked_by_robots": response.blocked_by_robots,
+        "validators": response.validators or {},
+    }
+    final_url = response.url or url
+
+    if response.blocked_by_robots or response.error:
+        return None, final_url, (response.error or f"request to {url} failed"), meta
+    if response.from_cache:
+        # 304: the body is the one we already had, nothing was re-downloaded.
+        # The response carries *fresh* validators, so write them back — keeping
+        # the ones we sent would offer a stale ETag on the next revalidation.
+        if revalidate:
+            _remember_revalidation(url, response.validators or {}, response.text)
+        return response.text, final_url, None, meta
+    if response.status_code == 404:
+        return None, final_url, f"not found (HTTP 404): {url}", meta
+    if response.status_code is None or response.status_code >= 400:
+        return None, final_url, f"HTTP {response.status_code} from {url}", meta
+
+    if revalidate:
+        _remember_revalidation(url, response.validators or {}, response.text)
+    return response.text, final_url, None, meta
 
 
 # ---------------------------------------------------------------------------
@@ -315,14 +506,13 @@ def fetch_flutter_class_doc(class_name: str, library: str = "widgets") -> dict:
     (``library`` is used verbatim — widgets, material, cupertino, foundation, ...).
 
     Returns ``{"ok": True, "url", "title", "markdown"}`` on success or
-    ``{"ok": False, "error"}`` on 404 / network error / timeout. Never raises.
+    ``{"ok": False, "error"}`` on 404 / network error / timeout / robots block.
+    Never raises.
     """
     url = f"{_FLUTTER_API_BASE}/{library}/{class_name}-class.html"
     try:
-        with httpx.Client(
-            timeout=TIMEOUT, follow_redirects=True, headers={"User-Agent": USER_AGENT}
-        ) as client:
-            text, final_url, error = _http_get(client, url)
+        with _client() as client:
+            text, final_url, error, _meta = _http_get(client, url, budget_scope=_call_budget(url))
     except Exception as exc:  # defensive: never raise out of the fetcher
         return {"ok": False, "error": f"unexpected error: {exc.__class__.__name__}: {exc}"}
     if error is not None:
@@ -341,10 +531,8 @@ def fetch_dart_class_doc(class_name: str, library: str = "dart:core") -> dict:
     lib = library.replace(":", "-")
     url = f"{_DART_API_BASE}/{lib}/{class_name}-class.html"
     try:
-        with httpx.Client(
-            timeout=TIMEOUT, follow_redirects=True, headers={"User-Agent": USER_AGENT}
-        ) as client:
-            text, final_url, error = _http_get(client, url)
+        with _client() as client:
+            text, final_url, error, _meta = _http_get(client, url, budget_scope=_call_budget(url))
     except Exception as exc:  # defensive: never raise out of the fetcher
         return {"ok": False, "error": f"unexpected error: {exc.__class__.__name__}: {exc}"}
     if error is not None:
@@ -367,19 +555,23 @@ def fetch_pub_package(package_name: str, version: str | None = None) -> dict:
     response lacks them (the current API omits them; they are then read from
     the package page when available). If the API call succeeds but the HTML
     page cannot be fetched, the result is still ok with an empty
-    ``readme_markdown``. On API failure returns ``{"ok": False, "error"}``.
-    Never raises.
+    ``readme_markdown``. On API failure (404, robots block, budget, network)
+    returns ``{"ok": False, "error"}``. Never raises.
+
+    Both pub.dev URLs share one request budget, so a single lookup can never
+    make more than :data:`FETCH_BUDGET_LIMIT` requests to the host.
     """
     api_url = f"{_PUB_API_BASE}/{package_name}"
     if version:
         api_url = f"{api_url}/versions/{version}"
     page_url = f"{_PUB_PAGE_BASE}/{package_name}"
+    budget_scope = _call_budget(api_url)
 
     try:
-        with httpx.Client(
-            timeout=TIMEOUT, follow_redirects=True, headers={"User-Agent": USER_AGENT}
-        ) as client:
-            text, final_url, error = _http_get(client, api_url)
+        with _client() as client:
+            text, final_url, error, _meta = _http_get(
+                client, api_url, budget_scope=budget_scope
+            )
             if error is not None:
                 return {"ok": False, "error": error}
             try:
@@ -390,7 +582,9 @@ def fetch_pub_package(package_name: str, version: str | None = None) -> dict:
             # Best effort: fetch the human page for README + score fallbacks.
             readme_md = ""
             page_meta: dict = {"publisher": None, "likes": None, "pub_points": None}
-            page_text, _page_final, page_error = _http_get(client, page_url)
+            page_text, _page_final, page_error, _page_meta = _http_get(
+                client, page_url, budget_scope=budget_scope
+            )
             if page_error is None and page_text:
                 readme_md = parse_pub_page_html(page_text)
                 page_meta = parse_pub_page_meta(page_text)

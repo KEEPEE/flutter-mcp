@@ -10,6 +10,7 @@ DocCache is pointed at a per-test tmp dir via FLUTTER_DOCS_MCP_CACHE_DIR.
 
 from __future__ import annotations
 
+import httpx
 import pytest
 
 import flutter_docs_mcp.fetchers as fetchers_mod
@@ -411,14 +412,33 @@ class _FakeResponse:
     def __init__(self, status_code=200):
         self.status_code = status_code
         self.text = "ok"
+        self.content = b"ok"
+        self.headers: dict[str, str] = {}
+        self.url = "https://api.flutter.dev/flutter/widgets/ListView-class.html"
 
 
 class _FakeClient:
+    """Stand-in for ``httpx.Client`` good enough for the politeness layer.
+
+    The status probes now go through ``Politeness.get()``, which builds the
+    request itself (``client.build_request``) and sends it (``client.send``) —
+    httpx 0.28 has no ``send(timeout=…)``. ``get`` is kept because the fake
+    answers the robots.txt lookup through it.
+    """
+
     def __init__(self, *args, **kwargs):
         pass
 
     def get(self, url):
         return _FakeResponse(200)
+
+    def build_request(self, method, url, headers=None, timeout=None):
+        return httpx.Request(method, url, headers=headers or {})
+
+    def send(self, request, *, follow_redirects=None):
+        # A8 F2: the layer always sends with ``follow_redirects=False`` and
+        # walks the hops itself, so the fake has to accept the keyword.
+        return self.get(str(request.url))
 
     def __enter__(self):
         return self

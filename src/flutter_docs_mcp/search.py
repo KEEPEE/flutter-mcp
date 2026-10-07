@@ -35,12 +35,21 @@ constants, extensions, extension types).
 
 Only :func:`build_index` (and via it :func:`load_index`) touch the network;
 everything else in this module is importable and usable offline.
+
+Politeness: a cold index build is ~33 sequential requests, so every page goes
+through :mod:`flutter_docs_mcp.politeness` (robots.txt, per-host throttle) and
+consumes a per-host request budget of :data:`INDEX_BUDGET_LIMIT`. When the
+budget runs out the build stops early and returns the **partial** index it has
+(``"partial": True``) instead of raising; :func:`load_index` then refuses to
+cache that truncated index, and ``Politeness.stats()["budget_denied"]`` shows
+what happened.
 """
 
 from __future__ import annotations
 
 import json
 import re
+import threading
 import time
 from datetime import datetime, timezone
 from difflib import SequenceMatcher
@@ -50,11 +59,22 @@ import httpx
 from bs4 import BeautifulSoup
 
 from .cache import DocCache
+from .fetchers import get_politeness
 
 __all__ = ["build_index", "load_index", "search", "parse_library_page"]
 
 USER_AGENT = "flutter-docs-mcp/0.1 (+https://github.com/KEEPEE/flutter-mcp)"
 TIMEOUT = 20.0
+
+#: Layer calls one index build may make per host (A2 §4.3 measured a cold build
+#: at 33 requests on api.flutter.dev).  Re-measured live after the A8 port (A9
+#: smoke, cold build): **24** on api.flutter.dev (index page + 23 library pages)
+#: and **7** on api.dart.dev, so 40 still keeps ~65% headroom and is left
+#: alone — the A8 growth does not come out of this counter: ``build_index``
+#: charges one unit per *layer call* and the layer does robots.txt and any
+#: redirect hop inside that call.  Still low enough that a runaway loop cannot
+#: hammer the doc sites.
+INDEX_BUDGET_LIMIT = 40
 
 _FLUTTER_INDEX_PAGE = "https://api.flutter.dev/index.html"
 _FLUTTER_BASE = "https://api.flutter.dev/flutter"
@@ -100,22 +120,80 @@ _MIN_FUZZY_RATIO = 0.3
 # Network layer (single monkeypatch point for offline tests)
 # ---------------------------------------------------------------------------
 
-def _http_get_text(url: str) -> str | None:
-    """GET ``url`` with one retry; return body text or ``None`` on any failure."""
-    last_error = ""
-    for _attempt in range(2):
+def _client() -> httpx.Client:
+    """The one place an ``httpx.Client`` is built here (test seam)."""
+    return httpx.Client(
+        timeout=TIMEOUT, follow_redirects=True, headers={"User-Agent": USER_AGENT}
+    )
+
+
+# Scopes whose request budget ran out during the *current* build. Kept at
+# module level so build_index can stop looping instead of probing every
+# remaining library page and burning a denial each time.
+_exhausted_lock = threading.Lock()
+_exhausted_scopes: set[str] = set()
+
+
+def _budget_scope(url: str) -> str:
+    """Per-host budget scope of an index URL, e.g. ``index:api.dart.dev``."""
+    return f"index:{(urlparse(url).netloc or '').lower()}"
+
+
+def _reset_index_budgets() -> None:
+    """Give every host a fresh :data:`INDEX_BUDGET_LIMIT` for this build."""
+    with _exhausted_lock:
+        _exhausted_scopes.clear()
+    try:
+        pol = get_politeness()
+    except Exception:
+        return  # a broken budget layer must not stop a build
+    for url in (_FLUTTER_INDEX_PAGE, _DART_INDEX_PAGE):
         try:
-            with httpx.Client(
-                timeout=TIMEOUT, follow_redirects=True, headers={"User-Agent": USER_AGENT}
-            ) as client:
-                response = client.get(url)
-            if response.status_code >= 400:
-                return None
-            return response.text
-        except httpx.HTTPError as exc:
-            last_error = f"{exc.__class__.__name__}: {exc}"
-    _ = last_error
-    return None
+            pol.reset_budget(_budget_scope(url))
+        except Exception:
+            pass  # a broken budget layer must not stop a build
+
+
+def _take_index_budget(url: str) -> bool:
+    """Consume one unit of the host's index budget (``False`` when exhausted)."""
+    scope = _budget_scope(url)
+    try:
+        allowed = get_politeness().budget(scope, INDEX_BUDGET_LIMIT)
+    except Exception:
+        return True
+    if not allowed:
+        with _exhausted_lock:
+            _exhausted_scopes.add(scope)
+    return allowed
+
+
+def _budget_exhausted_for(url: str) -> bool:
+    with _exhausted_lock:
+        return _budget_scope(url) in _exhausted_scopes
+
+
+def _exhausted_scopes_snapshot() -> list[str]:
+    with _exhausted_lock:
+        return sorted(_exhausted_scopes)
+
+
+def _http_get_text(url: str) -> str | None:
+    """GET ``url`` through the politeness layer; body text or ``None`` on failure.
+
+    Failures include robots blocks, an exhausted index budget, ``4xx``/``5xx``
+    and transport errors — all of them are simply "no page here" for the index,
+    which keeps partial builds and stale fallbacks working. Never raises.
+    """
+    if not _take_index_budget(url):
+        return None
+    try:
+        with _client() as client:
+            response = get_politeness().get(client, url)
+    except Exception:
+        return None
+    if not response.ok:
+        return None
+    return response.text
 
 
 # ---------------------------------------------------------------------------
@@ -252,12 +330,20 @@ def build_index() -> dict:
     :class:`RuntimeError` when no entries could be fetched at all (e.g. the
     network is down); partial failures of individual library pages are
     skipped silently.
+
+    When a host's request budget runs out the loop stops early and the result
+    is a **partial** index — ``{"partial": True, "partial_reason": …}`` — not
+    an exception. That is deliberate: a truncated index still answers
+    ``flutter_search``, and :func:`load_index` will not cache it.
     """
     entries_by_url: dict[str, dict] = {}
+    _reset_index_budgets()
 
     flutter_libs = _discover_libs(_http_get_text(_FLUTTER_INDEX_PAGE), _LIB_LINK_RE, _FALLBACK_FLUTTER_LIBS)
     for lib in flutter_libs:
         page_url = f"{_FLUTTER_BASE}/{lib}/"
+        if _budget_exhausted_for(page_url):
+            break  # budget spent for this host — keep whatever we have
         html = _http_get_text(page_url)
         if not html:
             continue
@@ -267,6 +353,8 @@ def build_index() -> dict:
     dart_libs = _discover_libs(_http_get_text(_DART_INDEX_PAGE), _DART_LIB_LINK_RE, _FALLBACK_DART_LIBS)
     for lib in dart_libs:
         page_url = f"{_DART_BASE}/{lib}/"
+        if _budget_exhausted_for(page_url):
+            break
         html = _http_get_text(page_url)
         if not html:
             continue
@@ -280,7 +368,16 @@ def build_index() -> dict:
         )
 
     entries = sorted(entries_by_url.values(), key=lambda e: (e["name"].lower(), e["url"]))
-    return {"built_at": datetime.now(timezone.utc).isoformat(), "entries": entries}
+    index = {"built_at": datetime.now(timezone.utc).isoformat(), "entries": entries}
+
+    exhausted = _exhausted_scopes_snapshot()
+    if exhausted:
+        index["partial"] = True
+        index["partial_reason"] = (
+            f"request budget of {INDEX_BUDGET_LIMIT} per host exhausted for "
+            f"{', '.join(exhausted)}; the index is incomplete"
+        )
+    return index
 
 
 def load_index(force_refresh: bool = False, max_age_seconds: int = DEFAULT_MAX_AGE_SECONDS) -> dict:
@@ -291,10 +388,22 @@ def load_index(force_refresh: bool = False, max_age_seconds: int = DEFAULT_MAX_A
       is cached with TTL ``max_age_seconds``.
     - Rebuild failure + an old cached copy exists → the old copy is returned
       with an added ``"stale": True`` flag. Never raises.
+    - The cache itself may be **absent** (A13 B3 / A12 F-A12-2): an unwritable
+      or read-only cache directory makes :class:`DocCache` raise, and that must
+      not take the index — and with it every tool — down.  Same contract as
+      java-spring-mcp / python-docs-mcp / js-ts-mcp: degrade to build-only.
     """
-    cache = DocCache()
-    if not force_refresh:
-        cached = cache.get(INDEX_CACHE_KEY)
+    cache: DocCache | None
+    try:
+        cache = DocCache()
+    except Exception:
+        cache = None  # cache unavailable; degrade to build-only behaviour
+
+    if not force_refresh and cache is not None:
+        try:
+            cached = cache.get(INDEX_CACHE_KEY)
+        except Exception:
+            cached = None
         if cached is not None:
             try:
                 return json.loads(cached)
@@ -304,7 +413,7 @@ def load_index(force_refresh: bool = False, max_age_seconds: int = DEFAULT_MAX_A
     try:
         index = build_index()
     except Exception as exc:
-        old = cache.peek(INDEX_CACHE_KEY)
+        old = cache.peek(INDEX_CACHE_KEY) if cache is not None else None
         if old is not None:
             try:
                 data = json.loads(old)
@@ -319,10 +428,16 @@ def load_index(force_refresh: bool = False, max_age_seconds: int = DEFAULT_MAX_A
             "error": f"index build failed and no cached copy is available: {exc}",
         }
 
-    try:
-        cache.set(INDEX_CACHE_KEY, json.dumps(index), max_age_seconds)
-    except Exception:  # a cache-write failure must not break the response
-        pass
+    if index.get("partial"):
+        # A budget-truncated index is served once but never stored: caching it
+        # for a week would freeze a knowingly incomplete class list.
+        return index
+
+    if cache is not None:
+        try:
+            cache.set(INDEX_CACHE_KEY, json.dumps(index), max_age_seconds)
+        except Exception:  # a cache-write failure must not break the response
+            pass
     return index
 
 

@@ -28,18 +28,26 @@ Design rules (hard requirements):
   Exceptions never escape to the MCP layer and nothing recurses.
 - Fetched content is cached in :class:`flutter_docs_mcp.cache.DocCache` keyed
   by source URL (docs TTL 7 days, pub README TTL 1 day).
+- Every outbound request — fetchers, index build and the status probes — goes
+  through :mod:`flutter_docs_mcp.politeness` (robots.txt, per-host throttle,
+  ``Retry-After``, conditional GET, request budgets). The layer never raises
+  and never changes a tool's return shape; ``flutter_status`` reports its
+  counters under the extra top-level key ``politeness``.
 """
 
 from __future__ import annotations
 
 import json
+import os
 import re
+import sqlite3
 
 import httpx
 from mcp.server.fastmcp import FastMCP
 
 from . import __version__, fetchers, search
-from .cache import DocCache
+from .cache import DocCache, default_db_path
+from .politeness import default_robots_db_path
 
 __all__ = [
     "mcp",
@@ -68,24 +76,47 @@ _STATUS_PROBES = {
 }
 
 _CACHE: DocCache | None = None
+#: Set when the cache could not be opened at all (A13 B3 / A12 F-A12-2).  It
+#: holds the reason so ``flutter_status`` can say so instead of lying "ok", and
+#: it makes the failure sticky: we do not retry a directory that is read-only
+#: on every single tool call.
+_CACHE_ERROR: str | None = None
 
 
 # ---------------------------------------------------------------------------
 # Cache helpers (key = source URL)
 # ---------------------------------------------------------------------------
 
-def _cache() -> DocCache:
-    """Lazily create the process-wide :class:`DocCache` (honors env override)."""
-    global _CACHE
-    if _CACHE is None:
+def _cache() -> DocCache | None:
+    """Lazily create the process-wide :class:`DocCache`, or ``None`` if unusable.
+
+    A13 B3 (A12 F-A12-2): an unwritable / read-only cache directory used to
+    raise ``OperationalError: attempt to write a readonly database`` out of
+    every tool.  The contract is now the same as in java-spring-mcp,
+    python-docs-mcp and js-ts-mcp: **a cache problem must never turn into a
+    tool failure** — the cache is simply absent and the tool degrades to
+    fetching without it.  ``flutter_status`` reports the reason.
+    """
+    global _CACHE, _CACHE_ERROR
+    if _CACHE is not None:
+        return _CACHE
+    if _CACHE_ERROR is not None:
+        return None
+    try:
         _CACHE = DocCache()
+    except Exception as exc:  # unwritable dir, read-only DB, bad path, …
+        _CACHE_ERROR = f"{type(exc).__name__}: {exc}"
+        return None
     return _CACHE
 
 
 def _cache_get(url: str) -> tuple[dict | None, bool]:
     """Return ``(stored_result, hit)`` for a cached fetch result under ``url``."""
+    cache = _cache()
+    if cache is None:
+        return None, False
     try:
-        raw = _cache().get(url)
+        raw = cache.get(url)
     except Exception:
         return None, False
     if raw is None:
@@ -100,9 +131,18 @@ def _cache_get(url: str) -> tuple[dict | None, bool]:
 
 
 def _cache_set(url: str, result: dict, ttl_seconds: int) -> None:
-    """Store a successful fetch result under ``url``; never raises."""
+    """Store a successful fetch result under ``url``; never raises.
+
+    ``set_value`` (not ``set``) on purpose: the fetcher keeps the raw body and
+    the ``etag`` / ``Last-Modified`` of the same URL in the same row, and
+    caching the parsed result must not wipe them — that is what makes the next
+    refresh a conditional GET instead of a full download.
+    """
+    cache = _cache()
+    if cache is None:
+        return
     try:
-        _cache().set(url, json.dumps(result), ttl_seconds)
+        cache.set_value(url, json.dumps(result), ttl_seconds)
     except Exception:
         pass  # a cache failure must never break a successful fetch
 
@@ -602,6 +642,13 @@ def flutter_status() -> dict:
     Probes api.flutter.dev and pub.dev with a light GET (10s timeout) and reports
     per-check status plus an overall verdict ("ok" / "degraded" / "error").
     Never raises — individual failures only mark that check as error.
+
+    Also returns a top-level "politeness" block with the politeness layer's
+    counters: robots cache rows/fetches/hits, requests blocked by robots.txt,
+    throttle waits and per-host delays, conditional GETs / 304 revalidations,
+    429 and transport retries, request budgets and whether the layer is
+    disabled (FLUTTER_DOCS_POLITENESS_DISABLED). It is diagnostics only and
+    never affects "overall".
     """
     checks: dict[str, dict] = {}
 
@@ -623,15 +670,33 @@ def flutter_status() -> dict:
         checks["search_index"] = {"status": "error", "entries": 0, "built_at": None, "stale": False}
 
     # -- cache -----------------------------------------------------------------
-    try:
-        stats = _cache().stats()
+    # A13 B3: an unusable cache directory must be *announced*, not silent.  The
+    # tools keep working without a cache; ``overall`` goes to "degraded" so a
+    # user with a read-only cache dir learns why nothing is cached.
+    cache = _cache()
+    if cache is None:
         checks["cache"] = {
-            "status": "ok",
-            "entries": int(stats.get("entries", 0)),
-            "expired": int(stats.get("expired", 0)),
+            "status": "error",
+            "entries": 0,
+            "expired": 0,
+            "error": _CACHE_ERROR or "cache unavailable",
+            "cache_db": default_db_path(),
         }
-    except Exception:
-        checks["cache"] = {"status": "error", "entries": 0, "expired": 0}
+    else:
+        try:
+            stats = cache.stats()
+            checks["cache"] = {
+                "status": "ok",
+                "entries": int(stats.get("entries", 0)),
+                "expired": int(stats.get("expired", 0)),
+            }
+        except Exception as exc:
+            checks["cache"] = {
+                "status": "error",
+                "entries": 0,
+                "expired": 0,
+                "error": f"{type(exc).__name__}: {exc}",
+            }
 
     # -- endpoint probes ---------------------------------------------------------
     for key, url in _STATUS_PROBES.items():
@@ -650,22 +715,90 @@ def flutter_status() -> dict:
         "version": __version__,
         "checks": checks,
         "overall": overall,
+        "politeness": _politeness_report(),
     }
 
 
 def _probe_endpoint(url: str) -> dict:
-    """Light GET of ``url`` (10s timeout); returns status + http_status. Never raises."""
+    """Light GET of ``url`` (10s timeout); returns status + http_status. Never raises.
+
+    Goes through the politeness layer like every other request — a health check
+    that ignores robots.txt or hammers the site would defeat the point of it.
+    """
     try:
         with httpx.Client(
             timeout=10.0, follow_redirects=True, headers={"User-Agent": fetchers.USER_AGENT}
         ) as client:
-            response = client.get(url)
-        return {
-            "status": "ok" if response.status_code < 400 else "error",
-            "http_status": int(response.status_code),
-        }
+            response = fetchers.get_politeness().get(client, url)
+        if response.blocked_by_robots or response.error:
+            return {"status": "error", "http_status": response.status_code}
+        status_code = int(response.status_code) if response.status_code is not None else 0
+        return {"status": "ok" if status_code < 400 else "error", "http_status": status_code}
     except Exception:
         return {"status": "error", "http_status": None}
+
+
+def _robots_cache_rows() -> int | None:
+    """How many robots.txt records the politeness SQLite cache holds (read-only).
+
+    ``None`` when the cache file does not exist or cannot be read — the layer
+    then runs on its in-memory fallback.
+    """
+    try:
+        path = default_robots_db_path()
+        if not os.path.exists(path):
+            return 0
+        conn = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
+        try:
+            return int(conn.execute("SELECT COUNT(*) FROM robots").fetchone()[0])
+        finally:
+            conn.close()
+    except Exception:
+        return None
+
+
+def _politeness_report() -> dict:
+    """Politeness counters for ``flutter_status``; never raises.
+
+    Deliberately *outside* ``checks``: it is diagnostics, not a health signal,
+    so it must not drag ``overall`` to "degraded" on its own.
+    """
+    try:
+        stats = fetchers.get_politeness().stats()
+    except Exception as exc:  # pragma: no cover - defensive
+        return {"status": "error", "error": f"{exc.__class__.__name__}: {exc}"}
+    return {
+        "status": "ok",
+        "disabled": bool(stats.get("disabled", False)),
+        "requests": int(stats.get("requests", 0)),
+        # A8 F1/F3: robots attempts are counted apart from content requests;
+        # ``requests + robots_requests`` is the true wire total.
+        "robots_requests": int(stats.get("robots_requests", 0)),
+        "robots_rows": _robots_cache_rows(),
+        "robots_fetches": int(stats.get("robots_fetches", 0)),
+        "robots_cache_hits": int(stats.get("robots_cache_hits", 0)),
+        "robots_negative": int(stats.get("robots_negative", 0)),
+        "blocked_by_robots": int(stats.get("blocked_by_robots", 0)),
+        "throttle_waits": int(stats.get("throttle_waits", 0)),
+        "throttle_sleep_s": round(float(stats.get("throttle_sleep_s", 0.0)), 3),
+        # A8 F1: the robots subset of those waits — the evidence that a
+        # robots.txt fetch waits in the same per-host queue as a page request.
+        "robots_throttle_waits": int(stats.get("robots_throttle_waits", 0)),
+        "robots_throttle_sleep_s": round(float(stats.get("robots_throttle_sleep_s", 0.0)), 3),
+        # A8 F2/F4: hops the layer walked itself, and challenge-hook hits.
+        "redirect_hops": int(stats.get("redirect_hops", 0)),
+        "challenge_detected": int(stats.get("challenge_detected", 0)),
+        "challenge_retries": int(stats.get("challenge_retries", 0)),
+        "host_delays": stats.get("hosts", {}),
+        "budgets": stats.get("budgets", {}),
+        "budget_denied": int(stats.get("budget_denied", 0)),
+        "conditional": int(stats.get("conditional", 0)),
+        "revalidated_304": int(stats.get("revalidated_304", 0)),
+        "retries_429": int(stats.get("retries_429", 0)),
+        "retries_transport": int(stats.get("retries_transport", 0)),
+        "stalls": int(stats.get("stalls", 0)),
+        "errors": int(stats.get("errors", 0)),
+    }
 
 
 def main() -> None:
