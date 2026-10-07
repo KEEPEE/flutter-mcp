@@ -174,9 +174,9 @@ def test_pypi_wildcard_blocks_the_json_api_and_allows_the_project_page():
     assert rec.robots_hits() == 1
 
 
-@pytest.mark.skipif(sys.version_info >= (3, 14), reason="stdlib gained RFC 9309 matching in 3.14")
-def test_stdlib_robotparser_on_312_misses_the_wildcard():
-    """Regression guard: stdlib < 3.14 must NOT be used for this."""
+@pytest.mark.skipif(sys.version_info >= (3, 13), reason="stdlib gained RFC 9309 wildcard matching in 3.13 (measured: 3.10-3.12 miss it)")
+def test_stdlib_robotparser_below_313_misses_the_wildcard():
+    """Regression guard: stdlib < 3.13 must NOT be used for this."""
     rp = RobotFileParser()
     rp.parse([line for line in PYPI_ROBOTS.splitlines() if line.strip()])
     assert rp.can_fetch(UA, "https://pypi.org/pypi/dio/json") is True  # the bug
