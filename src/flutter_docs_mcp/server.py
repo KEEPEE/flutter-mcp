@@ -647,7 +647,7 @@ def flutter_status() -> dict:
     counters: robots cache rows/fetches/hits, requests blocked by robots.txt,
     throttle waits and per-host delays, conditional GETs / 304 revalidations,
     429 and transport retries, request budgets and whether the layer is
-    disabled (FLUTTER_DOCS_POLITENESS_DISABLED). It is diagnostics only and
+    disabled (FLUTTER_DOCS_MCP_POLITENESS_DISABLED). It is diagnostics only and
     never affects "overall".
     """
     checks: dict[str, dict] = {}

@@ -63,7 +63,7 @@ from .fetchers import get_politeness
 
 __all__ = ["build_index", "load_index", "search", "parse_library_page"]
 
-USER_AGENT = "flutter-docs-mcp/0.1 (+https://github.com/KEEPEE/flutter-mcp)"
+USER_AGENT = "flutter-docs-mcp/0.2 (+https://github.com/KEEPEE/flutter-mcp)"
 TIMEOUT = 20.0
 
 #: Layer calls one index build may make per host (A2 §4.3 measured a cold build

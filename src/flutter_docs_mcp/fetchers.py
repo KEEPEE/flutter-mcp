@@ -25,7 +25,7 @@ through :mod:`flutter_docs_mcp.politeness` — robots.txt rules, per-host
 throttle, ``Retry-After``/backoff, conditional GET and a per-call request
 budget. The layer never raises and never changes the return shape; a
 robots-disallowed URL comes back as ``{"ok": False, "error": "… blocked by
-robots.txt …"}``. Opt out with ``FLUTTER_DOCS_POLITENESS_DISABLED=1``.
+robots.txt …"}``. Opt out with ``FLUTTER_DOCS_MCP_POLITENESS_DISABLED=1``.
 """
 
 from __future__ import annotations
@@ -55,7 +55,7 @@ __all__ = [
     "set_politeness",
 ]
 
-USER_AGENT = "flutter-docs-mcp/0.1 (+https://github.com/KEEPEE/flutter-mcp)"
+USER_AGENT = "flutter-docs-mcp/0.2 (+https://github.com/KEEPEE/flutter-mcp)"
 TIMEOUT = 15.0
 
 _FLUTTER_API_BASE = "https://api.flutter.dev/flutter"

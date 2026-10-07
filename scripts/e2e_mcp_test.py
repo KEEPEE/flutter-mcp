@@ -15,13 +15,25 @@ search-index build plus live fetches.
 from __future__ import annotations
 
 import json
+import os
 import queue
 import subprocess
 import sys
 import threading
 import time
 
-SERVER_CMD = ["/home/keepee/projects/flutter-mcp/.venv/bin/flutter-docs"]
+#: Which server process to spawn.  Override with ``FLUTTER_DOCS_MCP_E2E_CMD``
+#: (a shell-split command); otherwise use this checkout's ``.venv`` if it has
+#: the console script, else run the module with the interpreter that started
+#: this script (works with any install, editable or not).
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_LOCAL_BIN = os.path.join(_REPO_ROOT, ".venv", "bin", "flutter-docs")
+if os.environ.get("FLUTTER_DOCS_MCP_E2E_CMD"):
+    SERVER_CMD = os.environ["FLUTTER_DOCS_MCP_E2E_CMD"].split()
+elif os.path.exists(_LOCAL_BIN):
+    SERVER_CMD = [_LOCAL_BIN]
+else:
+    SERVER_CMD = [sys.executable, "-m", "flutter_docs_mcp.server"]
 PROTOCOL_VERSION = "2025-03-26"
 PER_CALL_TIMEOUT = 120.0
 

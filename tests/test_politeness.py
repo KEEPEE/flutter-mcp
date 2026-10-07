@@ -8,7 +8,7 @@ Everything HTTP is simulated with ``httpx.MockTransport``; time and jitter are
 injected (``clock`` / ``sleep`` / ``wall_clock`` / ``rng``), so the suite is
 deterministic and runs in well under a second.
 
-Run:  cd /home/keepee/projects/flutter-mcp && .venv/bin/python -m pytest -q
+Run:  .venv/bin/python -m pytest -q      # from the repository root
 """
 
 from __future__ import annotations
@@ -30,7 +30,7 @@ from flutter_docs_mcp.politeness import (
     parse_robots,
 )
 
-UA = "docs-mcp/0.1 (+https://github.com/KEEPEE/docs-mcp)"
+UA = "docs-mcp/0.1 (+https://example.com/docs-mcp)"
 
 
 # --------------------------------------------------------------------------- #
