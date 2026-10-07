@@ -51,6 +51,8 @@ __all__ = [
     "parse_pub_page_html",
     "parse_pub_page_meta",
     "parse_pub_api_json",
+    "parse_pub_api_versions",
+    "fetch_pub_versions",
     "get_politeness",
     "set_politeness",
 ]
@@ -495,6 +497,36 @@ def parse_pub_api_json(data: dict) -> dict:
         return result
 
 
+def parse_pub_api_versions(data: dict) -> dict:
+    """Extract the published release list from a ``GET /api/packages/{name}`` payload.
+
+    Returns ``{"name", "latest", "versions"}`` where ``versions`` is the list of
+    **published** version strings in pub.dev's own order (oldest first), e.g.
+    ``[..., "6.1.4", "6.1.5", "6.1.5+1"]``. This is what a version-constrained
+    mention is resolved against, so the answer is always a release that really
+    exists on pub.dev rather than a guess. Never raises.
+    """
+    result: dict = {"name": None, "latest": None, "versions": []}
+    try:
+        if not isinstance(data, dict):
+            return result
+        result["name"] = data.get("name")
+        latest = data.get("latest")
+        if isinstance(latest, dict) and isinstance(latest.get("version"), str):
+            result["latest"] = latest["version"]
+        versions = data.get("versions")
+        if isinstance(versions, list):
+            result["versions"] = [
+                v["version"] for v in versions if isinstance(v, dict) and isinstance(v.get("version"), str)
+            ]
+        if result["latest"] is None and result["versions"]:
+            result["latest"] = result["versions"][-1]
+        return result
+    except Exception as exc:  # defensive: parsers must never raise
+        result["error"] = f"parse error: {exc.__class__.__name__}: {exc}"
+        return result
+
+
 # ---------------------------------------------------------------------------
 # Public fetch functions
 # ---------------------------------------------------------------------------
@@ -544,7 +576,11 @@ def fetch_pub_package(package_name: str, version: str | None = None) -> dict:
     """Fetch pub.dev package metadata plus the README as markdown.
 
     Hits ``https://pub.dev/api/packages/{name}`` (or ``.../versions/{version}``)
-    and the human page ``https://pub.dev/packages/{name}``.
+    and the human page ``https://pub.dev/packages/{name}`` — or, when a version
+    is pinned, ``https://pub.dev/packages/{name}/versions/{version}`` so the
+    README that comes back is the one belonging to **that** release. (Fetching
+    the unversioned page for a pinned lookup silently returned the latest
+    release's README next to a pinned version number.)
 
     Returns on success::
 
@@ -562,9 +598,10 @@ def fetch_pub_package(package_name: str, version: str | None = None) -> dict:
     make more than :data:`FETCH_BUDGET_LIMIT` requests to the host.
     """
     api_url = f"{_PUB_API_BASE}/{package_name}"
+    page_url = f"{_PUB_PAGE_BASE}/{package_name}"
     if version:
         api_url = f"{api_url}/versions/{version}"
-    page_url = f"{_PUB_PAGE_BASE}/{package_name}"
+        page_url = f"{page_url}/versions/{version}"
     budget_scope = _call_budget(api_url)
 
     try:
@@ -606,3 +643,36 @@ def fetch_pub_package(package_name: str, version: str | None = None) -> dict:
             return result
     except Exception as exc:  # defensive: never raise out of the fetcher
         return {"ok": False, "error": f"unexpected error: {exc.__class__.__name__}: {exc}"}
+
+
+def fetch_pub_versions(package_name: str) -> dict:
+    """Fetch the list of **published** versions of a pub.dev package.
+
+    One request to ``https://pub.dev/api/packages/{name}`` — no package page,
+    no README — because a version-constrained mention only needs the release
+    list to pick from.
+
+    Returns ``{"ok": True, "name", "latest", "versions": [...]}`` or
+    ``{"ok": False, "error"}`` (404 / robots block / budget / network).
+    Never raises.
+    """
+    api_url = f"{_PUB_API_BASE}/{package_name}"
+    try:
+        with _client() as client:
+            text, _final_url, error, _meta = _http_get(
+                client, api_url, budget_scope=_call_budget(api_url)
+            )
+    except Exception as exc:  # defensive: never raise out of the fetcher
+        return {"ok": False, "error": f"unexpected error: {exc.__class__.__name__}: {exc}"}
+    if error is not None:
+        return {"ok": False, "error": error}
+    try:
+        data = json.loads(text or "{}")
+    except ValueError as exc:
+        return {"ok": False, "error": f"invalid JSON from {api_url}: {exc}"}
+    parsed = parse_pub_api_versions(data)
+    if not parsed.get("versions") and not parsed.get("latest"):
+        return {"ok": False, "error": f"pub.dev returned no version list for '{package_name}'"}
+    parsed["ok"] = True
+    parsed["url"] = api_url
+    return parsed

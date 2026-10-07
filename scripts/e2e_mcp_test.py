@@ -41,6 +41,7 @@ EXPECTED_TOOLS = {
     "health_check",
     "flutter_docs",
     "flutter_search",
+    "flutter_mentions",
     "pub_package",
     "flutter_status",
 }
@@ -287,7 +288,51 @@ def main() -> int:
             f"cached={data.get('cached')}",
         )
 
-        # 10. negative case -----------------------------------------------------------------------------
+        # 10. flutter_mentions — one entry per mention, constraint reported ----------
+        mention_text = (
+            "Stack: @flutter_mcp provider:^6.0.0 for state, "
+            "@flutter_mcp dio:>=5.0.0 <6.0.0 for HTTP, @flutter_mcp material.AppBar."
+        )
+        data = call_tool(client, "flutter_mentions", {"text": mention_text, "max_tokens": 300})
+        entries = data.get("results") or []
+        ok = (
+            data.get("mentions") == 3
+            and len(entries) == 3
+            and [e.get("mention") for e in entries] == [
+                "@flutter_mcp provider:^6.0.0",
+                "@flutter_mcp dio:>=5.0.0 <6.0.0",
+                "@flutter_mcp material.AppBar",
+            ]
+            and all(e.get("content") for e in entries)
+            and entries[0].get("requested_constraint") == "^6.0.0"
+            and bool(entries[0].get("version"))
+            and entries[2].get("type") == "flutter_class"
+        )
+        record(
+            'flutter_mentions {3 mentions incl. two version constraints}',
+            ok,
+            f"mentions={data.get('mentions')} entries={len(entries)} "
+            + " ".join(f"{e.get('type')}@{e.get('version')}" for e in entries),
+        )
+
+        # 11. flutter_mentions — a missing version is never substituted --------------
+        data = call_tool(client, "flutter_mentions", {"text": "@flutter_mcp provider:6.9.9", "max_tokens": 200})
+        entry = (data.get("results") or [{}])[0]
+        ok = (
+            data.get("mentions") == 1
+            and len(data.get("results") or []) == 1
+            and entry.get("type") == "not_found"
+            and entry.get("version") is None
+            and "not a published release" in str(entry.get("error"))
+            and bool(entry.get("nearest_versions"))
+        )
+        record(
+            'flutter_mentions {"text": "@flutter_mcp provider:6.9.9"}',
+            ok,
+            f"type={entry.get('type')} nearest={entry.get('nearest_versions')}",
+        )
+
+        # 12. negative case -----------------------------------------------------------------------------
         data = call_tool(client, "flutter_docs", {"identifier": "DefinitelyNotARealClassXYZ123"})
         ok = isinstance(data, dict) and "error" in data and "suggestion" in data
         record(

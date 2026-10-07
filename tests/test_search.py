@@ -42,6 +42,7 @@ FLUTTER_ROOT_PAGE = (
     "<html><body><nav>"
     '<a href="widgets/">widgets</a>'
     '<a href="material/">material</a>'
+    '<a href="dart-ui/">Flutter-only dart:ui</a>'
     '<a href="dart-core/">dart-core (should be filtered out)</a>'
     '<a href="package-x_x/">package lib (filtered out)</a>'
     '<a href="Android/">platform dir (filtered out)</a>'
@@ -52,6 +53,7 @@ DART_ROOT_PAGE = (
     "<html><body>"
     '<a href="dart-core/">dart:core</a>'
     '<a href="dart-async/">dart:async</a>'
+    '<a href="dart-convert/">dart:convert</a>'
     '<a href="not-a-lib/">ignored</a>'
     "</body></html>"
 )
@@ -99,13 +101,25 @@ DART_ASYNC_PAGE = _lib_page(
     ("Classes", [("Future", "Future-class.html"), ("Stream", "Stream-class.html")]),
 )
 
+DART_CONVERT_PAGE = _lib_page(
+    ("Classes", [("JsonEncoder", "JsonEncoder-class.html"), ("Encoding", "Encoding-class.html")]),
+)
+
+# dart:ui is published on api.flutter.dev (Flutter's own low-level library), so
+# its directory must survive the Flutter-side filtering.
+FLUTTER_DART_UI_PAGE = _lib_page(
+    ("Classes", [("Picture", "Picture-class.html"), ("Image", "Image-class.html")]),
+)
+
 CANNED_PAGES = {
     "https://api.flutter.dev/index.html": FLUTTER_ROOT_PAGE,
     "https://api.flutter.dev/flutter/widgets/": FLUTTER_WIDGETS_PAGE,
     "https://api.flutter.dev/flutter/material/": FLUTTER_MATERIAL_PAGE,
+    "https://api.flutter.dev/flutter/dart-ui/": FLUTTER_DART_UI_PAGE,
     "https://api.dart.dev/index.html": DART_ROOT_PAGE,
     "https://api.dart.dev/dart-core/": DART_CORE_PAGE,
     "https://api.dart.dev/dart-async/": DART_ASYNC_PAGE,
+    "https://api.dart.dev/dart-convert/": DART_CONVERT_PAGE,
 }
 
 
@@ -289,3 +303,73 @@ def test_load_index_failure_without_cache_never_raises(cache_dir_env, dead_netwo
     assert result["entries"] == []
     assert result["stale"] is True
     assert "error" in result
+
+
+# ---------------------------------------------------------------------------
+# Library discovery — the dart-* filter is site-specific
+#
+# Regression: the same "drop dart-* and package-*" filter was applied to both
+# sites. On api.dart.dev every library is named dart-*, so Dart discovery
+# always returned an empty set and the build silently fell back to a short
+# hardcoded list — leaving dart:convert, dart:isolate, dart:ffi,
+# dart:js_interop, dart:typed_data … out of the index entirely.
+# ---------------------------------------------------------------------------
+
+def test_dart_site_keeps_every_dart_prefixed_library():
+    libs = search_mod._discover_libs(
+        DART_ROOT_PAGE, search_mod._DART_LIB_LINK_RE,
+        search_mod._FALLBACK_DART_LIBS, keep_dart_prefixed=True,
+    )
+    assert libs == ["dart-async", "dart-convert", "dart-core"]
+    assert "not-a-lib" not in libs
+
+
+def test_flutter_site_drops_cross_site_and_third_party_libs():
+    libs = search_mod._discover_libs(
+        FLUTTER_ROOT_PAGE, search_mod._LIB_LINK_RE, search_mod._FALLBACK_FLUTTER_LIBS
+    )
+    assert libs == ["dart-ui", "material", "widgets"]
+    assert "dart-core" not in libs
+    assert "package-x_x" not in libs
+
+
+def test_flutter_only_dart_libraries_are_declared():
+    assert search_mod._FLUTTER_ONLY_DART_LIBS == {"dart-ui", "dart-ui_web"}
+    assert "dart-ui" in search_mod._FALLBACK_FLUTTER_LIBS
+    assert "dart-ui" not in search_mod._FALLBACK_DART_LIBS
+
+
+def test_fallback_lists_cover_the_live_libraries():
+    # The fallbacks are only used when a root page cannot be read, but they are
+    # also the documentation of what each site publishes; a stale fallback means
+    # a whole library silently disappears from the index.
+    for lib in ("dart-convert", "dart-isolate", "dart-ffi", "dart-typed_data", "dart-js_interop"):
+        assert lib in search_mod._FALLBACK_DART_LIBS
+    for lib in ("flutter_gpu", "widget_previews", "flutter_driver_extension", "meta_meta"):
+        assert lib in search_mod._FALLBACK_FLUTTER_LIBS
+
+
+def test_discovery_falls_back_only_when_the_page_is_unreadable():
+    assert search_mod._discover_libs(None, search_mod._DART_LIB_LINK_RE, ["dart-core"]) == ["dart-core"]
+    assert search_mod._discover_libs("", search_mod._DART_LIB_LINK_RE, ["dart-core"]) == ["dart-core"]
+    # A page that exists but lists no libraries → fallback (not an empty index).
+    assert search_mod._discover_libs(
+        "<html><body><a href='nothing/'>nothing</a></body></html>",
+        search_mod._DART_LIB_LINK_RE, ["dart-core"], keep_dart_prefixed=True,
+    ) == ["dart-core"]
+
+
+def test_build_index_discovers_dart_and_flutter_only_dart_libraries(canned_network):
+    index = build_index()
+    urls = {e["url"] for e in index["entries"]}
+    # dart:convert was missing entirely before the fix.
+    assert "https://api.dart.dev/dart-convert/Encoding-class.html" in urls
+    assert any(e["library"] == "dart-convert" for e in index["entries"])
+    # dart:ui lives on the Flutter site.
+    assert "https://api.flutter.dev/flutter/dart-ui/Picture-class.html" in urls
+    # The canned root pages list exactly these libraries; nothing from the
+    # hardcoded fallback may sneak in when discovery works. (Cross-library links
+    # inside a library page may add the library they point at — foundation here.)
+    libraries = {e["library"] for e in index["entries"]}
+    assert {"widgets", "material", "dart-ui", "dart-core", "dart-async", "dart-convert"} <= libraries
+    assert libraries <= {"widgets", "material", "dart-ui", "dart-core", "dart-async", "dart-convert", "foundation"}

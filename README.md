@@ -5,16 +5,17 @@ An [MCP](https://modelcontextprotocol.io) (Model Context Protocol) server that g
 - **Flutter classes** — scraped live from [api.flutter.dev](https://api.flutter.dev) (widgets, material, cupertino, foundation, services, rendering, …)
 - **Dart SDK classes** — scraped live from [api.dart.dev](https://api.dart.dev) (dart:core, dart:async, dart:collection, dart:io, …)
 - **pub.dev packages** — metadata + README from the pub.dev API
-- **Local search index** over ~3,500 Flutter / Dart classes, rebuilt at most every 7 days, with a stale fallback when the network fails
+- **Local search index** over ~4,500 Flutter / Dart SDK classes (46 libraries, `dart:convert` / `dart:isolate` / `dart:ffi` / `dart:typed_data` / `dart:ui` included), rebuilt at most every 7 days, with a stale fallback when the network fails
 - **SQLite TTL cache** so repeated lookups are instant
 - **Politeness layer** — robots.txt (RFC 9309), per-host throttle incl. `Crawl-delay`, `Retry-After`, conditional GET and request budgets ([details](#caching--politeness))
 
-## The five tools
+## The six tools
 
 | Tool | What it does |
 |---|---|
 | `flutter_docs` | Resolve one identifier (`ListView`, `material.AppBar`, `dart:async.Future`, `pub:dio`) to a single documentation page as markdown. |
 | `flutter_search` | Ranked name search over the local index of all Flutter + Dart SDK classes, enums, mixins and typedefs. |
+| `flutter_mentions` | Parse every `@flutter_mcp …` mention in a text and resolve each one — including version constraints like `provider:^6.0.0` or `dio:>=5.0.0 <6.0.0` — to exactly one docs entry. |
 | `pub_package` | pub.dev package metadata (version, publisher, likes, pub points) plus its README as markdown. |
 | `flutter_status` | Real health check: index size/age, cache stats, live probes of api.flutter.dev and pub.dev, and politeness counters. |
 | `health_check` | Server liveness and version. |
@@ -124,9 +125,11 @@ Resolves an identifier to one documentation page. Identifier forms, tried in thi
 | `material.AppBar`, `widgets.ListView` | Flutter class on api.flutter.dev, library given |
 | `ListView` | exact match in the local index → `widgets`/`material` fallback → pub.dev |
 
-`topic` keeps only the section whose heading contains it (`methods`, `properties`, `examples`, `constructors`, …) plus the class title; if nothing matches, the full page is returned with a `note` listing the available headings. `max_tokens` is a rough budget (1 token ≈ 4 characters): the markdown is cut at a line boundary and `truncated` is set.
+`topic` keeps only the section whose heading contains it (`methods`, `properties`, `examples`, `constructors`, …) plus the class title; if nothing matches, the full page is returned with a `note` listing the available headings. `max_tokens` is a rough budget (1 token ≈ 4 characters): the markdown is cut at a line boundary.
 
-Returns `{"type", "identifier", "url", "title", "content", "truncated", "cached"}`, plus an optional `note`.
+`truncated` is true whenever the returned content is **not the whole page** — a token-budget cut, a `topic` filter, or both — and `truncation` then says which, names the sections that were dropped, and gives `tokens` (returned), `source_tokens` (the whole page) and `tokens_payload` (the payload including its own `[truncated: …]` marker).
+
+Returns `{"type", "identifier", "url", "title", "content", "truncated", "tokens", "source_tokens", "max_tokens", "cached"}`, plus `truncation` when something was cut and an optional `note`.
 
 ```jsonc
 // flutter_docs({ "identifier": "material.AppBar", "topic": "properties", "max_tokens": 300 })
@@ -134,10 +137,22 @@ Returns `{"type", "identifier", "url", "title", "content", "truncated", "cached"
   "type": "flutter_class",
   "identifier": "material.AppBar",
   "url": "https://api.flutter.dev/flutter/material/AppBar-class.html",
-  "content": "# AppBar class\n\nA Material Design app bar.\n\nAn app bar consists of a toolbar and potentially other widgets … [truncated: showing ~296 of ~4094 estimated tokens]",
+  "title": "AppBar class",
+  "content": "# AppBar class\n\nA Material Design app bar.\n\nAn app bar consists of a toolbar and potentially other widgets, such as a\n[TabBar](https://api.flutter.dev/flutter/material/TabBar-class.html) and a [FlexibleSpaceBar](https://… [truncated: showing ~273 of ~7367 estimated tokens]",
   "truncated": true,
-  "cached": false,
-  "title": "AppBar class"
+  "tokens": 273,
+  "source_tokens": 7367,
+  "max_tokens": 300,
+  "cached": true,
+  "truncation": {
+    "reasons": ["topic_filter", "token_budget"],
+    "sections_dropped": ["Troubleshooting", "Constructors", "Methods", "Operators", "Static Methods"],
+    "tokens_returned": 273,
+    "tokens_source": 7367,
+    "tokens_payload": 286,
+    "max_tokens": 300,
+    "explanation": "topic 'properties' dropped 6 section(s): …; token budget 300: body cut at a line boundary, ~273 of ~7367 estimated tokens returned"
+  }
 }
 ```
 
@@ -182,9 +197,78 @@ Ranks the local index by name similarity (exact > prefix > substring > fuzzy). R
 }
 ```
 
+### `flutter_mentions(text, max_tokens=4000)`
+
+Parses every `@flutter_mcp …` mention in a text and resolves each one, returning **exactly one entry per mention, in document order** — a failing mention never removes, duplicates or leaks state into another one.
+
+| Mention | Resolved as |
+|---|---|
+| `@flutter_mcp provider` | pub.dev package, latest release |
+| `@flutter_mcp provider:^6.0.0` | caret constraint → newest published release satisfying it |
+| `@flutter_mcp provider:6.1.5` | exact published release |
+| `@flutter_mcp dio:>=5.0.0 <6.0.0` | range → newest published release satisfying it |
+| `@flutter_mcp provider:latest` | explicit latest |
+| `@flutter_mcp pub:dio`, `pub:dio:5.4.0` | explicit package form |
+| `@flutter_mcp material.AppBar` | Flutter class, library given |
+| `@flutter_mcp dart:async.Future` | Dart SDK class |
+| `@flutter_mcp Container` | plain name (index → widgets/material → pub.dev) |
+
+Version constraints are answered from pub.dev's own list of published releases. An exact pin that was never published is reported as missing with the nearest published releases — **never silently replaced by a different version** — and a resolved range always states both the constraint that was requested and the version it resolved to. Pre-releases are excluded unless the constraint mentions one.
+
+Returns `{"mentions": n, "max_tokens": …, "results": […]}`; `{"mentions": 0, …, "note": …}` when the text has no mention.
+
+```jsonc
+// flutter_mentions({ "text": "Use @flutter_mcp provider:^6.0.0 for state and @flutter_mcp material.AppBar for the bar.", "max_tokens": 120 })
+{
+  "mentions": 2,
+  "max_tokens": 120,
+  "results": [
+    {
+      "mention": "@flutter_mcp provider:^6.0.0",
+      "identifier": "provider",
+      "requested_constraint": "^6.0.0",
+      "type": "pub_package",
+      "version": "6.1.5+1",
+      "url": "https://pub.dev/api/packages/provider/versions/6.1.5+1",
+      "title": "provider 6.1.5+1",
+      "content": "A wrapper around InheritedWidget to make them easier to use and more reusable.\n\n\n[truncated: showing ~19 of ~6240 estimated tokens]",
+      "truncated": true, "tokens": 19, "source_tokens": 6240, "max_tokens": 120,
+      "cached": true,
+      "note": "constraint '^6.0.0' resolved to 6.1.5+1: the newest published release satisfying it"
+    },
+    {
+      "mention": "@flutter_mcp material.AppBar",
+      "identifier": "material.AppBar",
+      "requested_constraint": null,
+      "type": "flutter_class",
+      "version": null,
+      "url": "https://api.flutter.dev/flutter/material/AppBar-class.html",
+      "title": "AppBar class",
+      "content": "# AppBar class\n\nA Material Design app bar. … [truncated: showing ~80 of ~7367 estimated tokens]",
+      "truncated": true, "tokens": 80, "source_tokens": 7367, "max_tokens": 120,
+      "cached": true
+    }
+  ]
+}
+```
+
+A mention that resolves nowhere is a per-mention failure, not a missing entry:
+
+```jsonc
+// results entry for "@flutter_mcp NotARealThing"
+{
+  "mention": "@flutter_mcp NotARealThing",
+  "identifier": "NotARealThing",
+  "type": "not_found",
+  "version": null,
+  "error": "could not resolve 'NotARealThing': flutter widgets: not found (HTTP 404): …",
+  "suggestion": "try flutter_search('NotARealThing') to find the right name"
+}
+```
+
 ### `pub_package(package_name, version=None, max_tokens=6000)`
 
-pub.dev metadata plus the README. `package_name` is exact and case-sensitive; `version` pins a release. Returns `{"name", "version", "description", "publisher", "likes", "pub_points", "url", "readme", "truncated", "cached"}`; `publisher` / `likes` / `pub_points` may be `null` when pub.dev does not report them.
+pub.dev metadata plus the README. `package_name` is exact and case-sensitive; `version` pins a release. Returns `{"name", "version", "description", "publisher", "likes", "pub_points", "url", "readme", "truncated", "tokens", "source_tokens", "max_tokens", "cached"}` (plus `truncation` when the README was cut); `publisher` / `likes` / `pub_points` may be `null` when pub.dev does not report them.
 
 ```jsonc
 // pub_package({ "package_name": "dio", "max_tokens": 150 })
@@ -210,7 +294,7 @@ Probes api.flutter.dev and pub.dev with a light GET (10 s timeout) and reports t
 // flutter_status()
 {
   "server": "flutter-docs-mcp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "checks": {
     "search_index":    { "status": "ok", "entries": 3503, "built_at": "2026-10-06T08:46:45.893682+00:00", "stale": false },
     "cache":           { "status": "ok", "entries": 5, "expired": 0 },
@@ -232,7 +316,39 @@ Probes api.flutter.dev and pub.dev with a light GET (10 s timeout) and reports t
 
 ### `health_check()`
 
-`{"status": "ok", "server": "flutter-docs-mcp", "version": "0.2.0"}` — no network, no cache; safe as a liveness probe.
+`{"status": "ok", "server": "flutter-docs-mcp", "version": "0.3.0"}` — no network, no cache; safe as a liveness probe.
+
+## Replacing the legacy `flutter-mcp-server`
+
+This server exists so the third-party `flutter-mcp-server` (0.1.1, upstream
+[flutter-mcp/flutter-mcp](https://github.com/flutter-mcp/flutter-mcp)) can be
+removed from our MCP client configuration. We do **not** maintain or patch that
+package; the three defects below are what we observed in *its* code while
+checking whether it could cover our use case, and they are the reason we wrote
+this one instead:
+
+1. **`flutter_docs` crashes on the pub.dev path.** `server.py:1562` calls
+   `create_truncator(tokens)`, but that package's `truncation.py:250` defines
+   `create_truncator()` with no parameters, so any call that passes `tokens`
+   fails with `Error executing tool flutter_docs: create_truncator() takes 0
+   positional arguments but 1 was given`. The same block then calls a
+   `truncator.truncate(content)` method that does not exist.
+2. **`process_flutter_mentions` invents results.** Its version-constrained pub
+   branch does not `continue` after resolving the package, so execution falls
+   through into the shared "process the result from `flutter_docs`" block with
+   the *previous* iteration's `doc_result` still bound. The output contains a
+   phantom second entry (`type: flutter_widget`, empty content) for a mention
+   that was never in the text.
+3. **Its Flutter-class path needs a writable Flutter SDK.** It shells out to a
+   local `/opt/flutter` checkout, whose `bin/cache` is read-only on our hosts,
+   so Flutter class lookups fail there. This server scrapes api.flutter.dev and
+   api.dart.dev instead and needs no Flutter installation.
+
+`flutter_mentions` is the replacement for `process_flutter_mentions`: same
+mention grammar, one result per mention, and version constraints resolved
+against pub.dev's published release list. The truncation contract is also
+stricter here — `truncated`, `tokens` and `source_tokens` describe the payload
+that was actually returned (see [`flutter_docs`](#flutter_docsidentifier-topicnone-max_tokens8000)).
 
 ## Caching & politeness
 
@@ -274,7 +390,7 @@ This single switch turns off robots.txt, the throttle, retries and conditional G
 python3 -m venv .venv
 .venv/bin/pip install -e ".[dev]"
 
-.venv/bin/python -m pytest -q              # 149 offline tests; fixtures in tests/fixtures/
+.venv/bin/python -m pytest -q              # 255 offline tests; fixtures in tests/fixtures/
 .venv/bin/python scripts/politeness_smoke.py /tmp/flutter-docs-smoke-cache
 .venv/bin/python scripts/e2e_mcp_test.py
 ```
@@ -285,7 +401,7 @@ python3 -m venv .venv
 
 ## Troubleshooting
 
-**The first `flutter_docs` call takes half a minute.** That is the cold search-index build: ~31 page fetches across api.flutter.dev and api.dart.dev, spaced by the per-host throttle (a measured cold run spent ~29 s just waiting between requests). It happens once every 7 days; later calls hit the cached index. Delete `cache.db` and you pay for it again.
+**The first `flutter_docs` call takes half a minute.** That is the cold search-index build: ~47 page fetches across api.flutter.dev (1 index page + 25 libraries) and api.dart.dev (1 index page + 20 libraries), spaced by the per-host throttle (a measured cold run finished in ~26-30 s). It happens once every 7 days; later calls hit the cached index. Delete `cache.db` and you pay for it again.
 
 **`request budget exhausted for scope 'fetch:pub.dev'`.** One `fetch_*` call hit its cap of 6 requests to that host. Redirect chains, `429` retries and transport retries all consume the budget, so this usually means the site redirected more than expected or the connection kept failing. The tool returns an error dict instead of hammering the host; `flutter_status().politeness.budgets` shows how much each scope spent.
 
@@ -296,6 +412,12 @@ python3 -m venv .venv
 **Nothing is cached and `overall` is `degraded`.** Read `flutter_status().checks.cache.error` — an unwritable `FLUTTER_DOCS_MCP_CACHE_DIR` (read-only mount, missing permission) is the usual cause. Tools keep working without a cache; they are just slower and noisier on the network.
 
 **A lookup returns `blocked by robots.txt`.** The site's rules disallow that path for this user agent, and the request was not sent. Fetch the page yourself, or accept the consequences of the opt-out switch above.
+
+## Support development
+
+flutter-mcp is built and maintained by Michal in his spare time. If it saves you time or makes your team's docs easier to work with, a coffee (or more) would mean a lot — every contribution helps keep the project moving. 🙏
+
+**Pay via Revolut:** [revolut.me/michal4zvc](https://revolut.me/michal4zvc)
 
 ## License & attribution
 

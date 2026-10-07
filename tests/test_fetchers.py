@@ -8,6 +8,7 @@ The public fetch_* functions are covered by the live smoke test instead.
 import json
 from pathlib import Path
 
+import flutter_docs_mcp.fetchers as fetchers_mod
 from flutter_docs_mcp.fetchers import (
     parse_flutter_html,
     parse_pub_api_json,
@@ -123,3 +124,61 @@ class TestParserRobustness:
         assert parsed["name"] == "dio"
         assert parsed["version"] == "5.4.0"
         assert parsed["description"] == "desc"
+
+
+class TestFetchPubVersions:
+    """fetch_pub_versions with the HTTP layer canned — no network.
+
+    This is the release list a version-constrained ``@flutter_mcp`` mention
+    resolves against, so its failure modes matter as much as its success path.
+    """
+
+    URL = "https://pub.dev/api/packages/dio"
+
+    @staticmethod
+    def _patch(monkeypatch, text=None, error=None, status=200, raise_with=None):
+        calls = []
+
+        def fake_http_get(client, url, **kwargs):
+            calls.append((url, kwargs.get("budget_scope")))
+            if raise_with is not None:
+                raise raise_with
+            return (text, url, error, {"status_code": status, "from_cache": False,
+                                       "validators": {}, "blocked_by_robots": False})
+
+        monkeypatch.setattr(fetchers_mod, "_http_get", fake_http_get)
+        return calls
+
+    def test_success_uses_one_request_and_returns_the_release_list(self, monkeypatch):
+        calls = self._patch(monkeypatch, text=_read("pub_dio_api.json"))
+        result = fetchers_mod.fetch_pub_versions("dio")
+        assert calls == [(self.URL, "fetch:pub.dev")]  # exactly one GET, budgeted per host
+        assert result["ok"] is True
+        assert result["name"] == "dio"
+        assert result["latest"] == "5.11.1"
+        assert "5.4.0" in result["versions"]
+        assert result["url"] == self.URL
+
+    def test_404_is_reported_not_raised(self, monkeypatch):
+        self._patch(monkeypatch, error="not found (HTTP 404): https://pub.dev/api/packages/nope")
+        result = fetchers_mod.fetch_pub_versions("nope")
+        assert result["ok"] is False
+        assert "404" in result["error"]
+
+    def test_invalid_json_is_reported_not_raised(self, monkeypatch):
+        self._patch(monkeypatch, text="<html>not json</html>")
+        result = fetchers_mod.fetch_pub_versions("dio")
+        assert result["ok"] is False
+        assert "invalid JSON" in result["error"]
+
+    def test_empty_version_list_is_a_failure_not_an_empty_success(self, monkeypatch):
+        self._patch(monkeypatch, text='{"name": "dio"}')
+        result = fetchers_mod.fetch_pub_versions("dio")
+        assert result["ok"] is False
+        assert "no version list" in result["error"]
+
+    def test_transport_exception_is_reported_not_raised(self, monkeypatch):
+        self._patch(monkeypatch, raise_with=RuntimeError("socket died"))
+        result = fetchers_mod.fetch_pub_versions("dio")
+        assert result["ok"] is False
+        assert "unexpected error" in result["error"]
