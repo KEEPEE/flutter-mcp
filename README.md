@@ -1,4 +1,8 @@
-# flutter-docs-mcp
+# flutter-mcp
+
+[![MCP](https://img.shields.io/badge/MCP-server-6b46c1?logo=modelcontextprotocol&logoColor=white)](https://modelcontextprotocol.io) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Source: api.flutter.dev](https://img.shields.io/badge/source-api.flutter.dev%20%C2%B7%20api.dart.dev%20%C2%B7%20pub.dev-blue)](https://api.flutter.dev/)
+
+*Live Flutter, Dart SDK and pub.dev documentation for AI coding agents. The MCP server inside is published as `flutter-docs-mcp`; the repository is `flutter-mcp`.*
 
 An [MCP](https://modelcontextprotocol.io) (Model Context Protocol) server that gives AI coding agents **live Flutter, Dart SDK and pub.dev documentation** instead of whatever the model happens to remember. Pages are scraped from the official docs at request time, cached locally, and returned as clean markdown — so generated Flutter code targets real, current APIs rather than deprecated or invented ones.
 
